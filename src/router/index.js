@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
 import Main from '@/components/Main'
+import CreatorCenter from '@/components/CreatorCenter'
+import AdviceFeedback from '@/components/AdviceFeedback'
+import Notice from '@/components/Notice'
 
 Vue.use(Router)
 
@@ -22,6 +25,20 @@ export default new Router({
       path: '/',
       name: 'Main',
       component: Main
+    },
+    {
+      path: '/creatorcenter',
+      name: 'CreatorCenter',
+      component: CreatorCenter
+    },
+    {
+      path: '/advicefeedback',
+      name: 'AdviceFeedback',
+      component: AdviceFeedback
+    },{
+      path: '/notice',
+      name: 'Notice',
+      component:Notice
     }
   ]
 })
