@@ -1,0 +1,22 @@
+server:
+  port:8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.102.194.89:3306/ao404
+    username: root
+    password: 123456
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    #这是你的邮箱
+    username: 1640448282@qq.com
+    #这是你QQ邮箱内第三方POP3/SMTP服务密码需要开启，在QQ邮箱-设置-账户
+    password: acqmopyywgksbbbe
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
