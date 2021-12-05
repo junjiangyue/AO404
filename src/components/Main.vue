@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <Guidebar></Guidebar>
+    
   </div>
 </template>
 
@@ -10,11 +11,6 @@ export default {
   name: 'Main',
   components: {
     Guidebar
-    },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
     }
-  }
 }
 </script>
