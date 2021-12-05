@@ -6,6 +6,7 @@ import Main from '@/components/Main'
 import CreatorCenter from '@/components/CreatorCenter'
 import AdviceFeedback from '@/components/AdviceFeedback'
 import Notice from '@/components/Notice'
+import ArticleInfo from '@/components/ArticleInfo'
 
 Vue.use(Router)
 
@@ -22,7 +23,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/',
+      path: '/Main',
       name: 'Main',
       component: Main
     },
@@ -39,6 +40,10 @@ export default new Router({
       path: '/notice',
       name: 'Notice',
       component:Notice
+    },{
+      path:'/',
+      name:'ArticleInfo',
+      component:ArticleInfo
     }
   ]
 })
