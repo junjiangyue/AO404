@@ -1,32 +1,40 @@
 <template>
+<div>
+  <div>
+    <Guidebar></Guidebar>
+  </div>
+  <div id="recommand-tag">
     <el-row>
-        <el-col :span="16">
-            <div class="grid-content bg-white">
-                <div id="tag-table">
-                    <el-table :data="tableData" stripe style="width: 100%">
-                        <el-table-column prop="tag_name" label="推荐标签" width="400" align="center">
-
-                        </el-table-column>
-                        <el-table-column prop="article_num" label="活跃度" width="400" align="center">
-
-                        </el-table-column>
-                    </el-table>
-                </div>
-            </div>
-        </el-col>
-        <el-col :span="8">
-            <div class="grid-content bg-white">
-                <div id="pic">
-                    <img src="../../src/assets/discover_pic1.png" width="350" height="350">
-                    <img src="../../src/assets/discover_pic2.png" width="300">
-                </div>
-            </div>
-        </el-col>
+      <el-col :span="16">
+        <div class="grid-content bg-white">
+          <div id="tag-table">
+            <el-table :data="tableData" stripe style="width: 100%">
+              <el-table-column prop="tag_name" label="推荐标签" width="400" align="center"></el-table-column>
+              <el-table-column prop="article_num" label="活跃度" width="400" align="center"></el-table-column>
+            </el-table>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="grid-content bg-white">
+          <div id="pic">
+            <img src="../../src/assets/discover_pic1.png" width="350" height="350">
+            <img src="../../src/assets/discover_pic2.png" width="300">
+          </div>
+        </div>
+      </el-col>
     </el-row>
+  </div>
+</div>
 </template>
 
 <script>
+import Guidebar from '@/components/Guidebar'
   export default {
+    name: 'Discover',
+    components: {
+      Guidebar
+    },
     data() {
       return {
         tableData: [{
@@ -88,7 +96,7 @@
 
 <style scoped>
   .el-row {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   .el-col {
     border-radius: 4px;
@@ -105,9 +113,16 @@
     background-color: #f9fafc;
   }
   #tag-table {
-      float: right;
+    float: right;
+    border-top-style: solid;
+    border-width: 2px;
+    border-color: #939498;
+
   }
   #pic{
-      position: fixed;
+    position: fixed;
+  }
+  #recommand-tag {
+    margin-top: 40px;
   }
 </style>
