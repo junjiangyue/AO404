@@ -151,11 +151,42 @@ public class UserController {
         map.put("userId",user.getUserId());
         map.put("userName",user.getUserName());
         map.put("userEmail",user.getUserEmail());
+        map.put("userAvatar",user.getUserAvatar());
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
 
     }
 
+    @ApiOperation(value="修改密码")
+    @PostMapping("resetPassword")
+    public Map<String,Object> resetPassword(int userId,String oldPassword,String newPassword) {
+        Map<String, Object> map = new HashMap<>();
 
+        if(userMapper.loginUser(userId).getUserPassword()!=oldPassword)
+        {
+            map.put("msg","原密码错误");
+            helper.setMsg("Error");
+            helper.setData(map);
+            return helper.toJsonMap();
+
+        }
+        int result = userMapper.updatePassword(userId,newPassword);
+
+        if(result ==1)
+        {
+            map.put("msg","修改成功");
+            helper.setMsg("Success");
+            helper.setData(map);
+            return helper.toJsonMap();
+
+        }
+        else {
+            map.put("msg","修改失败");
+            helper.setMsg("Failure");
+            helper.setData(map);
+            return helper.toJsonMap();
+
+        }
+    }
 }

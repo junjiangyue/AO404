@@ -21,4 +21,7 @@ public interface TagMapper {
 
     @Select("select * from article where tag_id = #{tagId}")
     List<Article> ArticleInTag(@Param("tagId") int tagId);
+
+    @Select("select tag_id,tag_name,count(article_id) from tag natural join article group by tag_id")
+    List<Tag> allTag();
 }

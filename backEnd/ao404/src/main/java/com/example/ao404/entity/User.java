@@ -10,6 +10,7 @@ public class User {
     private String userPassword;
     private String userName;
     private String userEmail;
+    private byte[] userAvatar;
 
     public int getUserId() {
         return userId;
@@ -43,10 +44,19 @@ public class User {
         this.userEmail = userEmail;
     }
 
-    public User(int userId, String userPassword, String userName, String userEmail) {
+    public byte[] getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(byte[] userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public User(int userId, String userPassword, String userName, String userEmail, byte[] userAvatar) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userEmail = userEmail;
+        this.userAvatar = userAvatar;
     }
 }

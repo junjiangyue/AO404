@@ -29,4 +29,6 @@ public interface ArticleMapper {
 
     @Select("select * from comment where article_id=#{articleId}")
     List<Comment> ArticleComment(@Param("articleId") int articleId);
+
+
 }

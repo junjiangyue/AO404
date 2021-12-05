@@ -3,6 +3,7 @@ package com.example.ao404.controller;
 import com.example.ao404.entity.Article;
 import com.example.ao404.entity.ArticleInformation;
 import com.example.ao404.entity.RestControllerHelper;
+import com.example.ao404.entity.Tag;
 import com.example.ao404.mapper.ArticleMapper;
 import com.example.ao404.mapper.TagMapper;
 import io.swagger.annotations.ApiOperation;
@@ -81,4 +82,25 @@ public class TagController {
         return helper.toJsonMap();
 
     }
+
+    @ApiOperation(value = "tag前十")
+    @GetMapping("topTag")
+    public Map<String,Object> topTag(){
+        Map<String, Object> map = new HashMap<>();
+
+        List<Tag> tagAllList = tagMapper.allTag();
+
+        Collections.sort(tagAllList, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag o1, Tag o2) {
+                return o2.getArticleNum() - o1.getArticleNum();
+            }
+        });
+        map.put("tagAllList",tagAllList);
+        helper.setMsg("Success");
+        helper.setData(map);
+        return helper.toJsonMap();
+
+    }
+
 }

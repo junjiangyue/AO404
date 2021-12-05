@@ -10,10 +10,12 @@ public class Tag {
 
     private int tagId;
     private String tagName;
+    private int articleNum;
 
-    public Tag(int tagId, String tagName) {
+    public Tag(int tagId, String tagName, int articleNum) {
         this.tagId = tagId;
         this.tagName = tagName;
+        this.articleNum = articleNum;
     }
 
     public int getTagId() {
@@ -30,5 +32,13 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public int getArticleNum() {
+        return articleNum;
+    }
+
+    public void setArticleNum(int articleNum) {
+        this.articleNum = articleNum;
     }
 }

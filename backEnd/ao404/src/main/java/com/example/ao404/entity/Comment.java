@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 public class Comment {
     private int commentId;
     private int userId;
+    private String userName;
+    private byte[] userAvatar;
     private int articleId;
     private String commentInfo;
 
@@ -58,9 +60,27 @@ public class Comment {
         this.commentTime = commentTime;
     }
 
-    public Comment(int commentId, int userId, int articleId, String commentInfo, Timestamp commentTime) {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public byte[] getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(byte[] userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
+    public Comment(int commentId, int userId, String userName, byte[] userAvatar, int articleId, String commentInfo, Timestamp commentTime) {
         this.commentId = commentId;
         this.userId = userId;
+        this.userName = userName;
+        this.userAvatar = userAvatar;
         this.articleId = articleId;
         this.commentInfo = commentInfo;
         this.commentTime = commentTime;

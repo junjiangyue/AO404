@@ -2,8 +2,10 @@ package com.example.ao404.controller;
 
 import com.example.ao404.entity.Article;
 import com.example.ao404.entity.ArticleInformation;
+import com.example.ao404.entity.Comment;
 import com.example.ao404.entity.RestControllerHelper;
 import com.example.ao404.mapper.ArticleMapper;
+import com.example.ao404.mapper.CommentMapper;
 import com.example.ao404.mapper.TagMapper;
 import com.example.ao404.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,8 @@ public class ArticleController {
     private UserMapper userMapper;
     @Autowired
     private TagMapper tagMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     RestControllerHelper helper = new RestControllerHelper();
 
@@ -112,6 +116,21 @@ public class ArticleController {
 
         Collections.reverse(userArtList);
         map.put("userArtList",userArtList);
+        helper.setMsg("Success");
+        helper.setData(map);
+        return helper.toJsonMap();
+
+    }
+
+    @ApiOperation(value = "帖子的评论")
+    @GetMapping("articleComment")
+    public Map<String,Object> articleComment(int articleId){
+
+        Map<String,Object> map = new HashMap<>();
+
+        List<Comment> commentList = commentMapper.articleComment(articleId);
+
+        map.put("commentList",commentList);
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();

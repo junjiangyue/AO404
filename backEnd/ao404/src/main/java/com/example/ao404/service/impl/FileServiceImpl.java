@@ -14,6 +14,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -78,7 +79,11 @@ public class FileServiceImpl implements FileService {
 
         if(fileType=="avatar")
         {
-            userMapper.updateAvatar(typeId,fileName);
+            FileInputStream inputStream = new FileInputStream(resultPath);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes, 0, inputStream.available());
+
+            userMapper.updateAvatar(typeId,bytes);
         }
         System.out.println("absolutePath:"+fileRealPath.getCanonicalPath());
         System.out.println("resultPath:"+resultPath.getCanonicalPath());
