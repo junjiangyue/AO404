@@ -3,9 +3,9 @@
 <div class="grid-content">
     <img class="logo" src="@/assets/mlogo.png">
     </div>
-  <li class="grid-content">首页</li>
-  <li class="grid-content">发现</li>
-  <li class="grid-content">创作者中心</li>
+  <li class="grid-content" @click="gotoMain">首页</li>
+  <li class="grid-content" @click="gotoDiscover">发现</li>
+  <li class="grid-content" @click="gotoCreatorCenter">创作者中心</li>
   <div class="search">
     <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2">
   </el-input>
@@ -27,6 +27,15 @@
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      gotoMain(){
+        this.$router.push('/')
+      },
+      gotoDiscover(){
+        this.$router.push('/Discover')
+      },
+      gotoCreatorCenter(){
+        this.$router.push('/CreatorCenter')
       }
     }
   }
@@ -38,7 +47,7 @@
     list-style-type:none;
     text-align:center;
     padding-right:40px;
-    font-size:18px;
+    font-size:16px;
   }
   .logo{
     width:50px;
@@ -52,6 +61,7 @@
       display: flex;
       text-align: center;
       height: 90px;
+      min-width: 1500px;
   }
   .search{
       padding-top: 25px;
@@ -64,7 +74,7 @@
     font-size: 16px;
     margin-left:300px
 }
-.el-input__inner{
+>>>.el-input__inner{
     border-radius:20px;
     border-width:0px;
 }

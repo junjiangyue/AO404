@@ -8,7 +8,6 @@ import PersonalMenu from '@/components/PersonalMenu'
 import PersonalPage from '@/components/PersonalPage'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
-import Main from '@/components/Main'
 import CreatorCenter from '@/components/CreatorCenter'
 import AdviceFeedback from '@/components/AdviceFeedback'
 import Notice from '@/components/Notice'
@@ -30,15 +29,7 @@ export default new Router({
       component: SignUp
     },
     {
-<<<<<<< HEAD
-      path: '/Main',
-=======
       path: '/',
-      //name: 'PersonalPage',
-      //component: PersonalPage
-      //name: 'Tag',
-      //component: Tag
->>>>>>> b8ff340718fd5d9ac390f4f759aea4a90cbd0d53
       name: 'Main',
       component: Main
     },
@@ -46,6 +37,11 @@ export default new Router({
       path: '/creatorcenter',
       name: 'CreatorCenter',
       component: CreatorCenter
+    },
+    {
+      path: '/Discover',
+      name: 'Discover',
+      component: Discover
     },
     {
       path: '/advicefeedback',
@@ -56,7 +52,7 @@ export default new Router({
       name: 'Notice',
       component:Notice
     },{
-      path:'/',
+      path:'/ArticleInfo',
       name:'ArticleInfo',
       component:ArticleInfo
     }
