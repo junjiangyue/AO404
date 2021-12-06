@@ -33,14 +33,14 @@
       <div id="centersubstance" class="centerview">
         <div class="centerbox1">
           <h2>立即创作</h2>
-          <div class="word"><img id="textpng" src="@/assets/posttext.png"><p id="textword">文字</p></div>
-          <div class="word"><img id="imgpng" src="@/assets/postimg.png"><p style="margin-left:110px;">图片</p></div>
+          <div class="word" style="margin-left: 24%;"><img id="textpng" src="@/assets/posttext.png"><p id="textword">文字</p></div>
+          <div class="word"><img id="imgpng" src="@/assets/postimg.png"><p style="margin-left:75px;">图片</p></div>
           
         </div>
         <div class="centerbox2">
           <h2>与我相关</h2>
-          <div class="owninfro" style="margin-left:-230px;"><h3 id="followers">{{ownfollowers}}</h3><p>我的关注</p></div>
-          <div class="owninfro"><h3 id="fans">{{ownfans}}</h3><p>我的粉丝</p></div>
+          <div class="owninfro" style="margin-left:-55px;"><h3 id="followers">{{ownfollowers}}</h3><p>我的关注</p></div>
+          <div class="owninfro"><h3 id="fans" style="margin-left: 176px;">{{ownfans}}</h3><p style="margin-left: 168px;">我的粉丝</p></div>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
 .centercontent{
   height: 519px;
   width: 100%;
-  background-color: rgb(243, 233, 186);
+  background-color: rgb(255, 255, 255);
 }
 .centerview{
   display: inline-block;
@@ -66,6 +66,7 @@
 }
 #centernavigationbar{
   margin-top:35px;
+  margin-left: 13%;
   width: 210px;
   height: 440px;
   background-color: rgb(255, 255, 255);
@@ -105,6 +106,7 @@
 }
 .centerbox1 p{
   width:100%;
+  text-align: center;
 }
 .centerbox1 .word{
   display: inline-block;
@@ -114,7 +116,7 @@
   margin-left: 0px;
 }
 .centerbox1 #imgpng{
-  margin-left: 220px;
+  margin-left: 150px;
 }
 .centerbox1{
   margin-top: 0px;
@@ -127,7 +129,7 @@
 }
 .centerbox2 p{
   margin-top: -10px;
-  margin-left: 240px;
+  margin-left: 232px;
 }
 .centerbox2 h3{
   margin-top: -5px;

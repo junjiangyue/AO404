@@ -5,7 +5,7 @@
     </div>
   <li class="grid-content">首页</li>
   <li class="grid-content">发现</li>
-  <li class="grid-content">创作者中心</li>
+  <li class="grid-content"><router-link to="creatorcenter" style="text-decoration:none;color:white;">创作者中心</router-link></li>
   <div class="search">
     <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2">
   </el-input>

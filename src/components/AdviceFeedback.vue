@@ -54,7 +54,7 @@
 .advicecontent{
   height: 519px;
   width: 100%;
-  background-color: rgb(243, 233, 186);
+  background-color: rgb(255, 255, 255);
 }
 .feedbackbox .inputbord{
     height: 160px;
@@ -81,16 +81,17 @@
     border: 1px solid rgba(187, 187, 187, 100);
     border-radius: 10px;
     width: 40%;
-    margin-left: -350px;
+    margin-left: 30px;
     height: 30px;
 }
 .feedbackbox .el-button{
+  margin-left: 45%;
     margin-top: 30px;
 }
 #feedbackimg{
     width: 350px;
     height: 40px;
-    margin-left: -300px;
+    margin-left: 30px;
     margin-top: 10px;
 }
 .feedbackcontent{
@@ -102,6 +103,7 @@
   margin-left: 20px;
 }
 #advicenavigationbar{
+  margin-left: 13%;
   margin-top:35px;
   width: 210px;
   height: 440px;
