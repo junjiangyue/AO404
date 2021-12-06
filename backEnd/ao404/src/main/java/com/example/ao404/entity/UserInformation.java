@@ -7,14 +7,24 @@ public class UserInformation {
 
     private int userId;
     private String userName;
+    private byte[] userAvatar;
     private int isMyFan;
     private int isMyFollow;
 
-    public UserInformation(int userId, String userName, int isMyFan, int isMyFollow) {
+    public UserInformation(int userId, String userName, byte[] userAvatar, int isMyFan, int isMyFollow) {
         this.userId = userId;
         this.userName = userName;
-        this.isMyFan = 0;
-        this.isMyFollow = 0;
+        this.userAvatar = userAvatar;
+        this.isMyFan = isMyFan;
+        this.isMyFollow = isMyFollow;
+    }
+
+    public byte[] getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(byte[] userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
     public int getUserId() {

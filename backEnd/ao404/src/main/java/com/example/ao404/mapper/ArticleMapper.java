@@ -4,6 +4,7 @@ package com.example.ao404.mapper;
 import com.example.ao404.entity.Article;
 import com.example.ao404.entity.Comment;
 import com.example.ao404.entity.User;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,6 +21,9 @@ public interface ArticleMapper {
     @Select("select * from article where user_id = #{userId}")
     List<Article> getUserArticle(@Param("userId") int userId);
 
+    @Select("select * from article")
+    List<Article> articleList();
+
 
     @Select("select * from article natural join relation where fan_id = #{userId} and user_id = following_id")
     List<Article> getHomeArticle(@Param("userId") int userId);
@@ -30,5 +34,7 @@ public interface ArticleMapper {
     @Select("select * from comment where article_id=#{articleId}")
     List<Comment> ArticleComment(@Param("articleId") int articleId);
 
+    @Delete("delete from article where article_id = #{articleId}")
+    void deleteArticle(@Param("articleId") int articleId);
 
 }

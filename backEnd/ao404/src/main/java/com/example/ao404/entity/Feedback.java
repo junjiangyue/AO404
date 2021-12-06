@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @ApiModel(value="feedback对象")
@@ -14,7 +15,7 @@ public class Feedback {
     private int feedbackId;
     private int userId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date feedbackTime;
+    private Timestamp feedbackTime;
     private String feedbackContent;
 
     public int getFeedbackId() {
@@ -33,11 +34,11 @@ public class Feedback {
         this.userId = userId;
     }
 
-    public Date getFeedbackTime() {
+    public Timestamp getFeedbackTime() {
         return feedbackTime;
     }
 
-    public void setFeedbackTime(Date feedbackTime) {
+    public void setFeedbackTime(Timestamp feedbackTime) {
         this.feedbackTime = feedbackTime;
     }
 
@@ -49,7 +50,7 @@ public class Feedback {
         this.feedbackContent = feedbackContent;
     }
 
-    public Feedback(int feedbackId, int userId, Date feedbackTime, String feedbackContent) {
+    public Feedback(int feedbackId, int userId, Timestamp feedbackTime, String feedbackContent) {
         this.feedbackId = feedbackId;
         this.userId = userId;
         this.feedbackTime = feedbackTime;

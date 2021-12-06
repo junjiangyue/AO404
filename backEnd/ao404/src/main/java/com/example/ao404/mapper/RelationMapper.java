@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface RelationMapper {
 
-    @Select("select following_id,user_name,'0','0' from relation natural join user where fan_id=#{userId} and user_id = following_id")
+    @Select("select following_id,user_name,user_avatar,'0','0' from relation natural join user where fan_id=#{userId} and user_id = following_id")
     List<UserInformation> following(@Param("userId") int userId);
 
-    @Select("select fan_id,user_name,'0','0' from relation natural join user where following_id=#{userId} and user_id = fan_id")
+    @Select("select fan_id,user_name,user_avatar,'0','0' from relation natural join user where following_id=#{userId} and user_id = fan_id")
     List<UserInformation> fans(@Param("userId") int userId );
 }

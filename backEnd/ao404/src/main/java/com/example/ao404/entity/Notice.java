@@ -10,6 +10,7 @@ public class Notice {
 
     private int userId;
     private String noticeContent;
+    private String noticeTitle;
 
     public int getUserId() {
         return userId;
@@ -27,8 +28,17 @@ public class Notice {
         this.noticeContent = noticeContent;
     }
 
-    public Notice(int userId, String noticeContent) {
+    public String getNoticeTitle() {
+        return noticeTitle;
+    }
+
+    public void setNoticeTitle(String noticeTitle) {
+        this.noticeTitle = noticeTitle;
+    }
+
+    public Notice(int userId, String noticeContent, String noticeTitle) {
         this.userId = userId;
         this.noticeContent = noticeContent;
+        this.noticeTitle = noticeTitle;
     }
 }

@@ -24,4 +24,7 @@ public interface TagMapper {
 
     @Select("select tag_id,tag_name,count(article_id) from tag natural join article group by tag_id")
     List<Tag> allTag();
+
+    @Select("select tag_id,tag_name,count(article_id) from tag natural join article where tag_name like concat(concat('%', #{tagName}), '%') group by tag_id ;")
+    List<Tag> resultTag(@Param("tagName") String tagName);
 }
