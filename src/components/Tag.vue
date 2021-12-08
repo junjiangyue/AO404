@@ -6,8 +6,10 @@
     <div id="tag-content">
       <div id="tag-block">
         <div id="tag-name">
-          <img src="../../src/assets/tag.png" width="30px" id="tag-pic">
+          <i class="icon-tag"></i>
           <span id="tag">{{tag_name}}</span>
+          <el-button v-if="subscribe === 0" plain type="danger" size="medium" id="subscribe-btn">订阅</el-button>
+          <el-button v-else plain type="info" size="medium" id="subscribe-btn">已订阅</el-button>
           <span id="article-num">{{article_num}}参与</span>
         </div>
         <hr color=#EFEEEE SIZE=1>
@@ -50,7 +52,7 @@ export default {
     return {
       tag_name: "#原神",
       article_num: 1234,
-      currentDate: new Date(),
+      subscribe: 1,
       tabledata: [{
           id: 1,
           tag_name: '原神',
@@ -87,14 +89,17 @@ export default {
     border-radius: 20px;
   }
   #tag-name {
-    vertical-align:middle;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-left: 30px;
   }
   #tag {
     font-size: 26px;
   }
-  #tag-pic {
-    padding-top: 10px;
+  .icon-tag {
+    content: url(../../src/assets/tag.png);
+    width: 22px;
+    margin-left: 5px;
+    margin-right: 5px;
   }
   #join {
     background-color: #D55245;
@@ -105,8 +110,17 @@ export default {
   #tag-content {
     margin: 40px auto;
   }
+  #subscribe-btn {
+    margin-left: 20px;
+    padding: 8px 20px;
+    height: 30px;
+    font-size: 12px;
+  }
   #article-num {
-    margin-left: 750px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 30px;
+    
   }
   #join-button {
     margin-top: 15px;
