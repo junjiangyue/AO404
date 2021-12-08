@@ -11,8 +11,8 @@
   </el-input>
       </div>
     <div >
-    <img class="message" src="@/assets/message.png">
-    <img class="home" src="@/assets/home.png">
+    <img class="message" src="@/assets/message.png" @click="gotoNotice">
+    <img class="home" src="@/assets/home.png" @click="gotoPersonalPage">
     </div>
 </div>
 </template>
@@ -36,6 +36,12 @@
       },
       gotoCreatorCenter(){
         this.$router.push('/CreatorCenter')
+      },
+      gotoPersonalPage(){
+        this.$router.push('/PersonalPage')
+      },
+      gotoNotice(){
+        this.$router.push('/Notice')
       }
     }
   }

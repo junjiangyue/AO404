@@ -55,6 +55,10 @@ export default new Router({
       path:'/ArticleInfo',
       name:'ArticleInfo',
       component:ArticleInfo
+    },{
+      path:'/PersonalPage',
+      name:'PersonalPage',
+      component:PersonalPage
     }
   ]
 })
