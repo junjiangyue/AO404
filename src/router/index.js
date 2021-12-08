@@ -14,6 +14,10 @@ import Notice from '@/components/Notice'
 import ArticleInfo from '@/components/ArticleInfo'
 import Postword from '@/components/Postword'
 import AdministerLogin from '@/components/AdministerLogin'
+import Admin from '@/components/Admin'
+import ArticleManage from '@/components/ArticleManage'
+import UserManage from '@/components/UserManage'
+import FeedbackManage from '@/components/FeedbackManage'
 
 Vue.use(Router)
 
@@ -30,7 +34,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/Main',
+      path: '/',
       name: 'Main',
       component: Main
     },
@@ -65,9 +69,26 @@ export default new Router({
       name:'Postword',
       component:Postword
     },{
-      path:'/',
+      path:'/AdministerLogin',
       name:'AdministerLogin',
       component:AdministerLogin
+    },{
+      path:'/Admin',
+      name:'Admin',
+      component:Admin
+    },{
+      path:'/UserManage',
+      name:'UserManage',
+      component:UserManage
+    },{
+      path:'/ArticleManage',
+      name:'ArticleManage',
+      component:ArticleManage
+    },{
+      path:'/FeedbackManage',
+      name:'FeedbackManage',
+      component:FeedbackManage
     }
+    
   ]
 })
