@@ -46,16 +46,16 @@ export default {
         this.$router.push({path: '/PersonalPage'});
       },
       followlist() {
-        this.$router.push('/followlist');
+        this.$router.push('/FollowList');
       },
       fanlist() {
-        this.$router.push({path: '/fanlist'});
+        this.$router.push({path: '/FanList'});
       },
       userinfo() {
-        this.$router.push({path: '/userinfo'});
+        this.$router.push({path: '/UserInfo'});
       },
       accountsecurity() {
-        this.$router.push({path: '/accountsecurity'});
+        this.$router.push({path: '/AccountSecurity'});
       }
     },
   data() {}

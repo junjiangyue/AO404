@@ -63,7 +63,7 @@ import Guidebar from '@/components/Guidebar'
     },
     methods: {
       tag(index, row) {
-        this.$router.push({path: '/tag'});
+        this.$router.push({path: '/Tag'});
       }
     },
     data() {

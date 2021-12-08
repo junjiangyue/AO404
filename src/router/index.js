@@ -14,6 +14,10 @@ import Notice from '@/components/Notice'
 import ArticleInfo from '@/components/ArticleInfo'
 import Postword from '@/components/Postword'
 import AdministerLogin from '@/components/AdministerLogin'
+import FollowList from '@/components/FollowList'
+import FanList from '@/components/FanList'
+import UserInfo from '@/components/UserInfo'
+import AccountSecurity from '@/components/AccountSecurity'
 
 Vue.use(Router)
 
@@ -30,7 +34,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/Main',
+      path: '/',
       name: 'Main',
       component: Main
     },
@@ -65,9 +69,29 @@ export default new Router({
       name:'Postword',
       component:Postword
     },{
-      path:'/',
+      path:'/AdministerLogin',
       name:'AdministerLogin',
       component:AdministerLogin
+    },{
+      path:'/Tag',
+      name:'Tag',
+      component:Tag
+    },{
+      path:'/FollowList',
+      name:'FollowList',
+      component:FollowList
+    },{
+      path:'/UserInfo',
+      name:'UserInfo',
+      component:UserInfo
+    },{
+      path:'/AccountSecurity',
+      name:'AccountSecurity',
+      component:AccountSecurity
+    },{
+      path:'/FanList',
+      name:'FanList',
+      component:FanList
     }
   ]
 })
