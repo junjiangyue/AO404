@@ -57,6 +57,10 @@ export default new Router({
       name:'ArticleInfo',
       component:ArticleInfo
     },{
+      path:'/PersonalPage',
+      name:'PersonalPage',
+      component:PersonalPage
+    },{
       path:'/Postword',
       name:'Postword',
       component:Postword
