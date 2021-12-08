@@ -108,9 +108,9 @@
   width: 210px;
   height: 440px;
   background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(187, 187, 187, 100);
+  border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 #advicenavigationbar .el-menu-item {
   color: black;
@@ -160,9 +160,9 @@
   width:700px;
   height: 440px;
   background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(187, 187, 187, 100);
+  border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 </style>
 <script>

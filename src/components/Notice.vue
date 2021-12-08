@@ -43,14 +43,14 @@
 }
 .noticeblock{
     padding: 20px;
-    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(187, 187, 187, 100);
-    border-radius: 10px;
     width: 800px;
     height: 150px;
     margin-left: 100px;
     margin-top: 20px;
     margin-bottom: 10px;
+      border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 .noticeblock:hover {
     height: 300px;

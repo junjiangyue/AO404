@@ -12,6 +12,7 @@ import CreatorCenter from '@/components/CreatorCenter'
 import AdviceFeedback from '@/components/AdviceFeedback'
 import Notice from '@/components/Notice'
 import ArticleInfo from '@/components/ArticleInfo'
+import Postword from '@/components/Postword'
 
 
 Vue.use(Router)
@@ -55,6 +56,10 @@ export default new Router({
       path:'/ArticleInfo',
       name:'ArticleInfo',
       component:ArticleInfo
+    },{
+      path:'/Postword',
+      name:'Postword',
+      component:Postword
     }
   ]
 })

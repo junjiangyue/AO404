@@ -33,7 +33,7 @@
       <div id="centersubstance" class="centerview">
         <div class="centerbox1">
           <h2>立即创作</h2>
-          <div class="word" style="margin-left: 24%;"><img id="textpng" src="@/assets/posttext.png"><p id="textword">文字</p></div>
+          <div class="word" style="margin-left: 24%;"><img id="textpng" @click="jumpword" src="@/assets/posttext.png"><p id="textword">文字</p></div>
           <div class="word"><img id="imgpng" src="@/assets/postimg.png"><p style="margin-left:75px;">图片</p></div>
           
         </div>
@@ -70,9 +70,9 @@
   width: 210px;
   height: 440px;
   background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(187, 187, 187, 100);
+  border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 #centernavigationbar .el-menu-item {
   color: black;
@@ -123,9 +123,9 @@
   width:700px;
   height: 225px;
   background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(187, 187, 187, 100);
+  border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 .centerbox2 p{
   margin-top: -10px;
@@ -142,13 +142,13 @@
   vertical-align: top;
 }
 .centerbox2{
-  border-radius: 20px;
   margin-top: 15px;
   width:700px;
   height: 200px;
   background-color: rgb(255, 255, 255);
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(187, 187, 187, 100);
+  border-radius: 4px;
+  border: 1px solid #EBEEF5;
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 }
 </style>
 <script>
@@ -170,6 +170,9 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      jumpword(){
+        this.$router.push('/Postword')
       }
     }
 }
