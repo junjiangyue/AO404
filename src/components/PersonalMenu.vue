@@ -5,15 +5,15 @@
         <div id="menutitle"><h id="menu-title">个人主页</h></div>
         <hr color=#EFEEEE SIZE=1>
         <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-          <el-menu-item index="1">
+          <el-menu-item index="1" @click="personalpage">
             <i class="icon-person"></i>
             <span slot="title">我的主页</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="2" @click="followlist">
             <i class="icon-follow"></i>
             <span slot="title">我的关注</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="3" @click="fanlist">
             <i class="icon-fan"></i>
             <span slot="title">我的粉丝</span>
           </el-menu-item>
@@ -23,8 +23,8 @@
               <span>账号管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="4-1">账号资料</el-menu-item>
-              <el-menu-item index="4-2">账号安全</el-menu-item>
+              <el-menu-item index="4-1" @click="userinfo">账号资料</el-menu-item>
+              <el-menu-item index="4-2" @click="accountsecurity">账号安全</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -41,6 +41,21 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
+      },
+      personalpage() {
+        this.$router.push({path: '/PersonalPage'});
+      },
+      followlist() {
+        this.$router.push('/followlist');
+      },
+      fanlist() {
+        this.$router.push({path: '/fanlist'});
+      },
+      userinfo() {
+        this.$router.push({path: '/userinfo'});
+      },
+      accountsecurity() {
+        this.$router.push({path: '/accountsecurity'});
       }
     },
   data() {}

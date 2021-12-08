@@ -13,7 +13,7 @@ import AdviceFeedback from '@/components/AdviceFeedback'
 import Notice from '@/components/Notice'
 import ArticleInfo from '@/components/ArticleInfo'
 import Postword from '@/components/Postword'
-
+import AdministerLogin from '@/components/AdministerLogin'
 
 Vue.use(Router)
 
@@ -30,7 +30,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/',
+      path: '/Main',
       name: 'Main',
       component: Main
     },
@@ -64,6 +64,10 @@ export default new Router({
       path:'/Postword',
       name:'Postword',
       component:Postword
+    },{
+      path:'/',
+      name:'AdministerLogin',
+      component:AdministerLogin
     }
   ]
 })
