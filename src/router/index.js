@@ -18,6 +18,10 @@ import Admin from '@/components/Admin'
 import ArticleManage from '@/components/ArticleManage'
 import UserManage from '@/components/UserManage'
 import FeedbackManage from '@/components/FeedbackManage'
+import FollowList from '@/components/FollowList'
+import FanList from '@/components/FanList'
+import UserInfo from '@/components/UserInfo'
+import AccountSecurity from '@/components/AccountSecurity'
 
 Vue.use(Router)
 
@@ -88,6 +92,26 @@ export default new Router({
       path:'/FeedbackManage',
       name:'FeedbackManage',
       component:FeedbackManage
+    },{
+      path:'/Tag',
+      name:'Tag',
+      component:Tag
+    },{
+      path:'/FollowList',
+      name:'FollowList',
+      component:FollowList
+    },{
+      path:'/UserInfo',
+      name:'UserInfo',
+      component:UserInfo
+    },{
+      path:'/AccountSecurity',
+      name:'AccountSecurity',
+      component:AccountSecurity
+    },{
+      path:'/FanList',
+      name:'FanList',
+      component:FanList
     }
     
   ]
