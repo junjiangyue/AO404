@@ -1,6 +1,6 @@
 <template>
     <el-container>
-        <el-aside width="200px">
+        <el-aside width="300px">
             <el-menu
         :default-active="activeIndex"
         active-text-color="#8F5255"
@@ -8,7 +8,8 @@
         @select="handleSelect">
       <!-- @open="handleOpen"
       @close="handleClose"> -->
-      <el-menu-item index="1" style="margin-top:120px">
+      <img class="logo" src="@/assets/logo.png">
+      <el-menu-item index="1" style="margin-top:30px">
         <i class="el-icon-setting"></i>
         <span slot="title" @click="gotoAdmin" >管理中心</span>
         </el-menu-item>
@@ -33,34 +34,48 @@
             <el-main class="main">
                 <h1> 用户列表</h1>
                 <el-row>
-                    <el-col :span="8">
+                    <el-col :span="12">
                         <el-card class="box-card"
                         style="margin-right:20px">
-                            <div v-for="o in 4" :key="o" class="text item">
-                                {{'列表内容 ' + o }}
+                            <div class="text_item">
+                              <i class="el-icon-user" style="margin-right:10px"></i>
+                                <a>总用户数</a>
+                                <p>{{user_number}}</p>
                             </div>
                             </el-card>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="12">
                         <el-card class="box-card"
-                         style="margin-right:20px">
-                            <div v-for="o in 4" :key="o" class="text item">
-                                {{'列表内容 ' + o }}
-                            </div>
-                            </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card class="box-card">
-                            <div v-for="o in 4" :key="o" class="text item">
-                                {{'列表内容 ' + o }}
+                         style="margin-right:40px">
+                           <div class="text_item">
+                              <i class="el-icon-user" style="margin-right:10px"></i>
+                                <a>新增用户数</a>
+                                <p>{{new_user_number}}</p>
                             </div>
                             </el-card>
                     </el-col>
                 </el-row>
-                 <el-card class="box-card" style="margin-top:20px">
-                            <div v-for="o in 4" :key="o" class="text item">
-                                {{'列表内容 ' + o }}
-                            </div>
+                 <el-card class="box-card" style="margin-top:20px;margin-right:40px">
+                            <el-table
+                                :data="tableData"
+                                height="250"
+                                border
+                                style="width: 100%">
+                                <el-table-column
+                                  prop="date"
+                                  label="日期"
+                                  width="180">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="name"
+                                  label="姓名"
+                                  width="180">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="address"
+                                  label="地址">
+                                </el-table-column>
+                              </el-table>
                             </el-card>
                 </el-main>
         </el-container>
@@ -71,6 +86,8 @@
 export default({
     data() {
       return {
+        user_number:10000,
+        new_user_number:500,
         activeIndex: '2',
       };
     },
@@ -94,13 +111,32 @@ export default({
 })
 </script>
 <style scoped>
+.logo{
+  height:60%;
+  width:60%;
+}
+.text_item{
+  text-align:center;
+  margin-top:40px;
+}
+a{
+  font-size:14px;
+}
+p{
+  margin-top:20px;
+  font-size:42px;
+  color:#1A1B1C;
+  font-family: "mp-quote", -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+}
 .searchbox{
     margin-top:10px;
 }
 .main{
-    background-color: #EFEEEE;
+    background-color: #f6f7f8;
+    padding-left:40px;
 }
 .el-aside {
+    padding-left:30px;
     min-height: 750px;
     border:1px;
 }
@@ -112,4 +148,7 @@ export default({
     border-right: solid 3px #8F5255;
     background-color: #f0e2e3;
 }
+.el-menu-item {
+    font-size: 16px;
+    }
 </style>

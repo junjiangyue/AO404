@@ -38,7 +38,7 @@ export default new Router({
       component: SignUp
     },
     {
-      path: '/',
+      path: '/Main',
       name: 'Main',
       component: Main
     },
@@ -77,7 +77,7 @@ export default new Router({
       name:'AdministerLogin',
       component:AdministerLogin
     },{
-      path:'/Admin',
+      path:'/',
       name:'Admin',
       component:Admin
     },{
