@@ -38,8 +38,10 @@
                 <div class="dropmenu" id="tag" v-bind:style="{ marginTop: movetag + 'px'}">
                     <img id="addtitleimg" src="@/assets/addtitle.png">
                 </div>
-                <el-input class="inputtagblock" id="tag" v-bind:style="{ marginTop: movetag + 'px'}" v-model="inputtag" placeholder="请输入内容"></el-input>
-                <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
+                <el-input class="inputtagblock" id="tag" @keyup.enter.native="onSubmit" v-bind:style="{ marginTop: movetag + 'px'}" v-model="inputtag" placeholder="请输入内容"></el-input>
+                <!-- <div class="blocktian" id="tian" v-show="popup"></div> -->
+                <el-tag class="blocktian" @close="handleClose(tag)" v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
+                <br>
                 <el-button id="canclebutton">取消</el-button>
                 <el-button id="affirmbutton">发布</el-button>
             </div>
@@ -47,6 +49,19 @@
     </div>
 </template>
 <style>
+.blocktian{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 20px;
+}
+#tian{
+    width:407px;
+    height: 20px;
+}
+.el-tag {
+    /* margin-right: 20px; */
+    margin-left: 40px;
+}
 #canclebutton{
 margin-left: 40px;
 margin-top: 20px;
@@ -147,6 +162,7 @@ export default {
     },
     data() {
         return {
+            // popup: 0,
             user_name: '原神',
             input: '',
             textarea: '',
@@ -157,13 +173,8 @@ export default {
             movetag: 20,
             moveblock: 480,
             count: 0,
-            tags: [
-                { name: '标签一', type: '' },
-                { name: '标签二', type: 'success' },
-                { name: '标签三', type: 'info' },
-                { name: '标签四', type: 'warning' },
-                { name: '标签五', type: 'danger' }
-                ]
+            tags: [],
+            number: 0,
         }
     },
     methods: {
@@ -183,11 +194,29 @@ export default {
       changetag() {
           if( this.count % 8 == 0){
               this.movetag += 155;
-              this.moveblock += 135;
+              this.moveblock += 155;
           }
           this.count += 1;
           console.log(this.count);
-      }
+      },
+      onSubmit() {
+        //   this.popup = 1;
+        if(this.number == 0){
+            this.moveblock +=60;
+            this.number =1;
+        }
+          console.log(this.inputtag);
+          console.log(this.tags);
+          this.tags.push({name: this.inputtag,type:''});
+          console.log(this.tags);
+          this.inputtag = '';
+      },
+      handleClose(tag) {
+          this.tags.splice(this.tags.indexOf(tag), 1);
+          if(this.tags.length == 0){
+              this.moveblock -=60;
+          }
+          },
     }
 }
 </script>
