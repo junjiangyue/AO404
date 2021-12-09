@@ -194,7 +194,7 @@ export default {
       changetag() {
           if( this.count % 8 == 0){
               this.movetag += 155;
-              this.moveblock += 155;
+              this.moveblock += 160;
           }
           this.count += 1;
           console.log(this.count);
