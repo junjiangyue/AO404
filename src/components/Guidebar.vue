@@ -3,16 +3,23 @@
 <div class="grid-content">
     <img class="logo" src="@/assets/mlogo.png">
     </div>
-  <li class="grid-content" @click="gotoMain">首页</li>
-  <li class="grid-content" @click="gotoDiscover">发现</li>
-  <li class="grid-content" @click="gotoCreatorCenter">创作者中心</li>
+  <li class="grid-content">
+    <el-button type="text" @click="gotoMain" class="guide">首页</el-button></li>
+  <li class="grid-content">
+    <el-button type="text" @click="gotoDiscover" class="guide">发现</el-button></li>
+  <li class="grid-content">
+    <el-button type="text" @click="gotoCreatorCenter" class="guide">创作者中心</el-button></li>
   <div class="search">
     <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2">
   </el-input>
       </div>
     <div >
-    <img class="message" src="@/assets/message.png" @click="gotoNotice">
-    <img class="home" src="@/assets/home.png" @click="gotoPersonalPage">
+       <el-tooltip class="item" effect="dark" content="通知" placement="bottom" >
+      <el-button icon="el-icon-message" circle class="message"  @click="gotoNotice" style="color: #843E30;"></el-button>
+       </el-tooltip>
+       <el-tooltip class="item" effect="dark" content="个人中心" placement="bottom">
+      <el-button icon="el-icon-s-custom" circle class="home" @click="gotoPersonalPage" style="color: #843E30;"></el-button>
+      </el-tooltip>
     </div>
 </div>
 </template>
@@ -47,6 +54,9 @@
   }
 </script>
 <style lang="css" scoped>
+.guide {
+    color: #fff;
+  }
    li {
     padding:30px 0;
     color: #fff;
@@ -85,15 +95,9 @@
     border-width:0px;
 }
 .message{
-    padding-top: 30px;
-    padding-left:40px;
-    width:30px;
-    height:30px;
-}
-.home{
-    padding-top: 30px;
-    width:30px;
-    height:30px;
-    padding-left:40px;
+  margin-top:25px;
+  margin-left:20px;
+    /* width:30px;
+    height:30px; */
 }
 </style>

@@ -8,8 +8,18 @@
         <div id="tag-name">
           <i class="icon-tag"></i>
           <span id="tag">{{tag_name}}</span>
-          <el-button v-if="subscribe === 0" plain type="danger" size="medium" id="subscribe-btn">订阅</el-button>
-          <el-button v-else plain type="info" size="medium" id="subscribe-btn">已订阅</el-button>
+          <el-button v-if="subscribe === 0" plain type="danger" size="medium" id="subscribe-btn" @click="addSubscribe">订阅</el-button>
+          <el-button v-else plain type="info" size="medium" id="subscribe-btn" @click="dialogVisible = true">已订阅</el-button>
+          <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%">
+            <span>确认取消订阅该标签？</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="cancelSubscribe">确 定</el-button>
+            </span>
+          </el-dialog>
           <span id="article-num">{{article_num}}参与</span>
         </div>
         <hr color=#EFEEEE SIZE=1>
@@ -48,11 +58,29 @@ export default {
   components: {
     Guidebar
   },
+  methods: {
+    addSubscribe() {
+      this.subscribe=1,
+      this.$message({
+          message: '订阅成功',
+          type: 'success'
+        });
+    },
+    cancelSubscribe() {
+      this.dialogVisible = false,
+      this.subscribe=0,
+      this.$message({
+          message: '取消成功',
+          type: 'success'
+        });
+    }
+  },
   data() {
     return {
       tag_name: "#原神",
       article_num: 1234,
       subscribe: 1,
+      dialogVisible: false,
       tabledata: [{
           id: 1,
           tag_name: '原神',
