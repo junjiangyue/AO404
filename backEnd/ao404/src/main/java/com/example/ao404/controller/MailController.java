@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Random;
 
 @Slf4j
+@CrossOrigin
 @Controller
 @RequestMapping("mail")
 public class MailController {

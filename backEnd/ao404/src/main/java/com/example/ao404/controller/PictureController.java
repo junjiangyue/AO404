@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("picture")
 public class PictureController {
