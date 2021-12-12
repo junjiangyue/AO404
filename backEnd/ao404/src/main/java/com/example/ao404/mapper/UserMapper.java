@@ -1,5 +1,6 @@
 package com.example.ao404.mapper;
 
+import com.example.ao404.entity.Admin;
 import com.example.ao404.entity.User;
 import com.example.ao404.entity.UserInformation;
 import org.apache.ibatis.annotations.Delete;
@@ -18,8 +19,12 @@ public interface UserMapper {
     @Select("select * from user where user_id=#{userId}")
     User loginUser(@Param("userId") int userId);
 
+  @Select("select * from admin where admin_id=#{adminId}")
+  Admin loginAdmin(@Param("adminId") int adminId);
+
     @Select("select * from user")
     List<User> userList();
+
 
     @Insert("insert into user(user_name,user_password,user_email)"+
             "values(#{userName},#{userPassword},#{userEmail})")

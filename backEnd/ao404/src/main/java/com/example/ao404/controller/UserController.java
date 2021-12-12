@@ -1,5 +1,6 @@
 package com.example.ao404.controller;
 
+import com.example.ao404.entity.Admin;
 import com.example.ao404.entity.RestControllerHelper;
 import com.example.ao404.entity.User;
 import com.example.ao404.entity.UserInformation;
@@ -29,6 +30,7 @@ public class UserController {
     @Autowired
     private RelationMapper relationMapper;
 
+
     RestControllerHelper helper = new RestControllerHelper();
 
 
@@ -44,32 +46,54 @@ public class UserController {
             return map;
         }
 
-        User user = userMapper.loginUser(userId);
-        if(user==null)
+        Admin admin = userMapper.loginAdmin(userId);
+
+        if(admin!=null)
         {
-            map.put("msg","用户不存在");
-            return map;
-        }
-        if(userPassword.equals(user.getUserPassword()))
-        {
+          if(userPassword.equals(admin.getAdminPassword()))
+          {
             try
             {Map<String,String> payload = new HashMap<>();
-                payload.put("userId", String.valueOf(userId));
-                //payload.put("userPassword",userPassword);
-                String token = JwtConfig.getToken(payload);
-                map.put("msg","登录成功");
-                map.put("token",token);}
+              payload.put("userId", String.valueOf(userId));
+              //payload.put("userPassword",userPassword);
+              String token = JwtConfig.getToken(payload);
+              map.put("msg","登录成功");
+              map.put("token",token);}
             catch (Exception e){
-                map.put("msg",e.getMessage());
+              map.put("msg",e.getMessage());
             }
 
             return map;
-        }
-        else
-        {
+          }
+          else {
             map.put("msg","密码错误");
             return map;
+          }
+        }
+        else {
+          User user = userMapper.loginUser(userId);
+          if (user == null) {
+            map.put("msg", "用户不存在");
+            return map;
+          }
+          if (userPassword.equals(user.getUserPassword())) {
+            try {
+              Map<String, String> payload = new HashMap<>();
+              payload.put("userId", String.valueOf(userId));
+              //payload.put("userPassword",userPassword);
+              String token = JwtConfig.getToken(payload);
+              map.put("msg", "登录成功");
+              map.put("token", token);
+            } catch (Exception e) {
+              map.put("msg", e.getMessage());
+            }
 
+            return map;
+          } else {
+            map.put("msg", "密码错误");
+            return map;
+
+          }
         }
     }
 
