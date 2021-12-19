@@ -4,12 +4,12 @@
         <img class="logo" src="@/assets/burgundy-4.png" width=1400px height="130%" alt="" />
     </div>   
     <div class="content">
-        <div class="login">
+        <div class="login" style="text-align:center">
             <h1>Hello, Welcome to us!</h1>
             <div class="editview">
-                <li><el-input v-model="email" placeholder="请输入邮箱" ></el-input></li>
+                <li><el-input v-model="userid" placeholder="请输入您的ID" ></el-input></li>
                 <li><el-input placeholder="请输入密码" v-model="password" show-password></el-input></li>
-                <li><el-button type="primary" round class="btn_login">登录</el-button></li>
+                <li><el-button type="primary" round class="btn_login" @click="login">登录</el-button></li>
                 <li><el-checkbox v-model="agree">我同意 
                     <el-link href="https://www.lofter.com/agreement" target="_blank" type="warning">服务协议</el-link>和
                     <el-link href="https://www.lofter.com/agreement?op=privacyPolicy" target="_blank" type="warning">隐私政策</el-link>
@@ -31,7 +31,7 @@ export default {
     name: 'Login',
     data() {
     return {
-      emial: '',
+      userid: '',
       password:'',
       agree: false
     }
@@ -39,6 +39,29 @@ export default {
   methods:{
     gotosign(){
         this.$router.push('/SignUp')
+    },
+    login(){
+        this.$axios({
+        method:"post",
+        url: 'api/user/login',
+        params:{
+            userId:this.userid,
+            userPassword:this.password,
+        }
+        }).then(res=>{
+			console.log(res.data.msg);
+            if(res.data.msg=="用户不存在"){
+                this.$message({
+                showClose: true,
+                message: '用户不存在!'
+                });
+            }
+            else{
+            this.$router.push('/Main')
+            }
+		},err=>{
+			console.log(err);
+		})
     }
   }
 }

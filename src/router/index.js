@@ -28,7 +28,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/Login',
+      path: '/',
       name: 'Login',
       component: Login
     },
@@ -77,7 +77,7 @@ export default new Router({
       name:'AdministerLogin',
       component:AdministerLogin
     },{
-      path:'/',
+      path:'/Admin',
       name:'Admin',
       component:Admin
     },{

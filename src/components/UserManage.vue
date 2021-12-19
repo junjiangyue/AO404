@@ -6,8 +6,6 @@
         active-text-color="#8F5255"
         class="el-menu-vertical"
         @select="handleSelect">
-      <!-- @open="handleOpen"
-      @close="handleClose"> -->
       <img class="logo" src="@/assets/logo.png">
       <el-menu-item index="1" style="margin-top:30px">
         <i class="el-icon-setting"></i>
@@ -56,24 +54,26 @@
                     </el-col>
                 </el-row>
                  <el-card class="box-card" style="margin-top:20px;margin-right:40px">
-                            <el-table
-                                :data="tableData"
-                                height="250"
-                                border
-                                style="width: 100%">
-                                <el-table-column
-                                  prop="date"
-                                  label="日期"
-                                  width="180">
+                            <el-table :data="tableData" height="100%" border style="width: 100%">
+                                <el-table-column prop="userID" label="用户ID" width="180">
+                                   <template slot-scope="scope"><i class="el-icon-time"></i>
+                                   <span style="margin-left: 10px">{{ scope.row.date }}</span></template>
                                 </el-table-column>
-                                <el-table-column
-                                  prop="name"
-                                  label="姓名"
-                                  width="180">
+                                <el-table-column prop="user_name" label="用户名" width="180">
                                 </el-table-column>
-                                <el-table-column
-                                  prop="address"
-                                  label="地址">
+                                <el-table-column prop="user_email" label="邮箱地址"></el-table-column>
+                                <el-table-column  label="用户头像">
+                                </el-table-column>
+                                <el-table-column label="操作">
+                                   <template slot-scope="scope">
+                                    <el-button
+                                      size="mini"
+                                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                    <el-button
+                                      size="mini"
+                                      type="danger"
+                                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                  </template>
                                 </el-table-column>
                               </el-table>
                             </el-card>
@@ -89,6 +89,23 @@ export default({
         user_number:10000,
         new_user_number:500,
         activeIndex: '2',
+         tableData: [{
+          userID: '2016-05-02',
+          user_name: '王小虎',
+          user_email: '上海市普陀区金沙江路 1518 弄',
+        }, {
+          userID: '2016-05-02',
+          user_name: '王小虎',
+          user_email: '上海市普陀区金沙江路 1518 弄',
+        }, {
+          userID: '2016-05-02',
+          user_name: '王小虎',
+          user_email: '上海市普陀区金沙江路 1518 弄',
+        }, {
+          userID: '2016-05-02',
+          user_name: '王小虎',
+          user_email: '上海市普陀区金沙江路 1518 弄',
+        }]
       };
     },
     methods: {

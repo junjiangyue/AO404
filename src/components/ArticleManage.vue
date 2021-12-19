@@ -55,27 +55,21 @@
                     </el-col>
                 </el-row>
                  <el-card class="box-card" style="margin-top:20px;margin-right:40px">
-                            <el-table
-                                :data="tableData"
-                                height="250"
-                                border
-                                style="width: 100%">
-                                <el-table-column
-                                  prop="date"
-                                  label="日期"
-                                  width="180">
-                                </el-table-column>
-                                <el-table-column
-                                  prop="name"
-                                  label="姓名"
-                                  width="180">
-                                </el-table-column>
-                                <el-table-column
-                                  prop="address"
-                                  label="地址">
+                            <el-table :data="tableData" height="100%" border style="width: 100%">
+                                <el-table-column prop="user_name" label="用户名" ></el-table-column>
+                                <el-table-column prop="userID" label="用户ID"></el-table-column>
+                                <el-table-column prop="articleHeading" label="文章标题"></el-table-column>
+                                <el-table-column prop="articleContent" label="文章内容"></el-table-column>
+                                <el-table-column prop="publishTime" label="发布时间"></el-table-column>
+                                <el-table-column prop="tagName" label="标签名"></el-table-column>
+                                <el-table-column label="操作">
+                                   <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+                                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                  </template>
                                 </el-table-column>
                               </el-table>
-                            </el-card>
+                  </el-card>
                 </el-main>
         </el-container>
     </el-container>
@@ -88,7 +82,39 @@ export default({
         activeIndex: '3',
         new_article: 100,
         unaudit_article:50,
+         tableData: [{
+          user_name:'hhhhhh',
+          userID: '2016-05-02',
+          articleHeading: '王小虎',
+          articleContent: '上海市普陀区金沙江路 1518 弄',
+          publishTime:'2021-12-11',
+          tagName:'原神',
+        }, {
+          user_name:'hhhhhh',
+          userID: '2016-05-02',
+          articleHeading: '王小虎',
+          articleContent: '上海市普陀区金沙江路 1518 弄',
+          publishTime:'2021-12-11',
+          tagName:'原神',
+        }, {
+         user_name:'hhhhhh',
+          userID: '2016-05-02',
+          articleHeading: '王小虎',
+          articleContent: '上海市普陀区金沙江路 1518 弄',
+          publishTime:'2021-12-11',
+          tagName:'原神',
+        }, {
+          user_name:'hhhhhh',
+          userID: '2016-05-02',
+          articleHeading: '王小虎',
+          articleContent: '上海市普陀区金沙江路 1518 弄',
+          publishTime:'2021-12-11',
+          tagName:'原神',
+        }]
       };
+    },
+    mounted(){
+      this.fetchdata()
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -105,7 +131,9 @@ export default({
       },
       gotoFeedbackM(){
         this.$router.push('/FeedbackManage')
-      }
+      },
+      fetchdata() {},
+      
     }
 })
 </script>

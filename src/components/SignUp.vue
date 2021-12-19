@@ -4,19 +4,22 @@
         <img class="logo" src="@/assets/burgundy-4.png" width=1400px height="130%" alt="" />
     </div>   
     <div class="content">
-        <div class="login">
+        <div class="login" style="text-align:center">
             <h1>Hello, Welcome to us!</h1>
             <div class="editview">
-                <li><el-input v-model="email" placeholder="请输入邮箱" width=300px></el-input></li>
-                <li><el-input placeholder="请输入密码" v-model="password" show-password width=300px></el-input></li>
-                <li><el-input placeholder="请输入验证码" v-model="verification_code" class="veri">
-                     <el-button slot="append" class="get_veri">获取验证码</el-button></el-input></li>
-                <li><el-button type="primary" round class="btn_signup">注册</el-button></li>
-                <li><el-checkbox v-model="agree">我同意 
-                    <el-link href="https://www.lofter.com/agreement" target="_blank" type="warning">服务协议</el-link>和
-                    <el-link href="https://www.lofter.com/agreement?op=privacyPolicy" target="_blank" type="warning">隐私政策</el-link>
-                    </el-checkbox></li>
-                </div>
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+                     <el-form-item prop="email">
+                <li><el-input v-model="ruleForm.email" placeholder="请输入邮箱" width=300px ></el-input></li></el-form-item>
+                <el-form-item prop="name">
+                <li><el-input v-model="ruleForm.name" placeholder="请输入一个昵称" width=300px ></el-input></li></el-form-item>
+                    <el-form-item prop="password">
+                <li><el-input placeholder="请输入密码" v-model="ruleForm.password" show-password width=300px></el-input></li></el-form-item>
+                <el-form-item prop="verification_code">
+                <li><el-input placeholder="请输入验证码" v-model="ruleForm.verification_code" class="veri">
+                     <el-button slot="append" class="get_veri" @click="verify">获取验证码</el-button></el-input></li></el-form-item>
+                <li><el-button type="primary" round class="btn_signup" @click="register">注册</el-button></li>
+                </el-form>
+            </div>
         </div>
     </div>
 </div>
@@ -26,12 +29,92 @@
 export default {
     name: 'SignUp',
     data() {
+    var checkEmail = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('邮箱不能为空!'));
+        }
+        if (/^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value) == false) {
+                return callback(new Error("请输入正确的邮箱地址!"));
+              } else {
+                //校验通过
+                return callback();
+              }
+        };
+        var checkPass = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('密码不能为空!'));
+          }
+        };
+        var checkName = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('昵称不能为空!'));
+          }
+        };
     return {
-      emial: '',
+      vericode:'',
+      agree: false,
+      ruleForm: {
+      email: '',
       password:'',
-      agree: false
+      verification_code:'',
+      name:'',
+      },
+      rules: {
+        email: [
+          {validator: checkEmail,trigger: "blur"}
+          ],
+           password: [
+          {validator: checkPass,trigger: "blur"}
+          ],
+          name: [
+          {validator: checkName,trigger: "blur"}
+          ],
+        }
+      };
+    },
+    mounted(){
+
+    },
+    methods:{
+
+        verify(){
+           this.$axios({
+               method:"post",
+               url:'http://localhost:8080/mail/mail',
+               params:{email:this.ruleForm.email},
+           }).then(res=>{
+               this.vericode = res.data;
+				console.log(res.data);
+
+			},err=>{
+				console.log(err);
+			})
+        },
+        register(){
+            if(this.ruleForm.verification_code != this.vericode){
+                this.$message({
+                showClose: true,
+                message: '验证码错误!'
+                });
+            }else {
+                this.$axios({
+                method:"post",
+                url: 'api/user/register',
+                params:{
+                   userName:this.ruleForm.name,
+                   userPassword:this.ruleForm.password,
+                   userEmail:this.ruleForm.email
+                }
+           }).then(res=>{
+				console.log(res.data);
+                this.$router.push('/Main')
+			},err=>{
+				console.log(err);
+			})
+            }
+        }
+
     }
-  }
 }
 </script>
 <style lang="css" scoped>
@@ -52,7 +135,7 @@ export default {
 }
 .login{
     width:400px;
-    height:430px;
+    height:480px;
     background: #fff;
     border-radius: 20px;
     box-shadow: 1px 1px 1px 1px #e5e5e5;
@@ -81,7 +164,7 @@ h1{
 }
 li{
      list-style-type:none;
-     padding-top:20px;
+     padding-top:0px;
 }
 .btn_signup{
     height: 46px;
@@ -99,4 +182,5 @@ li{
     border-radius:0px 20px 20px 0px;
     background-color: #EFEEEE;
 }
+
 </style>
