@@ -61,9 +61,22 @@ import Guidebar from '@/components/Guidebar'
     components: {
       Guidebar
     },
+    mounted:function(){
+      this.getFollowTag()
+    },
     methods: {
       tag(index, row) {
         this.$router.push({path: '/Tag'});
+      },
+      getFollowTag(){
+        this.axios({
+        method:"get",
+        url: 'api/tag/myLikeTag',
+      }).then(res=>{
+			console.log('数据：', res);
+		},err=>{
+			console.log(err);
+		})
       }
     },
     data() {
