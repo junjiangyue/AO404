@@ -199,6 +199,13 @@ export default {
           headers: { token:window.sessionStorage.getItem("token")},
         }).then(res=>{
           console.log(res);
+          if(res.data.data.msg == "Success") {
+            this.$notify({
+          title: '成功',
+          message: '反馈成功，感谢您的使用！',
+          type: 'success'
+        });
+          }
         })
       },
     }

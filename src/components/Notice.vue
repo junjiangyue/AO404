@@ -7,8 +7,8 @@
     <el-card class="box-card">
         <div v-for="(item) in tabledata" :key="item.id" class="text-item">
             <div class="noticeblock">
-                <h3>{{item.title }}</h3>
-                <p>{{item.message1}}</p>
+                <h3>{{item.noticeTitle }}</h3>
+                <p>{{item.noticeContent}}</p>
                 <!-- <img @click="changeview" v-if="lay_type" src="@/assets/noticebottom.png" alt />
                 <img @click="changeview" v-else src="@/assets/noticeup.png" alt /> -->
             </div>
@@ -100,37 +100,7 @@ export default {
             // activeName: '',
             // lay_type: 0,
             userId: 123,
-            tabledata: [{
-                id: 1,
-                title: '通知',
-                message1: '对不起，您于2021年12月3日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架',
-                // message: '对不起，您于2021年12月3日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架对不起，您于2021年12月3日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架对不起，您于2021年12月3日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            },
-            {
-                id: 2,
-                title: '通知',
-                message1: '对不起，您于2021年12月3日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            },
-            {
-                id: 3,
-                title: '通知',
-                message1: '对不起，您于2021年12月4日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            },
-            {
-                id: 4,
-                title: '通知',
-                message1: '对不起，您于2021年12月5日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            },
-            {
-                id: 5,
-                title: '通知',
-                message1: '对不起，您于2021年12月6日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            },
-            {
-                id: 6,
-                title: '通知',
-                message1: '对不起，您于2021年12月7日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
-            }]
+            tabledata: []
         }
     },
     mounted:function() {
@@ -143,6 +113,8 @@ export default {
             console.log(res);
             console.log(res.data.data.myNotice);
             this.tabledata = res.data.data.myNotice;
+            // this.tabledata.title = res.data.data.myNotice.noticeTitle;
+            // console.log(res.data.data.myNotice.array);
         })
     },
     methods: {

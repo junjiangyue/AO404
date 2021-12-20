@@ -42,7 +42,7 @@
                 <!-- <div class="blocktian" id="tian" v-show="popup"></div> -->
                 <el-tag class="blocktian" @close="handleClose(tag)" v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
                 <br>
-                <el-button id="canclebutton">取消</el-button>
+                <el-button id="canclebutton" @click="canclecontent">取消</el-button>
                 <el-button id="affirmbutton" @click="postcontent">发布</el-button>
             </div>
         </div>
@@ -181,6 +181,7 @@ export default {
     },
     methods: {
         postcontent() {
+            if(this.textarea&&this.inputtag&&this.input != '') {
             this.$axios({
                 method:"post",
                 url: 'http://47.102.194.89:8080/article/publishArticle',
@@ -192,7 +193,22 @@ export default {
                 headers: { token:window.sessionStorage.getItem("token")},
             }).then(res=>{
                 console.log(res);
-            })
+                if(res.status == 200) {
+            this.$notify({
+          title: '成功',
+          message: '发布成功，感谢您的使用！',
+          type: 'success'
+        });
+          }
+            })}
+            else {
+                console.log("失败");
+                this.$notify.error({
+          title: '错误',
+          message: '禁止发送空内容贴'
+        });
+      }
+            
         },
         handleCommand(command) {
         this.$message('click on item ' + command);
@@ -233,6 +249,15 @@ export default {
               this.moveblock -=60;
           }
           },
+          canclecontent() {
+              this.input = '';
+              this.textarea = '';
+              this.inputtag = '';
+              this.$notify.info({
+          title: '消息',
+          message: '取消发布内容'
+        });
+          }
     }
 }
 </script>
