@@ -6,7 +6,6 @@ import com.example.ao404.entity.User;
 import com.example.ao404.mapper.ArticleMapper;
 import com.example.ao404.mapper.UserMapper;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

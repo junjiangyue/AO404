@@ -76,4 +76,7 @@ public class Article {
         this.publishTime = publishTime;
         this.tagId = tagId;
     }
+
+    public Article() {
+    }
 }

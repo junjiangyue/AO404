@@ -6,6 +6,7 @@ import com.example.ao404.entity.User;
 import com.example.ao404.entity.UserInformation;
 import com.example.ao404.mapper.RelationMapper;
 import com.example.ao404.mapper.UserMapper;
+import com.example.ao404.tools.GetInformationFromRequest;
 import com.example.ao404.tools.JwtConfig;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,11 +112,12 @@ public class UserController {
             return map;
         }
         else{
-            int result = userMapper.register(userName,userPassword,userEmail);
+            User user1 = new User(userName, userPassword, userEmail);
+            int result = userMapper.register(user1);
             if(result>0)
             {
                 map.put("msg","注册成功");
-
+                map.put("userId",user1.getUserId());
                 return map;
             }
             else {
@@ -127,8 +130,12 @@ public class UserController {
 
     @ApiOperation(value="获取关注的人和粉丝")
     @PostMapping("getMyRelation")
-    public Map<String,Object> getMyRelation(int userId){
+    public Map<String,Object> getMyRelation(HttpServletRequest request){
+
         Map<String,Object> map = new HashMap<>();
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         List<UserInformation> followList = relationMapper.following(userId);
         List<UserInformation> fanList = relationMapper.fans(userId);
@@ -165,8 +172,11 @@ public class UserController {
 
     @ApiOperation(value="获取我的信息")
     @GetMapping("myInfo")
-    public Map<String,Object> getMyInfo(int userId){
+    public Map<String,Object> getMyInfo(HttpServletRequest request){
         Map<String,Object> map = new HashMap<>();
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         User user= userMapper.loginUser(userId);
 
@@ -182,7 +192,11 @@ public class UserController {
 
     @ApiOperation(value="修改密码")
     @PostMapping("resetPassword")
-    public Map<String,Object> resetPassword(int userId,String oldPassword,String newPassword) {
+    public Map<String,Object> resetPassword(HttpServletRequest request,String oldPassword,String newPassword) {
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
+
         Map<String, Object> map = new HashMap<>();
 
         if(userMapper.loginUser(userId).getUserPassword()!=oldPassword)

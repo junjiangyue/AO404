@@ -6,6 +6,7 @@ import com.example.ao404.entity.RestControllerHelper;
 import com.example.ao404.entity.Tag;
 import com.example.ao404.mapper.ArticleMapper;
 import com.example.ao404.mapper.TagMapper;
+import com.example.ao404.tools.GetInformationFromRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Slf4j
@@ -31,7 +33,11 @@ public class TagController {
 
     @ApiOperation(value = "关注的tag列表")
     @GetMapping("myLikeTag")
-    public Map<String, Object> myLikeTag(int userId) {
+    public Map<String, Object> myLikeTag(HttpServletRequest request) {
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
+
         Map<String, Object> map = new HashMap<>();
 
         List<Integer> tagList = tagMapper.myLikeTag(userId);

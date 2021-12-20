@@ -18,6 +18,9 @@ public class Tag {
         this.articleNum = articleNum;
     }
 
+    public Tag() {
+    }
+
     public int getTagId() {
         return tagId;
     }

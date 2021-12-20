@@ -16,6 +16,9 @@ public class Admin {
         this.adminPassword = adminPassword;
     }
 
+    public Admin() {
+    }
+
     public int getAdminId() {
         return adminId;
     }

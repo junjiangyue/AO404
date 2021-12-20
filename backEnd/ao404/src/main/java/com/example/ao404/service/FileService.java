@@ -1,7 +1,5 @@
 package com.example.ao404.service;
 
-import com.example.ao404.entity.Picture;
-import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

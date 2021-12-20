@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -84,5 +83,8 @@ public class Comment {
         this.articleId = articleId;
         this.commentInfo = commentInfo;
         this.commentTime = commentTime;
+    }
+
+    public Comment() {
     }
 }

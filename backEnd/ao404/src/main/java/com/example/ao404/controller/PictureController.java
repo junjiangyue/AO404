@@ -1,12 +1,9 @@
 package com.example.ao404.controller;
 
 import com.example.ao404.entity.FileProperties;
-import com.example.ao404.entity.Picture;
 import com.example.ao404.entity.RestControllerHelper;
-import com.example.ao404.mapper.UserMapper;
 import com.example.ao404.service.FileService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import com.example.ao404.tools.GetInformationFromRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -64,8 +61,11 @@ public class PictureController {
     @ApiOperation(value="上传头像")
     @ResponseBody
     @PostMapping("/uploadAvatar")
-    public String uploadAvatar(@RequestParam("userId") int userId,
+    public String uploadAvatar(HttpServletRequest request,
                              @RequestParam("file") MultipartFile file){
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         if(file.isEmpty()){
             return "上传文件为空！";
@@ -86,8 +86,11 @@ public class PictureController {
     @ApiOperation(value="获取头像")
     @PostMapping("getAvatar")
     @ResponseBody
-    public  Map<String,Object> getAvatarImage(int userId)
+    public  Map<String,Object> getAvatarImage(HttpServletRequest request)
     {
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         RestControllerHelper helper = new RestControllerHelper();
 

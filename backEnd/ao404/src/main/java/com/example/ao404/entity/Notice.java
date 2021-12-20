@@ -41,4 +41,7 @@ public class Notice {
         this.noticeContent = noticeContent;
         this.noticeTitle = noticeTitle;
     }
+
+    public Notice() {
+    }
 }

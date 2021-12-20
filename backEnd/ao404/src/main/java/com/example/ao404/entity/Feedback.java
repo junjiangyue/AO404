@@ -56,4 +56,7 @@ public class Feedback {
         this.feedbackTime = feedbackTime;
         this.feedbackContent = feedbackContent;
     }
+
+    public Feedback() {
+    }
 }

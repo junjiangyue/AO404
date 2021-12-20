@@ -19,6 +19,9 @@ public class UserInformation {
         this.isMyFollow = isMyFollow;
     }
 
+    public UserInformation() {
+    }
+
     public byte[] getUserAvatar() {
         return userAvatar;
     }

@@ -9,4 +9,12 @@ import lombok.Data;
 public class Relation {
     private int fanId;
     private int followingId;
+
+    public Relation(int fanId, int followingId) {
+        this.fanId = fanId;
+        this.followingId = followingId;
+    }
+
+    public Relation() {
+    }
 }

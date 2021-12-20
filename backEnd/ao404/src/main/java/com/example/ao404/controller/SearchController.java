@@ -3,12 +3,10 @@ package com.example.ao404.controller;
 import com.example.ao404.entity.RestControllerHelper;
 import com.example.ao404.entity.Tag;
 import com.example.ao404.entity.User;
-import com.example.ao404.entity.UserInformation;
 import com.example.ao404.mapper.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +26,7 @@ public class SearchController {
     @Autowired
     private TagMapper tagMapper;
     @Autowired
-            private RelationMapper relationMapper;
+    private RelationMapper relationMapper;
 
     RestControllerHelper helper = new RestControllerHelper();
     @ApiOperation(value = "搜索")

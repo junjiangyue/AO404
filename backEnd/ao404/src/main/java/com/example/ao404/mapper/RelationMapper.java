@@ -1,6 +1,5 @@
 package com.example.ao404.mapper;
 
-import com.example.ao404.entity.User;
 import com.example.ao404.entity.UserInformation;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.data.repository.query.Param;

@@ -50,4 +50,7 @@ public class Picture {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
+    public Picture() {
+    }
 }

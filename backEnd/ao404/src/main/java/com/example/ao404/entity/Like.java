@@ -30,4 +30,7 @@ public class Like {
     public void setArticleId(int articleId) {
         this.articleId = articleId;
     }
+
+    public Like() {
+    }
 }

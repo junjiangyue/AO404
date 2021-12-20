@@ -1,6 +1,7 @@
 package com.example.ao404.controller;
 
 import com.example.ao404.mapper.FeedbackMapper;
+import com.example.ao404.tools.GetInformationFromRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +26,10 @@ public class FeedbackController {
 
     @ApiOperation(value = "反馈")
     @PostMapping("feedback")
-    public Map<String, Object> giveFeedback(int userId, String feedbackContent) {
+    public Map<String, Object> giveFeedback(HttpServletRequest request, String feedbackContent) {
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         Map<String, Object> map = new HashMap<>();
 

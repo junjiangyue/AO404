@@ -25,30 +25,28 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
 
-//        Map<String,Object> map = new HashMap<>();
-//        String token = request.getHeader("token");
-//        try{
-//            JwtConfig.verify(token);
-//            return true;
-//        }catch (SignatureVerificationException e){
-//            e.printStackTrace();
-//            map.put("msg","无效签名");
-//        }catch (TokenExpiredException e){
-//            e.printStackTrace();
-//            map.put("msg","token过期");
-//        }catch (AlgorithmMismatchException e){
-//            e.printStackTrace();
-//            map.put("msg","token算法不一致");
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            map.put("msg","token无效");
-//        }
-//        String json = new ObjectMapper().writeValueAsString(map);
-//        response.setContentType("application/json;charset=UTF-8");
-//        response.getWriter().println(json);
-//        return false;
-        return true;
+        Map<String, Object> map = new HashMap<>();
+        String token = request.getHeader("token");
+        try {
+            JwtConfig.verify(token);
+            return true;
+        } catch (SignatureVerificationException e) {
+            e.printStackTrace();
+            map.put("msg", "无效签名");
+        } catch (TokenExpiredException e) {
+            e.printStackTrace();
+            map.put("msg", "token过期");
+        } catch (AlgorithmMismatchException e) {
+            e.printStackTrace();
+            map.put("msg", "token算法不一致");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("msg", "token无效");
+        }
+        String json = new ObjectMapper().writeValueAsString(map);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().println(json);
+        return false;
     }
-
 
 }

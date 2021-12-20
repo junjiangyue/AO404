@@ -2,12 +2,7 @@ package com.example.ao404.mapper;
 
 import com.example.ao404.entity.Admin;
 import com.example.ao404.entity.User;
-import com.example.ao404.entity.UserInformation;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,8 +22,11 @@ public interface UserMapper {
 
 
     @Insert("insert into user(user_name,user_password,user_email)"+
-            "values(#{userName},#{userPassword},#{userEmail})")
-    int register(@Param("userName") String userName,@Param("userPassword") String userPassword,@Param("userEmail") String userEmail);
+            "values(#{user.userName},#{user.userPassword},#{user.userEmail})")
+    @Options(useGeneratedKeys = true,keyProperty = "user.userId")
+    int register(@Param("user") User user);
+
+//  int register(@Param("userName") String userName,@Param("userPassword") String userPassword,@Param("userEmail") String userEmail);
 
 
     @Update("update user set user_avatar = #{userAvatar} where user_id = #{userId} ")

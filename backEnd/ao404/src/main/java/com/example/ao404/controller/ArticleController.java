@@ -8,12 +8,14 @@ import com.example.ao404.mapper.ArticleMapper;
 import com.example.ao404.mapper.CommentMapper;
 import com.example.ao404.mapper.TagMapper;
 import com.example.ao404.mapper.UserMapper;
+import com.example.ao404.tools.GetInformationFromRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Slf4j
@@ -35,7 +37,10 @@ public class ArticleController {
 
     @ApiOperation(value = "发布帖子")
     @PostMapping("publishArticle")
-    public Map<String, Object> publishArticle(int userId, String articleHeading,String articleContent,int tagId) {
+    public Map<String, Object> publishArticle(HttpServletRequest request, String articleHeading, String articleContent, int tagId) {
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         Map<String,Object> map = new HashMap<>();
 
@@ -76,7 +81,10 @@ public class ArticleController {
 
     @ApiOperation(value = "首页的帖子")
     @GetMapping("homeArticle")
-    public Map<String,Object> homeArticle(int userId){
+    public Map<String,Object> homeArticle(HttpServletRequest request){
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         Map<String,Object> map = new HashMap<>();
 
@@ -99,7 +107,10 @@ public class ArticleController {
 
     @ApiOperation(value = "某个用户发布的所有帖子")
     @GetMapping("userArticle")
-    public Map<String,Object> userArticle(int userId){
+    public Map<String,Object> userArticle(HttpServletRequest request){
+
+        GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
+        int userId = getInfo.getUserId();
 
         Map<String,Object> map = new HashMap<>();
 

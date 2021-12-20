@@ -3,7 +3,6 @@ package com.example.ao404.mapper;
 
 import com.example.ao404.entity.Article;
 import com.example.ao404.entity.Comment;
-import com.example.ao404.entity.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

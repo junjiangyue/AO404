@@ -32,6 +32,9 @@ public class ArticleInformation {
         ArticleComments = articleComments;
     }
 
+    public ArticleInformation() {
+    }
+
     public int getArticleId() {
         return articleId;
     }

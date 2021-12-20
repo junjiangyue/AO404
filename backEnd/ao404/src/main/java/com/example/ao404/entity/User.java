@@ -59,4 +59,14 @@ public class User {
         this.userEmail = userEmail;
         this.userAvatar = userAvatar;
     }
+
+    public User() {
+    }
+
+    public User(String userName, String userPassword,  String userEmail) {
+        this.userId = 0;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
 }
