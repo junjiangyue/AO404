@@ -57,12 +57,8 @@ export default {
                 });
             }
             else{
-<<<<<<< HEAD
             console.log(res);
             window.sessionStorage.setItem("token",res.data.token);
-=======
-            window.sessionStorage.setItem("token",res.data.token),
->>>>>>> 031ef600059ae798763db8f5168b50b32ff35872
             this.$router.push('/Main')
             }
 		},err=>{
