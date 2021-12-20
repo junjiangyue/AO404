@@ -99,6 +99,7 @@ export default {
         return {
             // activeName: '',
             // lay_type: 0,
+            userId: 123,
             tabledata: [{
                 id: 1,
                 title: '通知',
@@ -131,6 +132,18 @@ export default {
                 message1: '对不起，您于2021年12月7日发布的内容为“哈哈哈哈哈哈哈哈哈”的文章因为不符合平台要求被下架'
             }]
         }
+    },
+    mounted:function() {
+        this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/notice/getNotice',
+            params: {},
+            headers: { token:window.sessionStorage.getItem("token")},
+        }).then(res=>{
+            console.log(res);
+            console.log(res.data.data.myNotice);
+            this.tabledata = res.data.data.myNotice;
+        })
     },
     methods: {
         jumppage() {

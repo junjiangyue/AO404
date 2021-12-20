@@ -160,9 +160,21 @@ export default {
     },
   data () {
     return {
-      ownfollowers: '12',
-      ownfans: '23'
+      ownfollowers: '',
+      ownfans: '',
+      userId: 40400001,
     }
+  },
+  mounted:function() {
+    this.$axios({
+      method: "post",
+      url: 'http://47.102.194.89:8080/user/getMyRelation',
+      params: {},
+      headers: { token:window.sessionStorage.getItem("token")}
+    }).then(res=>{
+      console.log(res);
+      
+    })
   },
   methods: {
       handleOpen(key, keyPath) {
