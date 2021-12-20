@@ -43,7 +43,7 @@
                 <el-tag class="blocktian" @close="handleClose(tag)" v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
                 <br>
                 <el-button id="canclebutton">取消</el-button>
-                <el-button id="affirmbutton">发布</el-button>
+                <el-button id="affirmbutton" @click="postcontent">发布</el-button>
             </div>
         </div>
     </div>
@@ -175,9 +175,25 @@ export default {
             count: 0,
             tags: [],
             number: 0,
+            userId: 40400001,
+            tagId: 12,
         }
     },
     methods: {
+        postcontent() {
+            this.$axios({
+                method:"post",
+                url: 'http://47.102.194.89:8080/article/publishArticle',
+                params: {
+                    articleHeading: this.input,
+                    articleContent: this.textarea,
+                    tagId: this.tagId,
+                },
+                headers: { token:window.sessionStorage.getItem("token")},
+            }).then(res=>{
+                console.log(res);
+            })
+        },
         handleCommand(command) {
         this.$message('click on item ' + command);
       },
