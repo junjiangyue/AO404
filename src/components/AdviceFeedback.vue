@@ -40,7 +40,7 @@
           <div class="contectbord">
               <el-input id="contectinput" v-model="input" placeholder="请输入联系方式"></el-input>
           </div>
-          <el-button>提交</el-button>
+          <el-button @click="commit">提交</el-button>
         </div>
       </div>
     </div>
@@ -177,7 +177,8 @@ export default {
       ownfollowers: '12',
       ownfans: '23',
       textarea: '',
-      input: ''
+      input: '',
+      userId: 40400001,
     }
   },
   methods: {
@@ -186,7 +187,20 @@ export default {
       },
       handleClose(key, keyPath) {
         console.log(key, keyPath);
-      }
+      },
+      commit() {
+        console.log(this.textarea);
+        this.$axios({
+          method:"post",
+          url: 'http://47.102.194.89:8080/feedback/feedback',
+          params: {
+            feedbackContent: this.textarea,
+          },
+          headers: { token:window.sessionStorage.getItem("token")},
+        }).then(res=>{
+          console.log(res);
+        })
+      },
     }
 }
 </script>
