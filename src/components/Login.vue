@@ -81,12 +81,12 @@ export default {
             method:"post",
             url: 'api/user/login',
             params:{
-                userId:this.userid,
-                userPassword:this.password,
+                userId:this.ruleForm.userid,
+                userPassword:this.ruleForm.password,
             }
             }).then(res=>{
                 console.log(res.data.msg);
-                if(res.data.msg=="Success"){
+                if(res.data.msg=="登录成功"){
                     console.log(res);
                     window.sessionStorage.setItem("token",res.data.token);
                     this.$router.push('/Main')
@@ -138,7 +138,7 @@ h1{
     margin: 0;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
-.el-input__inner{
+>>>.el-input__inner{
     border-radius:20px;
     border-width:1px;
     height: 46px;
@@ -154,7 +154,7 @@ li{
     background-color: #843E30;
     border-width:0px;
 }
-.el-checkbox__input.is-checked+.el-checkbox__label {
+>>>.el-checkbox__input.is-checked+.el-checkbox__label {
     color: #000;
 }
 .find_password{

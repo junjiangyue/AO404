@@ -90,7 +90,7 @@
     font-size: 16px;
     margin-left:300px
 }
-.el-input__inner{
+>>>.el-input__inner{
     border-radius:20px;
     border-width:0px;
 }

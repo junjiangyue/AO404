@@ -114,26 +114,28 @@ export default({
         headers:{
           token:window.sessionStorage.getItem("token")}
         }).then(res=>{
-            //this.tableData = res.data.data.feedbackList;
+            this.tableData = res.data.data.feedbackList;
             console.log(res);
       },err=>{
         console.log(err);
       })
     },
     methods: {
+      
       handleEdit(index,row){
         this.$prompt('请输入', '编辑', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
+          console.log(value,row.feedbackId),
           this.$axios({
-            method:"get",
+            method:"post",
             url: 'api/feedback/answerfeedback',
             headers:{
             token:window.sessionStorage.getItem("token")},
             params:{
-                message:value,
-                messageHead:'反馈处理通知',
+                message:parseString(value),
+                messageHead:parseString(value),
                 feedbackId:row.feedbackId,
             }
             }).then(res=>{
@@ -144,7 +146,7 @@ export default({
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '取消输入'
+            message: '失败'
           });       
         });
          
