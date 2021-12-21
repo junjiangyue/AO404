@@ -7,18 +7,22 @@
         <div class="login" style="text-align:center">
             <h1>Hello, Welcome to us!</h1>
             <div class="editview">
-                <li><el-input v-model="userid" placeholder="请输入您的ID" ></el-input></li>
-                <li><el-input placeholder="请输入密码" v-model="password" show-password></el-input></li>
+                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+                <el-form-item prop="userid">
+                <li><el-input v-model="ruleForm.userid" placeholder="请输入您的ID" ></el-input></li></el-form-item>
+                <el-form-item prop="password">
+                <li><el-input placeholder="请输入密码" v-model="ruleForm.password" show-password></el-input></li></el-form-item>
                 <li><el-button type="primary" round class="btn_login" @click="login">登录</el-button></li>
                 <li><el-checkbox v-model="agree">我同意 
                     <el-link href="https://www.lofter.com/agreement" target="_blank" type="warning">服务协议</el-link>和
                     <el-link href="https://www.lofter.com/agreement?op=privacyPolicy" target="_blank" type="warning">隐私政策</el-link>
                     </el-checkbox></li>
+                     </el-form>
                 </div>
 
         <div class="find_password">
             <li class="signup"><el-link type="warning" @click="gotosign">注册账号</el-link></li>
-            <li> <el-link type="info">忘记密码</el-link></li>
+            <li> <el-link type="info" @click="goFP">忘记密码</el-link></li>
         </div>
 
         </div>
@@ -30,41 +34,74 @@
 export default {
     name: 'Login',
     data() {
+        var checkId = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('用户ID不能为空!'));
+        }
+        };
+        var checkPass = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('密码不能为空!'));
+          }
+        };
     return {
+      agree: false,
+      ruleForm: {
       userid: '',
       password:'',
-      agree: false
+      },
+      rules: {
+           userid: [
+          {validator: checkId,trigger: "blur"}
+          ],
+           password: [
+          {validator: checkPass,trigger: "blur"}
+          ]
+        }
     }
   },
   methods:{
     gotosign(){
         this.$router.push('/SignUp')
     },
+    goFP(){
+        this.$router.push('/ForgetPassword')
+    },
     login(){
-        this.$axios({
-        method:"post",
-        url: 'api/user/login',
-        params:{
-            userId:this.userid,
-            userPassword:this.password,
+        if(this.agree == false)
+        {
+            console.log(this.agree);
+            this.$message({
+                    showClose: true,
+                    message: '请勾选服务协议和隐私政策',
+                    type: 'error'
+                    });
+        }else{
+            this.$axios({
+            method:"post",
+            url: 'api/user/login',
+            params:{
+                userId:this.ruleForm.userid,
+                userPassword:this.ruleForm.password,
+            }
+            }).then(res=>{
+                console.log(res.data.msg);
+                if(res.data.msg=="登录成功"){
+                    console.log(res);
+                    window.sessionStorage.setItem("token",res.data.token);
+                    this.$router.push('/Main')
+                }
+                else{
+                 this.$message({
+                    showClose: true,
+                    message: '登录失败!'
+                    });
+                }
+            },err=>{
+                console.log(err);
+            })
         }
-        }).then(res=>{
-			console.log(res.data.msg);
-            if(res.data.msg=="用户不存在"){
-                this.$message({
-                showClose: true,
-                message: '用户不存在!'
-                });
-            }
-            else{
-            console.log(res);
-            window.sessionStorage.setItem("token",res.data.token);
-            this.$router.push('/Main')
-            }
-		},err=>{
-			console.log(err);
-		})
-    }
+   }
   }
 }
 </script>
@@ -101,7 +138,7 @@ h1{
     margin: 0;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
-.el-input__inner{
+>>>.el-input__inner{
     border-radius:20px;
     border-width:1px;
     height: 46px;
@@ -109,7 +146,7 @@ h1{
 }
 li{
      list-style-type:none;
-     padding-top:20px;
+     padding-top:10px;
 }
 .btn_login{
     height: 46px;
@@ -117,7 +154,7 @@ li{
     background-color: #843E30;
     border-width:0px;
 }
-.el-checkbox__input.is-checked+.el-checkbox__label {
+>>>.el-checkbox__input.is-checked+.el-checkbox__label {
     color: #000;
 }
 .find_password{

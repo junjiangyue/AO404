@@ -70,7 +70,7 @@
                                     <el-button
                                       size="mini"
                                       type="danger"
-                                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                     @click.native.prevent="deleteRow(scope.$index, tableData)">删除</el-button>
                                   </template>
                                 </el-table-column>
                               </el-table>
@@ -84,6 +84,7 @@
 export default({
     data() {
       return {
+        input2:'',
         user_number:10000,
         new_user_number:500,
         activeIndex: '2',
@@ -102,8 +103,27 @@ export default({
 		})
     },
     methods: {
-      handleSelect(key, keyPath) {
+      handleEdit(key, keyPath) {
         console.log(key, keyPath);
+      },
+      deleteRow(index, rows){
+        //console.log( rows.userId);
+        this.$axios({
+        method:"delete",
+        url: 'api/admin/deleteUser',
+        params:{
+          userId: rows.userId,
+        },
+        headers:{
+         token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          if(res.data.msg=="Success"){
+            rows.splice(index, 1);}
+            console.log(res);
+        },err=>{
+          console.log(err);
+        });
+        
       },
       gotoAdmin(){
         this.$router.push('/Admin')

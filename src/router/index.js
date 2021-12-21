@@ -22,6 +22,7 @@ import FollowList from '@/components/FollowList'
 import FanList from '@/components/FanList'
 import UserInfo from '@/components/UserInfo'
 import AccountSecurity from '@/components/AccountSecurity'
+import ForgetPassword from '@/components/ForgetPassword'
 
 Vue.use(Router)
 
@@ -124,6 +125,11 @@ export default new Router({
       path:'/FanList',
       name:'FanList',
       component:FanList,
+      meta: {  requireAuth:true  }
+    },{
+      path:'/ForgetPassword',
+      name:'ForgetPassword',
+      component:ForgetPassword,
       meta: {  requireAuth:true  }
     }
     
