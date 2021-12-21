@@ -13,7 +13,7 @@
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
                 <div class="picimg">
-                <el-upload :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
+                <el-upload ref="upload" :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{file}">
                         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -202,12 +202,15 @@ export default {
             this.$axios({
                 method:"post",
                 url: 'http://47.102.194.89:8080/article/publishArticle',
-                data: {
+                params: {
                     articleHeading: this.input,
                     articleContent: this.textarea,
+                },
+                data: {
                     tagList: this.tagnamelist,
                 },
-                headers: { token:window.sessionStorage.getItem("token")},
+                headers: { token:window.sessionStorage.getItem("token"),
+                'Content-Type': 'application/json;'},
             }).then(res=>{
                 console.log(res);
                 if(res.status == 200) {
@@ -216,6 +219,8 @@ export default {
           message: '发布成功，感谢您的使用！',
           type: 'success'
         });
+                this.articleId = res.data.articleId;
+                this.$refs.upload.submit();
           }
             })}
             else {

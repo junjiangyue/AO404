@@ -37,7 +37,7 @@
         console.log(key, keyPath);
       },
       gotoMain(){
-        this.$router.push('/')
+        this.$router.push('/Main')
       },
       gotoDiscover(){
         this.$router.push('/Discover')
