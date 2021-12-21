@@ -29,7 +29,7 @@
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag">#{{item.tagId}}</div></el-col>
+                    <div class="tag">#{{item.tagList.tagName}}</div></el-col>
                     <el-col :span="6">
                         <i class="icon-like"></i><span style="margin-right:10px;">{{item.articleLikes}}</span>
                         <i class="icon-command"></i><span>{{item.articleComments}}</span>
