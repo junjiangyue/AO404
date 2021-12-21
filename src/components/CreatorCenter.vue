@@ -173,7 +173,6 @@ export default {
       headers: { token:window.sessionStorage.getItem("token")}
     }).then(res=>{
       console.log(res);
-      
     })
   },
   methods: {

@@ -49,7 +49,7 @@
                 <div id="head-name">
                   <p>
                     <img v-bind:src="pic" width="70px" align="middle">
-                    <span id="bigname">{{tag_name}}</span>
+                    <span id="bigname">{{userName}}</span>
                   </p>
                 </div>
               </div>
@@ -59,18 +59,18 @@
               <div id="article-card">
                 <p id="user-head">
                   <img v-bind:src="pic" width="50px" align="middle">
-                  <span>{{tag_name}}</span>
+                  <span>{{userName}}</span>
                 </p>
-                <p id="title">{{item.title}}</p>
+                <p id="title">{{item.articleHeading}}</p>
                 <hr align=center color=#EFEEEE SIZE=1 width="95%">
-                <p id="content">{{item.content}}</p>
+                <p id="content">{{item.articleContent}}</p>
                 <img v-bind:src="item.picture" width="100px" id="picture">
                 <div>
-                  <p id="time">{{item.time}}&emsp;|&emsp;{{item.tag}}
+                  <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
                     <i class="icon-like"></i>
-                    <span>{{item.like_num}}</span>
+                    <span>{{item.articleLikes}}</span>
                     <i class="icon-command"></i>
-                    <span>{{item.command_num}}</span>
+                    <span>{{item.articleComments}}</span>
                   </p>
                 </div>
               </div>
@@ -88,6 +88,10 @@ export default {
   name: 'PersonalPage',
   components: {
     Guidebar
+  },
+  mounted:function(){
+    this.getMyInfo(),
+    this.getMyArticle()
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -110,58 +114,49 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    getMyArticle() {
+      this.$axios({
+        method:"get",
+        url: 'api/article/userArticle',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的文章数据：', res.data);
+        this.tabledata=res.data.data.userArtList;
+        this.article_num=res.data.data.userArtList.length;
+        console.log('文章数量：',this.article_num);
+      },err=>{
+        console.log(err);
+      })
+    },
+    getMyInfo() {
+      this.$axios({
+        method:"get",
+        url: 'api/user/myInfo',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的信息数据：', res.data);
+        this.userName=res.data.data.userName;
+        console.log('userName',this.userName);
+      },err=>{
+        console.log(err);
+      })
     }
   },
   data() {
     return {
-      tag_name: '原神',
+      userName: '',
       pic: require('../../src/assets/mlogo.png'),
-      article_num:20,
+      article_num:'',
       tabledata: [{
-          id: 1,
-          title: '原神',
-          content: '哈哈哈',
+          articleId: 1,
+          articleHeading: '',
+          articleContent: '',
           picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 2,
-          title: '原神',
-          content: '哈哈哈',
-          picture: null,
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 3,
-          title: '原神',
-          content: null,
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 4,
-          title: '原神',
-          content: '哈哈哈',
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 5,
-          title: '原神',
-          content: '哈哈哈',
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
+          publishTime: '2021-12-5',
+          tag: '',
+          articleComments: '',
+          articleLikes: ''
         }]
     }
   }
