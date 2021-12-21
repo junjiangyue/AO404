@@ -50,8 +50,8 @@
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="fan-user">
-                      <img v-bind:src="item.picture" width="55px" align="middle">
-                      <span id="fan-name">{{item.user_name}}</span>
+                      <img v-bind:src="item.userAvatar" width="55px" align="middle">
+                      <span id="fan-name">{{item.userName}}</span>
                       <el-button v-if="item.follow === 0" round plain type="primary" id="follow" @click="addFollow(index)">+关注</el-button>
                       <el-button v-else round plain type="info" id="follow" @click="openDialog(index)">已关注</el-button>
                       <el-dialog
@@ -140,33 +140,22 @@ export default {
       follow_num:20,
       dialogVisible: false,
       tempIndex:null,
-      tabledata: [{
-          id: 1,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 0,
-        }, {
-          id: 2,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 1,
-        }, {
-          id: 3,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 1,
-        }, {
-          id: 4,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 0,
-        }, {
-          id: 5,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 0,
-        }]
+      tabledata: []
     }
+  },
+  mounted:function() {
+    this.$axios({
+      method:"post",
+      url: 'http://47.102.194.89:8080/user/getMyRelation',
+      params: {},
+      headers: { token:window.sessionStorage.getItem("token")},
+    }).then(res=>{
+      console.log(res);
+      // this.follow_num = res.data.data.followlist.length;
+      this.tabledata = res.data.data.fanList;
+      console.log(res.data.data.fanlist);
+      this.follow_num = this.tabledata.length;
+    })
   }
 }
 </script>

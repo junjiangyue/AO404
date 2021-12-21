@@ -13,7 +13,7 @@
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
                 <div class="picimg">
-                <el-upload action="#" list-type="picture-card" :auto-upload="false">
+                <el-upload :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{file}">
                         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -175,20 +175,36 @@ export default {
             count: 0,
             tags: [],
             number: 0,
-            userId: 40400001,
             tagId: 12,
+            articleId: 11111,
+            headers: {
+                'token':window.sessionStorage.getItem("token")
+            },
+            fileList:[],
+            tagnamelist: []
+            // fileList: []
         }
     },
     methods: {
         postcontent() {
-            if(this.textarea&&this.inputtag&&this.input != '') {
+            if(this.textarea&&this.tags[0].name&&this.input != '') {
+
+                //先生成一个只有tagname的数组
+                var num = this.tags.length;
+                var i;
+                for( i=0;i<num;i++){
+                    this.tagnamelist[i] = this.tags[i].name;
+                }
+                console.log("shuzu");
+                console.log(this.tagnamelist);
+
             this.$axios({
                 method:"post",
                 url: 'http://47.102.194.89:8080/article/publishArticle',
-                params: {
+                data: {
                     articleHeading: this.input,
                     articleContent: this.textarea,
-                    tagId: this.tagId,
+                    tagList: this.tagnamelist,
                 },
                 headers: { token:window.sessionStorage.getItem("token")},
             }).then(res=>{
@@ -215,6 +231,20 @@ export default {
       },
        handleRemove(file) {
         console.log(file);
+
+        // this.$axios({
+        //     method:"post",
+        //     url:'http://47.102.194.89:8080/picture/uploadFile',
+        //     params: {
+        //         articleId: 12,
+        //         file: file,
+        //     },
+        //     headers: { token:window.sessionStorage.getItem("token")},
+        // }).then(res=>{
+        //     console.log(res);
+        //     console.log("成功！")
+        // })
+
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;

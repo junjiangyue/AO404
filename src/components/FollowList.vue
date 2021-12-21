@@ -50,8 +50,8 @@
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="follow-user">
-                      <img v-bind:src="item.picture" width="55px" align="middle">
-                      <span id="follow-name">{{item.user_name}}</span>
+                      <img v-bind:src="item.userAvatar" width="55px" align="middle">
+                      <span id="follow-name">{{item.userName}}</span>
                       <el-button round id="cancle-follow">取消关注</el-button>
                     </p>
                   </div>
@@ -98,28 +98,31 @@ export default {
   data() {
     return {
       follow_num:20,
-      tabledata: [{
-          id: 1,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-        }, {
-          id: 2,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-        }, {
-          id: 3,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-        }, {
-          id: 4,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-        }, {
-          id: 5,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-        }]
+      tabledata: []
     }
+  },
+  mounted:function() {
+    this.$axios({
+      method:"post",
+      url: 'http://47.102.194.89:8080/user/getMyRelation',
+      params: {},
+      headers: { token:window.sessionStorage.getItem("token")},
+    }).then(res=>{
+      console.log(res);
+      // this.follow_num = res.data.data.followlist.length;
+      this.tabledata = res.data.data.followList;
+      console.log(res.data.data.followList);
+      this.follow_num = this.tabledata.length;
+    });
+    this.$axios({
+      method:"post",
+      url:'http://47.102.194.89:8080/picture/getAvatar',
+      params: {},
+      headers: { token:window.sessionStorage.getItem("token")},
+    }).then(res=>{
+      console.log(res);
+    })
+
   }
 }
 </script>
