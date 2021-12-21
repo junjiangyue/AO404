@@ -113,7 +113,7 @@ export default({
         console.log(key, keyPath);
       },
       gotoAdmin(){
-        this.$router.push('/')
+        this.$router.push('/Admin')
       },
       gotoUserM(){
         this.$router.push('/UserManage')
