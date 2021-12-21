@@ -116,6 +116,7 @@ export default {
       this.$router.push({path: '/AccountSecurity'});
     },
     getMyArticle() {
+      console.log('hahaha');
       this.$axios({
         method:"get",
         url: 'api/article/userArticle',
@@ -127,7 +128,8 @@ export default {
         console.log('文章数量：',this.article_num);
       },err=>{
         console.log(err);
-      })
+      });
+      console.log('hahaha');
     },
     getMyInfo() {
       this.$axios({

@@ -63,11 +63,26 @@ export default {
   mounted:function(){
     console.log(this.$route.params.tagID);
     this.tagID = this.$route.params.tagID;
+    this.subscribe=this.$route.params.state;
     console.log('tagID:', this.tagID);
+    console.log('subscribe',this.subscribe);
     this.getTagPage()
   },
   methods: {
     addSubscribe() {
+      this.$axios({
+        method:"post",
+        url: 'api/tag/likeTag',
+        params:{
+            tagId:this.tagID,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('订阅标签数据：', res.data);
+        
+      },err=>{
+        console.log(err);
+      })
       this.subscribe=1,
       this.$message({
           message: '订阅成功',
@@ -75,19 +90,33 @@ export default {
         });
     },
     cancelSubscribe() {
-      this.dialogVisible = false,
-      this.subscribe=0,
-      this.$message({
-          message: '取消成功',
-          type: 'success'
-        });
+      this.$axios({
+        method:"post",
+        url: 'api/tag/unlikeTag',
+        params:{
+            tagId:this.tagID,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('取消订阅标签数据：', res.data);
+        if(res.data.data.msg=="取消订阅成功"){
+          this.dialogVisible = false,
+          this.subscribe=0,
+          this.$message({
+              message: '取消成功',
+              type: 'success'
+          });
+        }
+      },err=>{
+        console.log(err);
+      })
     },
     getTagPage() {
       this.$axios({
         method:"get",
         url: 'api/tag/tagPage',
         params:{
-            tagId:this.tagID,
+          tagId:this.tagID,
         },
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
@@ -107,7 +136,7 @@ export default {
       tagID:'',
       tagName: '',
       articleNum: '',
-      subscribe: 1,
+      subscribe: 0,
       dialogVisible: false,
       tabledata: [{
           articleId: '',

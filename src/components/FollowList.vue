@@ -52,7 +52,7 @@
                     <p id="follow-user">
                       <img v-bind:src="item.userAvatar" width="55px" align="middle">
                       <span id="follow-name">{{item.userName}}</span>
-                      <el-button round id="cancle-follow">取消关注</el-button>
+                      <el-button round id="cancle-follow" @click="unfollow()">取消关注</el-button>
                     </p>
                   </div>
                 </div>
@@ -93,6 +93,20 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    unfollow(){
+      this.$axios({
+        method:"post",
+        url: 'api/user/unfollow',
+        params:{
+            followingId:this.tagID,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('取消关注数据：', res.data);
+      },err=>{
+        console.log(err);
+      });
     }
   },
   data() {
@@ -108,7 +122,7 @@ export default {
       params: {},
       headers: { token:window.sessionStorage.getItem("token")},
     }).then(res=>{
-      console.log(res);
+      console.log('关注列表信息',res.data);
       // this.follow_num = res.data.data.followlist.length;
       this.tabledata = res.data.data.followList;
       console.log(res.data.data.followList);
@@ -120,7 +134,7 @@ export default {
       params: {},
       headers: { token:window.sessionStorage.getItem("token")},
     }).then(res=>{
-      console.log(res);
+      console.log('头像信息',res.data);
     })
 
   }

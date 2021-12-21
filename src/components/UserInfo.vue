@@ -217,9 +217,9 @@ export default {
       reader.readAsDataURL(file)
     },
     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-        console.log("上传图片",res)
-      }
+      this.imageUrl = URL.createObjectURL(file.raw);
+      console.log("上传图片",res)
+    }
   }
 }
 </script>

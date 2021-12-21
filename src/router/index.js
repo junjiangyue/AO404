@@ -22,6 +22,7 @@ import FollowList from '@/components/FollowList'
 import FanList from '@/components/FanList'
 import UserInfo from '@/components/UserInfo'
 import AccountSecurity from '@/components/AccountSecurity'
+import OtherUserPage from '@/components/OtherUserPage'
 
 Vue.use(Router)
 
@@ -112,6 +113,10 @@ export default new Router({
       path:'/FanList',
       name:'FanList',
       component:FanList
+    },{
+      path:'/OtherUserPage',
+      name:'OtherUserPage',
+      component:OtherUserPage
     }
     
   ]

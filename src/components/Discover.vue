@@ -14,7 +14,7 @@
                 <el-table-column prop="tagName" label="订阅标签" width="400" align="center">
                   <template slot-scope="scope">
                     <el-button
-                      @click.native.prevent="tag(scope.$index, scope.row)"
+                      @click.native.prevent="liketag(scope.$index, scope.row)"
                       type="text" class="skiptag-btn">
                       {{scope.row.tagName}}
                     </el-button>
@@ -66,10 +66,15 @@ import Guidebar from '@/components/Guidebar'
       this.getTopTag()
     },
     methods: {
+      liketag(index, row) {
+        console.log('index:',index);
+        console.log('tagID:',this.MyLikeTag[index].tagId);
+        this.$router.push({name:'Tag',params:{tagID:this.MyLikeTag[index].tagId,state:1}});
+      },
       tag(index, row) {
         console.log('index:',index);
         console.log('tagID:',this.tableData[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId}});
+        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId,state:0}});
       },
       getLikeTag(){
         this.$axios({
@@ -77,7 +82,7 @@ import Guidebar from '@/components/Guidebar'
           url: 'api/tag/getMyLikeTag',
           headers: { token:window.sessionStorage.getItem("token")}
         }).then(res=>{
-          console.log('订阅列表1：', res);
+          console.log('订阅列表1：', res.data);
           this.MyLikeTag=res.data.data.list;
         },err=>{
           console.log(err);
