@@ -46,11 +46,34 @@
             <div id="user-info">
               <div id="info">账号资料</div>
               <hr color=#EFEEEE SIZE=1>
-              <div id="photoblock"><p><img v-bind:src="pic" id="headphoto"></p></div>
+              <div id="photoblock"><p>
+                <img v-bind:src="pic" id="headphoto" @click="headDialogVisible = true">
+                <el-dialog title="修改头像" :visible.sync="headDialogVisible" width="25%" center append-to-body>
+                  <span>
+                    <el-upload
+                      class="avatar-uploader"
+                      action="/api/picture/uploadAvatar"
+                      :headers="headers"
+                      :show-file-list="false"
+                      :on-success="handleAvatarSuccess">
+                      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                  </span>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="headDialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="postAvatar()">确 定</el-button>
+                  </span>
+                </el-dialog>
+                <!--<el-button @click="uploadAvatar">修改头像</el-button>
+                <input type="file" accept="image/*" style="display:none" @change="handleFile" class="hiddenInput"/>-->
+              </p>
+ 
+              </div>
               <div id="userinfo">
-                <p>账&ensp;号&ensp;ID：{{user_id}}</p>
-                <p>昵&emsp;&emsp;称：{{user_name}}</p>
-                <p>关联邮箱：{{email}}</p>
+                <p>账&ensp;号&ensp;ID：{{userId}}</p>
+                <p>昵&emsp;&emsp;称：{{userName}}</p>
+                <p>关联邮箱：{{userEmail}}</p>
                 <el-button id="changeinfo" @click="infoDialogVisible = true">修改资料</el-button>
                 <el-dialog title="修改资料" :visible.sync="infoDialogVisible" width="40%" center>
                   <div id="input-info">
@@ -89,15 +112,24 @@ export default {
   },
   data() {
     return {
-      user_id: 12345,
-      user_name: '原神',
+      userId:'',
+      userName: '',
       pic: require('../../src/assets/mlogo.png'),
-      email: '123456@qq.com',
+      userEmail: '',
       input_name: '哈哈哈',
       input_email:'123456@qq.com',
+      headDialogVisible: false,
       infoDialogVisible: false,
-      confirmDialogVisible: false
+      confirmDialogVisible: false,
+      imageUrl: '',
+      headers:{
+        'token':window.sessionStorage.getItem("token")
+      }
     }
+  },
+  mounted:function(){
+    this.getMyInfo(),
+    this.getAvatar()
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -129,7 +161,65 @@ export default {
           message: '信息修改成功！',
           type: 'success'
         });
-    }
+    },
+    getMyInfo() {
+      this.$axios({
+        method:"get",
+        url: 'api/user/myInfo',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的信息数据：', res.data);
+        this.userId=res.data.data.userId;
+        console.log('userId',this.userId);
+        this.userName=res.data.data.userName;
+        console.log('userName',this.userName);
+        this.userEmail=res.data.data.userEmail;
+        console.log('userEmail',this.userEmail);
+        //this.tabledata=res.data.data.tagInArticle;
+      },err=>{
+        console.log(err);
+      })
+    },
+    getAvatar() {
+      this.$axios({
+        method:"post",
+        url: 'api/picture/getAvatar',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的头像数据：', res.data);
+      },err=>{
+        console.log(err);
+      })
+    },
+    postAvatar() {
+      this.$axios({
+        method:"post",
+        url: 'api/picture/uploadAvatar',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的头像数据：', res.data);
+        
+      },err=>{
+        console.log(err);
+      })
+    },
+    uploadAvatar:function(){
+      this.$el.querySelector('.hiddenInput').click()
+    },
+    handleFile:function(e){
+      let $target=e.target || e.srcElement
+      let file = $target.files[0]
+      var reader = new FileReader()
+      reader.onload=(data) => {
+        let res = data.target || data.srcElement
+        this.pic=res.result
+      }
+      reader.readAsDataURL(file)
+    },
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+        console.log("上传图片",res)
+      }
   }
 }
 </script>
@@ -232,5 +322,26 @@ export default {
     width: 18px;
     margin-left: 5px;
     margin-right: 10px;
+  }
+    .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 300px;
+    line-height: 300px;
+    text-align: center;
+  }
+  .avatar {
+    width: 300px;
+    display: block;
   }
 </style>

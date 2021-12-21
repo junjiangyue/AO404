@@ -10,32 +10,32 @@
           <div id="all-tag">
             <p class="reminder">我的订阅</p>
             <div id="tag-table">
-              <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column label="订阅标签" width="400" align="center">
+              <el-table :data="MyLikeTag" stripe style="width: 100%">
+                <el-table-column prop="tagName" label="订阅标签" width="400" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click.native.prevent="tag(scope.$index, scope.row)"
                       type="text" class="skiptag-btn">
-                      {{scope.row.tag_name}}
+                      {{scope.row.tagName}}
                     </el-button>
                   </template>
                 </el-table-column>
-                <el-table-column prop="article_num" label="活跃度" width="400" align="center"></el-table-column>
+                <el-table-column prop="articleNum" label="活跃度" width="400" align="center"></el-table-column>
               </el-table>
             </div>
             <p class="reminder">发现更多兴趣</p>
             <div id="tag-table">
               <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="tag_name" label="推荐标签" width="400" align="center">
+                <el-table-column prop="tagName" label="推荐标签" width="400" align="center">
                   <template slot-scope="scope">
                     <el-button
                       @click.native.prevent="tag(scope.$index, scope.row)"
                       type="text" class="skiptag-btn">
-                      {{scope.row.tag_name}}
+                      {{scope.row.tagName}}
                     </el-button>
                   </template>
                 </el-table-column>
-                <el-table-column prop="article_num" label="活跃度" width="400" align="center"></el-table-column>
+                <el-table-column prop="articleNum" label="活跃度" width="400" align="center"></el-table-column>
               </el-table>
             </div>
           </div>
@@ -61,64 +61,52 @@ import Guidebar from '@/components/Guidebar'
     components: {
       Guidebar
     },
+    mounted:function(){
+      this.getLikeTag(),
+      this.getTopTag()
+    },
     methods: {
       tag(index, row) {
-        this.$router.push({path: '/Tag'});
+        console.log('index:',index);
+        console.log('tagID:',this.tableData[index].tagId);
+        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId}});
+      },
+      getLikeTag(){
+        this.$axios({
+          method:"get",
+          url: 'api/tag/getMyLikeTag',
+          headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          console.log('订阅列表1：', res);
+          this.MyLikeTag=res.data.data.list;
+        },err=>{
+          console.log(err);
+        })
+      },
+      getTopTag(){
+        this.$axios({
+          method:"get",
+          url: 'api/tag/topTag',
+          headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          console.log('全部列表2：', res.data);
+          this.tableData=res.data.data.tagAllList;
+        },err=>{
+          console.log(err);
+        })
       }
     },
     data() {
       return {
+        MyLikeTag:[{
+          tagName: '',
+          articleNum: '',
+          tagId:''
+        }],
         tableData: [{
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#明日方舟',
-          article_num: '156'
-        }, {
-          tag_name: '#咒术回战',
-          article_num: '265'
-        }, {
-          tag_name: '#鬼灭之刃',
-          article_num: '123'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
-        }, {
-          tag_name: '#原神',
-          article_num: '1234'
+          tagName: '',
+          articleNum: '',
+          tagId:''
         }]
       }
     }

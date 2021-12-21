@@ -60,7 +60,7 @@
                   </div>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="pswDialogVisible = false">取消修改</el-button>
-                    <el-button type="primary" @click="confirmpswDialogVisible = true">提交修改</el-button>
+                    <el-button type="primary" @click="submitModify()">提交修改</el-button>
                     <el-dialog title="提示" :visible.sync="confirmpswDialogVisible" width="25%" center append-to-body>
                       <span>确认提交修改？</span>
                       <span slot="footer" class="dialog-footer">
@@ -86,6 +86,9 @@ export default {
   components: {
     Guidebar
   },
+  mounted:function(){
+    this.getMyInfo()
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -108,14 +111,69 @@ export default {
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
     },
-    changePsw() {
-      console.log(this.inputOldpsw,this.inputNewpsw,this.inputNewpswAgain),
-      this.pswDialogVisible=false,
-      this.confirmpswDialogVisible=false,
-      this.$message({
-          message: '修改密码成功！',
-          type: 'success'
+    submitModify:function() {
+      if(this.inputOldpsw==''||this.inputNewpsw==''||this.inputNewpswAgain==''){
+        this.$message({
+          message: '输入不能为空！',
+          type: 'warning'
         });
+      }else if(this.inputOldpsw==this.inputNewpsw){
+        this.$message({
+          message: '新密码与原密码不能相同！',
+          type: 'warning'
+        });
+      }else if(this.inputNewpsw!=this.inputNewpswAgain){
+        this.$message({
+          message: '两次输入的新密码不相同，请重新输入！',
+          type: 'warning'
+        });
+      }else if(this.inputOldpsw!=this.password){
+        this.$message.error('原密码错误，请重新输入！');
+      }else{
+        this.confirmpswDialogVisible = true;
+      }
+    },
+    changePsw() {
+      this.$axios({
+        method:"post",
+        url: 'api/user/resetPassword',
+        params: {
+          oldPassword:this.inputOldpsw,
+          newPassword:this.inputNewpsw
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('修改密码数据：', res.data);
+        if(res.data.data.msg=="修改成功"){
+          this.pswDialogVisible=false,
+          this.confirmpswDialogVisible=false,
+          this.$message({
+            message: '修改密码成功！',
+            type: 'success'
+          });
+        }
+      },err=>{
+        console.log(err);
+      })
+      //console.log(this.inputOldpsw,this.inputNewpsw,this.inputNewpswAgain),
+      
+    },
+    getMyInfo() {
+      this.$axios({
+        method:"get",
+        url: 'api/user/myInfo',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的信息数据：', res.data);
+        this.user_id=res.data.data.userId;
+        console.log('userId',this.user_id);
+        this.user_name=res.data.data.userName;
+        console.log('userName',this.user_name);
+        this.password=res.data.data.userPassword;
+        console.log('userPassword',this.password)
+      },err=>{
+        console.log(err);
+      })
     }
   },
   data() {
@@ -123,6 +181,8 @@ export default {
       user_id: 12345,
       user_name: '原神',
       pic: require('../../src/assets/mlogo.png'),
+      password:'',
+      message:'',
       inputOldpsw: '',
       inputNewpsw: '',
       inputNewpswAgain: '',
@@ -231,3 +291,4 @@ export default {
     margin-right: 10px;
   }
 </style>
+
