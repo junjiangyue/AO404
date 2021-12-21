@@ -76,11 +76,10 @@ export default {
 
     },
     methods:{
-
         verify(){
            this.$axios({
                method:"post",
-               url:'http://localhost:8080/mail/mail',
+               url:'api/mail/mail',
                params:{email:this.ruleForm.email},
            }).then(res=>{
                this.vericode = res.data;
@@ -109,7 +108,16 @@ export default {
                if (res.data.msg != "关键数据缺失")
                {
 				console.log(res.data);
-                this.$router.push('/Main')
+                 this.$alert(res.data.userId, '请牢记您的ID', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                        this.$message({
+                        type: 'info',
+                        message: `action: ${ action }`
+                        });
+                    }
+                    });
+                this.$router.push('/')
                 }
                 else{
                 this.$message({

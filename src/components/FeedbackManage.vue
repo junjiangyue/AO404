@@ -121,7 +121,7 @@ export default({
       })
     },
     methods: {
-      
+
       handleEdit(index,row){
         this.$prompt('请输入', '编辑', {
           confirmButtonText: '确定',
@@ -143,13 +143,7 @@ export default({
         },err=>{
           console.log(err);
         })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '失败'
-          });       
-        });
-         
+        })
       },
       gotoAdmin(){
         this.$router.push('/Admin')
