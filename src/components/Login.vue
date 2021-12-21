@@ -86,22 +86,22 @@ export default {
             }
             }).then(res=>{
                 console.log(res.data.msg);
-                if(res.data.msg=="用户不存在"){
-                    this.$message({
-                    showClose: true,
-                    message: '用户不存在!'
-                    });
+                if(res.data.msg=="Success"){
+                    console.log(res);
+                    window.sessionStorage.setItem("token",res.data.token);
+                    this.$router.push('/Main')
                 }
                 else{
-                console.log(res);
-                window.sessionStorage.setItem("token",res.data.token);
-                this.$router.push('/Main')
+                 this.$message({
+                    showClose: true,
+                    message: '登录失败!'
+                    });
                 }
             },err=>{
                 console.log(err);
             })
         }
-    }
+   }
   }
 }
 </script>
