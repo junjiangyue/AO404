@@ -57,40 +57,35 @@
                  <el-card class="box-card" style="margin-top:20px;margin-right:40px">
                             <el-table
                                 :data="tableData"
-                                height="250"
                                 border
-                                style="width: 100%">
+                                style="width: 100%;height:100%">
                                 <el-table-column
-                                  prop="feedBackId"
+                                  prop="feedbackId"
                                   label="反馈编号"
                                   width="180">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="feedBackTime"
+                                  prop="feedbackTime"
                                   label="反馈时间"
                                   width="180">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="UserName"
+                                  prop="userName"
                                   label="用户名">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="UserId"
+                                  prop="userId"
                                   label="用户ID">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="feedBackContent"
+                                  prop="feedbackContent"
                                   label="反馈内容">
                                 </el-table-column>
                                 <el-table-column label="操作">
                                    <template slot-scope="scope">
                                     <el-button
                                       size="mini"
-                                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                    <el-button
-                                      size="mini"
-                                      type="danger"
-                                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                      @click="handleEdit(scope.$index, scope.row)">回复</el-button>
                                   </template>
                                 </el-table-column>
                               </el-table>
@@ -104,25 +99,55 @@
 export default({
     data() {
       return {
+        input2:'',
         activeIndex: '4',
         new_feedback:100,
         undeal_feedback:10,
+        tableData:[],
+        message:'',
       };
     },
     mounted: function(){
-    //     this.$axios({
-    //     method:"post",
-    //     url: 'api/admin/getUserList',
-    //     }).then(res=>{
-    //         this.tableData = res.data.data.userList;
-    //         console.log(res);
-		// },err=>{
-		// 	console.log(err);
-		// })
+        this.$axios({
+        method:"get",
+        url: 'api/feedback/getfeedback',
+        headers:{
+          token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            //this.tableData = res.data.data.feedbackList;
+            console.log(res);
+      },err=>{
+        console.log(err);
+      })
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+      handleEdit(index,row){
+        this.$prompt('请输入', '编辑', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.$axios({
+            method:"get",
+            url: 'api/feedback/answerfeedback',
+            headers:{
+            token:window.sessionStorage.getItem("token")},
+            params:{
+                message:value,
+                messageHead:'反馈处理通知',
+                feedbackId:row.feedbackId,
+            }
+            }).then(res=>{
+                console.log(res);
+        },err=>{
+          console.log(err);
+        })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });       
+        });
+         
       },
       gotoAdmin(){
         this.$router.push('/Admin')

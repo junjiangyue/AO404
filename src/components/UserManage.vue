@@ -84,6 +84,7 @@
 export default({
     data() {
       return {
+        input2:'',
         user_number:10000,
         new_user_number:500,
         activeIndex: '2',
@@ -113,8 +114,8 @@ export default({
         params:{
           userId: rows.userId,
         },
-        headers:{
-         token:window.sessionStorage.getItem("token")}
+        // headers:{
+        //  token:window.sessionStorage.getItem("token")}
         }).then(res=>{
           if(res.data.msg=="Success"){
             rows.splice(index, 1);}

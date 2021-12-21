@@ -79,6 +79,7 @@
 export default({
     data() {
       return {
+        input2:'',
         activeIndex: '3',
         new_article: 100,
         unaudit_article:50,
@@ -97,7 +98,7 @@ export default({
 		})
     },
     methods: {
-      handleSelect(key, keyPath) {
+      handleEdit(key, keyPath) {
         console.log(key, keyPath);
       },
       handleDelete(index, rows){
