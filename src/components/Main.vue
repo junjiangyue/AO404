@@ -4,7 +4,7 @@
       <div class="page_content">
         <el-row>
           <el-col :span="16">
-            <div class="article_list" v-for="(item) in tabledata" :key="item.id">
+            <div class="article_list" v-for="(item) in tabledata" :key="item.articleId">
             <el-card class="box-card">
                 <div  class="clearfix">
                   <el-row>
@@ -16,20 +16,19 @@
                   </el-row>
                 </div>
                 <div class="content">
-                    <div class="title">{{item.articleHeading}}</div>
+                    <div class="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</div>
                     <div class="time">{{item.publishTime}}</div>
                     <div class="article_content">
                       <el-row>
                         <el-col :span="16">
                       {{item.articleContent}}</el-col>
-                        <el-col :span="4" style="padding-top: 10px">
-                        <img class="picture" v-bind:src="item.picture" width="100%" height="100%"/></el-col>
+                        <img class="picture" v-bind:src="item.picture" width="100%" height="100%"/>
                         </el-row>
                     </div>
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag">#{{item.tagList.tagName}}</div></el-col>
+                    <div class="tag">#{{item.tagList}}</div></el-col>
                     <el-col :span="6">
                         <i class="icon-like"></i><span style="margin-right:10px;">{{item.articleLikes}}</span>
                         <i class="icon-command"></i><span>{{item.articleComments}}</span>
@@ -71,12 +70,29 @@ export default {
     },
   data(){
     return {
-      tabledata: []
+      tabledata: [
+        {
+            userId: 'AO404官方小助手',
+            articleHeading: '欢迎来到AO404!',
+            publishTime:'2021-12-22 0:49',
+            articleContent: '这里还什么都没有哦~去发现页看看吧~',
+            tagList:'AO404',
+            articleLikes:'0',
+            articleComments:'0',
+            picture:require('../../src/assets/discover_pic1.png'),
+            articleId:'',
+            
+          }
+      ]
     }
   },
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
+    },
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
     }
   },
   mounted: function(){
@@ -87,7 +103,11 @@ export default {
     token:window.sessionStorage.getItem("token")}
     }).then(res=>{
 		console.log(res);
-    this.tabledata = res.data.data.homeList;
+    if(res.data.data.homeList.length == 0)
+    {
+      this.tabledata.articleHeading = '暂时没有关注任何人，去发现页看看吧~'
+    }
+    else this.tabledata = res.data.data.homeList;
 		},err=>{
 			console.log(err);
 		})
