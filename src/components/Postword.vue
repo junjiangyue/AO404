@@ -13,7 +13,7 @@
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
                 <div class="picimg">
-                <el-upload action="#" list-type="picture-card" :auto-upload="false">
+                <el-upload :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{file}">
                         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -42,7 +42,7 @@
                 <!-- <div class="blocktian" id="tian" v-show="popup"></div> -->
                 <el-tag class="blocktian" @close="handleClose(tag)" v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
                 <br>
-                <el-button id="canclebutton">取消</el-button>
+                <el-button id="canclebutton" @click="canclecontent">取消</el-button>
                 <el-button id="affirmbutton" @click="postcontent">发布</el-button>
             </div>
         </div>
@@ -175,30 +175,76 @@ export default {
             count: 0,
             tags: [],
             number: 0,
-            userId: 40400001,
             tagId: 12,
+            articleId: 11111,
+            headers: {
+                'token':window.sessionStorage.getItem("token")
+            },
+            fileList:[],
+            tagnamelist: []
+            // fileList: []
         }
     },
     methods: {
         postcontent() {
+            if(this.textarea&&this.tags[0].name&&this.input != '') {
+
+                //先生成一个只有tagname的数组
+                var num = this.tags.length;
+                var i;
+                for( i=0;i<num;i++){
+                    this.tagnamelist[i] = this.tags[i].name;
+                }
+                console.log("shuzu");
+                console.log(this.tagnamelist);
+
             this.$axios({
                 method:"post",
                 url: 'http://47.102.194.89:8080/article/publishArticle',
-                params: {
+                data: {
                     articleHeading: this.input,
                     articleContent: this.textarea,
-                    tagId: this.tagId,
+                    tagList: this.tagnamelist,
                 },
                 headers: { token:window.sessionStorage.getItem("token")},
             }).then(res=>{
                 console.log(res);
-            })
+                if(res.status == 200) {
+            this.$notify({
+          title: '成功',
+          message: '发布成功，感谢您的使用！',
+          type: 'success'
+        });
+          }
+            })}
+            else {
+                console.log("失败");
+                this.$notify.error({
+          title: '错误',
+          message: '禁止发送空内容贴'
+        });
+      }
+            
         },
         handleCommand(command) {
         this.$message('click on item ' + command);
       },
        handleRemove(file) {
         console.log(file);
+
+        // this.$axios({
+        //     method:"post",
+        //     url:'http://47.102.194.89:8080/picture/uploadFile',
+        //     params: {
+        //         articleId: 12,
+        //         file: file,
+        //     },
+        //     headers: { token:window.sessionStorage.getItem("token")},
+        // }).then(res=>{
+        //     console.log(res);
+        //     console.log("成功！")
+        // })
+
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -233,6 +279,15 @@ export default {
               this.moveblock -=60;
           }
           },
+          canclecontent() {
+              this.input = '';
+              this.textarea = '';
+              this.inputtag = '';
+              this.$notify.info({
+          title: '消息',
+          message: '取消发布内容'
+        });
+          }
     }
 }
 </script>
