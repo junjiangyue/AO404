@@ -7,7 +7,7 @@
       <div id="tag-block">
         <div id="tag-name">
           <i class="icon-tag"></i>
-          <span id="tag">{{tag_name}}</span>
+          <span id="tag">{{tagName}}</span>
           <el-button v-if="subscribe === 0" plain type="danger" size="medium" id="subscribe-btn" @click="addSubscribe">订阅</el-button>
           <el-button v-else plain type="info" size="medium" id="subscribe-btn" @click="dialogVisible = true">已订阅</el-button>
           <el-dialog
@@ -20,7 +20,7 @@
               <el-button type="primary" @click="cancelSubscribe">确 定</el-button>
             </span>
           </el-dialog>
-          <span id="article-num">{{article_num}}参与</span>
+          <span id="article-num">{{articleNum}}参与</span>
         </div>
         <hr color=#EFEEEE SIZE=1>
         <div id=join-button>
@@ -33,13 +33,15 @@
         <el-col :span="8" v-for="(item) in tabledata" :key="item.id" :offset="0">
           <div class="card">
             <el-card :body-style="{ padding: '0px' }">
-              <img src="../../src/assets/discover_pic1.png" class="image">
+              <p class="article_heading">{{item.articleHeading}}</p>
+              <div class="content"><p class="article_content">{{item.articleContent}}</p>
+              <!--<img src="../../src/assets/discover_pic1.png" class="image">--></div>
               <hr color=#EFEEEE SIZE=1>
               <div id="user" style="padding: 0px;">
                 <div id="user-name">
                   <p>
                     <img v-bind:src="item.pic" width="50px" align="middle">
-                    <span>{{item.tag_name}}</span>
+                    <span>{{item.userId}}</span>
                   </p>
                 </div>
               </div>
@@ -58,6 +60,12 @@ export default {
   components: {
     Guidebar
   },
+  mounted:function(){
+    console.log(this.$route.params.tagID);
+    this.tagID = this.$route.params.tagID;
+    console.log('tagID:', this.tagID);
+    this.getTagPage()
+  },
   methods: {
     addSubscribe() {
       this.subscribe=1,
@@ -73,34 +81,42 @@ export default {
           message: '取消成功',
           type: 'success'
         });
+    },
+    getTagPage() {
+      this.$axios({
+        method:"get",
+        url: 'api/tag/tagPage',
+        params:{
+            tagId:this.tagID,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('文章列表数据：', res.data);
+        this.tagName=res.data.data.tagName;
+        console.log('tagName',this.tagName);
+        this.articleNum=res.data.data.tagInArticle.length;
+        console.log('articleNum',this.articleNum);
+        this.tabledata=res.data.data.tagInArticle;
+      },err=>{
+        console.log(err);
+      })
     }
   },
   data() {
     return {
-      tag_name: "#原神",
-      article_num: 1234,
+      tagID:'',
+      tagName: '',
+      articleNum: '',
       subscribe: 1,
       dialogVisible: false,
       tabledata: [{
-          id: 1,
-          tag_name: '原神',
-          pic: require('../../src/assets/mlogo.png')
-        }, {
-          id: 2,
-          tag_name: '明日方舟',
-          pic: require('../../src/assets/mlogo.png')
-        }, {
-          id: 3,
-          tag_name: '咒术回战',
-          pic: require('../../src/assets/mlogo.png')
-        }, {
-          id: 4,
-          tag_name: '鬼灭之刃',
-          pic: require('../../src/assets/mlogo.png')
-        }, {
-          id: 5,
-          tag_name: '原神',
-          pic: require('../../src/assets/mlogo.png')
+          articleId: '',
+          articleHeading: '',
+          articleContent:'',
+          pic: require('../../src/assets/mlogo.png'),
+          userHead:'',
+          userName:'',
+          userId:''
         }]
     }
   }
@@ -195,5 +211,18 @@ export default {
   #user-name {
     align-self:flex-start;
     margin-left: 20px;
+  }
+  .article_heading {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 20px;
+  }
+  .content{
+    height: 300px;
+  }
+  .article_content{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 16px;
   }
 </style>
