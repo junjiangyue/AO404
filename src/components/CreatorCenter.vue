@@ -34,7 +34,7 @@
         <div class="centerbox1">
           <h2>立即创作</h2>
           <div class="word" style="margin-left: 24%;"><img id="textpng" @click="jumpword" src="@/assets/posttext.png"><p id="textword">文字</p></div>
-          <div class="word"><img id="imgpng" src="@/assets/postimg.png"><p style="margin-left:75px;">图片</p></div>
+          <div class="word"><img id="imgpng" @click="jumpword" src="@/assets/postimg.png"><p style="margin-left:75px;">图片</p></div>
           
         </div>
         <div class="centerbox2">
@@ -173,7 +173,9 @@ export default {
       headers: { token:window.sessionStorage.getItem("token")}
     }).then(res=>{
       console.log(res);
-      
+      console.log(res.data.data.fanList.length);
+      this.ownfollowers = res.data.data.followList.length;
+      this.ownfans = res.data.data.fanList.length
     })
   },
   methods: {

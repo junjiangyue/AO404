@@ -46,11 +46,11 @@
                 <div style="text-align:center;font-size:14px;">在这里发布你的任何想法！</div>
                 <el-row style="text-align:center;padding-left:35px;padding-top:20px">
                   <el-col span="10">
-                      <img  src="@/assets/posttext.png" width="50px" height="50px" />
+                      <img @click="jumppoatword" src="@/assets/posttext.png" width="50px" height="50px" />
                       <p style="margin:5px">文字</p>
                   </el-col>
                   <el-col span="10">
-                      <img  src="@/assets/postimg.png" width="50px" height="50px" />
+                      <img @click="jumppoatword"  src="@/assets/postimg.png" width="50px" height="50px" />
                       <p style="margin:5px">图片</p>
                   </el-col>
                 </el-row>
@@ -72,6 +72,11 @@ export default {
   data(){
     return {
       tabledata: []
+    }
+  },
+  methods:{
+    jumppoatword() {
+      this.$router.push('/Postword')
     }
   },
   mounted: function(){
