@@ -40,38 +40,46 @@ export default new Router({
     {
       path: '/Main',
       name: 'Main',
-      component: Main
+      component: Main,
+      meta: {  requireAuth:true  }
     },
     {
       path: '/creatorcenter',
       name: 'CreatorCenter',
-      component: CreatorCenter
+      component: CreatorCenter,
+      meta: {  requireAuth:true  }
     },
     {
       path: '/Discover',
       name: 'Discover',
-      component: Discover
+      component: Discover,
+      meta: {  requireAuth:true  }
     },
     {
       path: '/advicefeedback',
       name: 'AdviceFeedback',
-      component: AdviceFeedback
+      component: AdviceFeedback,
+      meta: {  requireAuth:true  }
     },{
       path: '/notice',
       name: 'Notice',
-      component:Notice
+      component:Notice,
+      meta: {  requireAuth:true  }
     },{
       path:'/ArticleInfo',
       name:'ArticleInfo',
-      component:ArticleInfo
+      component:ArticleInfo,
+      meta: {  requireAuth:true  }
     },{
       path:'/PersonalPage',
       name:'PersonalPage',
-      component:PersonalPage
+      component:PersonalPage,
+      meta: {  requireAuth:true  }
     },{
       path:'/Postword',
       name:'Postword',
-      component:Postword
+      component:Postword,
+      meta: {  requireAuth:true  }
     },{
       path:'/AdministerLogin',
       name:'AdministerLogin',
@@ -95,23 +103,28 @@ export default new Router({
     },{
       path:'/Tag',
       name:'Tag',
-      component:Tag
+      component:Tag,
+      meta: {  requireAuth:true  }
     },{
       path:'/FollowList',
       name:'FollowList',
-      component:FollowList
+      component:FollowList,
+      meta: {  requireAuth:true  }
     },{
       path:'/UserInfo',
       name:'UserInfo',
-      component:UserInfo
+      component:UserInfo,
+      meta: {  requireAuth:true  }
     },{
       path:'/AccountSecurity',
       name:'AccountSecurity',
-      component:AccountSecurity
+      component:AccountSecurity,
+      meta: {  requireAuth:true  }
     },{
       path:'/FanList',
       name:'FanList',
-      component:FanList
+      component:FanList,
+      meta: {  requireAuth:true  }
     }
     
   ]

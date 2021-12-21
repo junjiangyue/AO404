@@ -28,7 +28,8 @@
     data() {
       return {
         activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex2: '1',
+        input2:''
       };
     },
     methods: {

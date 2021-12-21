@@ -4,7 +4,7 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img id="userpic" src="@/assets/mlogo.png"/>
+                <img style="border-radius: 50%;" id="userpic" :src="useravatar"/>
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
                 <h2>{{user_name}}</h2>
@@ -181,7 +181,8 @@ export default {
                 'token':window.sessionStorage.getItem("token")
             },
             fileList:[],
-            tagnamelist: []
+            tagnamelist: [],
+            useravatar: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
             // fileList: []
         }
     },
@@ -288,6 +289,15 @@ export default {
           message: '取消发布内容'
         });
           }
+    },
+    mounted:function() {
+        this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            headers: { token:window.sessionStorage.getItem("token")},
+        }).then(res=>{
+            console.log(res)
+        })
     }
 }
 </script>
