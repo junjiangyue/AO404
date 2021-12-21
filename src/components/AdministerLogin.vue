@@ -11,7 +11,7 @@
             <div class="login">
                 <h1>Adminnistrater Log In</h1>
                 <div class="editview">
-                    <li><el-input v-model="email" placeholder="请输入邮箱" style="width: 400px;"></el-input></li>
+                    <li><el-input v-model="userid" placeholder="请输入ID" style="width: 400px;"></el-input></li>
                     <li><el-input placeholder="请输入密码" v-model="password" show-password style="width: 400px;"></el-input></li>
                     <li><el-button type="primary" round class="btn_login" @click="gotoAdmin">登录</el-button></li>
                     </div>
@@ -22,13 +22,41 @@
 </div>
 </template>
 <script>
-export default ({
+export default {
+    data() {
+    return {
+      userid: '',
+      password:'',
+    }
+  },
     methods:{
     gotoAdmin(){
-        this.$router.push('/Admin')
+        this.$axios({
+        method:"post",
+        url: 'api/user/login',
+        params:{
+            userId:this.userid,
+            userPassword:this.password,
+        }
+        }).then(res=>{
+			console.log(res.data.msg);
+            if(res.data.msg=="用户不存在"){
+                this.$message({
+                showClose: true,
+                message: '用户不存在!'
+                });
+            }
+            else{
+            console.log(res);
+            window.sessionStorage.setItem("token",res.data.token);
+            this.$router.push('/Admin')
+            }
+		},err=>{
+			console.log(err);
+		})
     }
   }
-})
+}
 </script>
 
 <style scoped>

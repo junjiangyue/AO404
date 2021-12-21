@@ -55,9 +55,9 @@
                     </el-col>
                 </el-row>
                  <el-card class="box-card" style="margin-top:20px;margin-right:40px">
-                            <el-table :data="tableData" height="100%" border style="width: 100%">
-                                <el-table-column prop="user_name" label="用户名" ></el-table-column>
-                                <el-table-column prop="userID" label="用户ID"></el-table-column>
+                            <el-table :data="tableData"  border style="width: 100%;height=100%">
+                                <el-table-column prop="userName" label="用户名" ></el-table-column>
+                                <el-table-column prop="userId" label="用户ID"></el-table-column>
                                 <el-table-column prop="articleHeading" label="文章标题"></el-table-column>
                                 <el-table-column prop="articleContent" label="文章内容"></el-table-column>
                                 <el-table-column prop="publishTime" label="发布时间"></el-table-column>
@@ -82,46 +82,26 @@ export default({
         activeIndex: '3',
         new_article: 100,
         unaudit_article:50,
-         tableData: [{
-          user_name:'hhhhhh',
-          userID: '2016-05-02',
-          articleHeading: '王小虎',
-          articleContent: '上海市普陀区金沙江路 1518 弄',
-          publishTime:'2021-12-11',
-          tagName:'原神',
-        }, {
-          user_name:'hhhhhh',
-          userID: '2016-05-02',
-          articleHeading: '王小虎',
-          articleContent: '上海市普陀区金沙江路 1518 弄',
-          publishTime:'2021-12-11',
-          tagName:'原神',
-        }, {
-         user_name:'hhhhhh',
-          userID: '2016-05-02',
-          articleHeading: '王小虎',
-          articleContent: '上海市普陀区金沙江路 1518 弄',
-          publishTime:'2021-12-11',
-          tagName:'原神',
-        }, {
-          user_name:'hhhhhh',
-          userID: '2016-05-02',
-          articleHeading: '王小虎',
-          articleContent: '上海市普陀区金沙江路 1518 弄',
-          publishTime:'2021-12-11',
-          tagName:'原神',
-        }]
+         tableData: []
       };
     },
-    mounted(){
-      this.fetchdata()
+    mounted:function(){
+      this.$axios({
+        method:"post",
+        url: 'api/admin/getArticleList',
+        }).then(res=>{
+            this.tableData = res.data.data.articleList;
+            console.log(res);
+		},err=>{
+			console.log(err);
+		})
     },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
       gotoAdmin(){
-        this.$router.push('/')
+        this.$router.push('/Admin')
       },
       gotoUserM(){
         this.$router.push('/UserManage')

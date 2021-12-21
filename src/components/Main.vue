@@ -11,17 +11,17 @@
                     <el-col :span="3">
                       <img class="writer_avatar" src="@/assets/mlogo.png"/></el-col>
                       <el-col :span="6" style="padding-top: 10px">
-                        <div class="writer_name">作者名称</div>
+                        <div class="writer_name">{{item.userId}}</div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
                   </el-row>
                 </div>
                 <div class="content">
-                    <div class="title">{{item.title}}</div>
-                    <div class="time">{{item.time}}</div>
+                    <div class="title">{{item.articleHeading}}</div>
+                    <div class="time">{{item.publishTime}}</div>
                     <div class="article_content">
                       <el-row>
                         <el-col :span="16">
-                      {{item.content}}</el-col>
+                      {{item.articleContent}}</el-col>
                         <el-col :span="4" style="padding-top: 10px">
                         <img class="picture" v-bind:src="item.picture" width="100%" height="100%"/></el-col>
                         </el-row>
@@ -29,10 +29,10 @@
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag">{{item.tag}}</div></el-col>
+                    <div class="tag">#{{item.tagId}}</div></el-col>
                     <el-col :span="6">
-                        <i class="icon-like"></i><span style="margin-right:10px;">{{item.like_num}}</span>
-                        <i class="icon-command"></i><span>{{item.command_num}}</span>
+                        <i class="icon-like"></i><span style="margin-right:10px;">{{item.articleLikes}}</span>
+                        <i class="icon-command"></i><span>{{item.articleComments}}</span>
                     </el-col>
                     </el-row>
                 </div>
@@ -71,59 +71,27 @@ export default {
     },
   data(){
     return {
-      tabledata: [{
-          id: 1,
-          title: '原神',
-          content: '哈哈哈',
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 2,
-          title: '原神',
-          content: '哈哈哈',
-          picture: null,
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 3,
-          title: '原神',
-          content: null,
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 4,
-          title: '原神',
-          content: '哈哈哈',
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }, {
-          id: 5,
-          title: '原神',
-          content: '哈哈哈',
-          picture: require('../../src/assets/discover_pic1.png'),
-          time: '2021-12-5',
-          tag: '#原神',
-          command_num: 100,
-          like_num: 500
-        }]
+      tabledata: []
     }
   },
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
     }
-  }
+  },
+  mounted: function(){
+    this.$axios({
+    method:"get",
+    url: 'api/article/homeArticle',
+    headers:{
+    token:window.sessionStorage.getItem("token")}
+    }).then(res=>{
+		console.log(res);
+    this.tabledata = res.data.data.homeList;
+		},err=>{
+			console.log(err);
+		})
+}
 }
 </script>
 <style scoped>

@@ -57,7 +57,8 @@ export default {
                 });
             }
             else{
-            window.sessionStorage.setItem("token",res.data.token),
+            console.log(res);
+            window.sessionStorage.setItem("token",res.data.token);
             this.$router.push('/Main')
             }
 		},err=>{
