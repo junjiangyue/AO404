@@ -61,18 +61,37 @@
                                 border
                                 style="width: 100%">
                                 <el-table-column
-                                  prop="date"
-                                  label="日期"
+                                  prop="feedBackId"
+                                  label="反馈编号"
                                   width="180">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="name"
-                                  label="姓名"
+                                  prop="feedBackTime"
+                                  label="反馈时间"
                                   width="180">
                                 </el-table-column>
                                 <el-table-column
-                                  prop="address"
-                                  label="地址">
+                                  prop="UserName"
+                                  label="用户名">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="UserId"
+                                  label="用户ID">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="feedBackContent"
+                                  label="反馈内容">
+                                </el-table-column>
+                                <el-table-column label="操作">
+                                   <template slot-scope="scope">
+                                    <el-button
+                                      size="mini"
+                                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                    <el-button
+                                      size="mini"
+                                      type="danger"
+                                      @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                  </template>
                                 </el-table-column>
                               </el-table>
                             </el-card>
@@ -89,6 +108,17 @@ export default({
         new_feedback:100,
         undeal_feedback:10,
       };
+    },
+    mounted: function(){
+    //     this.$axios({
+    //     method:"post",
+    //     url: 'api/admin/getUserList',
+    //     }).then(res=>{
+    //         this.tableData = res.data.data.userList;
+    //         console.log(res);
+		// },err=>{
+		// 	console.log(err);
+		// })
     },
     methods: {
       handleSelect(key, keyPath) {
