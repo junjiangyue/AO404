@@ -10,7 +10,7 @@
   <li class="grid-content">
     <el-button type="text" @click="gotoCreatorCenter" class="guide">创作者中心</el-button></li>
   <div class="search">
-    <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2">
+    <el-input @keyup.enter.native="searchTagAndUser" type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2">
   </el-input>
       </div>
     <div >
@@ -50,6 +50,20 @@
       },
       gotoNotice(){
         this.$router.push('/Notice')
+      },
+      searchTagAndUser() {
+        console.log("开始搜索")
+        this.$emit('searchEvent',this.input2)
+        
+        // toMenu (item) {
+          if (this.$route.path !== '/SearchResult') {
+          // this.$router.push({ path: '/SearchResult' })
+          this.$router.push({name:'SearchResult',params:{searchcontent:this.input2}});
+           }
+        // }
+
+
+        // this.$router.push({name:'SearchResult',params:{searchcontent:this.input2}});
       }
     }
   }

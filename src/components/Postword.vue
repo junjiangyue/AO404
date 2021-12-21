@@ -301,6 +301,7 @@ export default {
             url:'http://47.102.194.89:8080/picture/getAvatar',
             headers: { token:window.sessionStorage.getItem("token")},
         }).then(res=>{
+            console.log("头像"),
             console.log(res)
         })
     }
