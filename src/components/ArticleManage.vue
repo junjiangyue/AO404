@@ -61,7 +61,6 @@
                                 <el-table-column prop="articleId" label="文章ID"></el-table-column>
                                 <el-table-column prop="articleHeading" label="文章内容"></el-table-column>
                                 <el-table-column prop="publishTime" label="发布时间"></el-table-column>
-                                <el-table-column prop="tagName" label="标签名"></el-table-column>
                                 <el-table-column label="操作">
                                    <template slot-scope="scope">
                                     <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
@@ -98,23 +97,40 @@ export default({
 		})
     },
     methods: {
-      handleEdit(index, rows) {
+      handleEdit(index, row) {
         // 将文章ID传给ArticleInfo页面
-      },
-      handleDelete(index, rows){
-        console.log( rows.userId);
+        console.log( row.articleId);
         this.$axios({
-        method:"delete",
-        url: 'api/admin/deleteArticle',
+        method:"get",
+        url: 'api/article/articleInfo',
         params:{
-          userId: rows.articleId,
+          articleId: row.articleId,
         },
         headers:{
          token:window.sessionStorage.getItem("token")}
         }).then(res=>{
-          if(res.msg=="Success")
+          console.log(row.articleId),
+          this.$router.push({name:'ArticleInfo',params:{articleId:row.articleId}});
+          console.log(res);
+        },err=>{
+          console.log(err);
+        })
+
+      },
+      handleDelete(index, row){
+        console.log( row.userId);
+        this.$axios({
+        method:"delete",
+        url: 'api/admin/deleteArticle',
+        params:{
+          articleId: row.articleId,
+        },
+        headers:{
+         token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          if(res.data.data.msg=="删除成功")
           {
-            rows.splice(index, 1);
+            this.tableData.splice(index, 1);
             }
             console.log(res);
         },err=>{

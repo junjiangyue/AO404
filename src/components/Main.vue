@@ -9,9 +9,9 @@
                 <div  class="clearfix">
                   <el-row>
                     <el-col :span="3">
-                      <img style="border-radius: 50%;" class="writer_avatar" :src="useravatar"/></el-col>
+                      <img style="border-radius: 50%;" class="writer_avatar" :src="item.useravatar"/></el-col>
                       <el-col :span="6" style="padding-top: 10px">
-                        <div class="writer_name">{{item.userId}}</div>
+                        <div class="writer_name">{{item.userName}}</div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
                   </el-row>
                 </div>
@@ -22,16 +22,16 @@
                       <el-row>
                         <el-col :span="16">
                       {{item.articleContent}}</el-col>
-                        <img class="picture" v-bind:src="item.picture" width="100%" height="100%"/>
+                        <img v-bind:src="item.picture" width="100%" height="100%"/>
                         </el-row>
                     </div>
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag">#{{item.tagList}}</div></el-col>
+                    <div class="tag" v-for="(tag) in item.tagList" :key="tag.tagId">{{tag.tagName}}</div></el-col>
                     <el-col :span="6">
-                        <i class="icon-like"></i><span style="margin-right:10px;">{{item.articleLikes}}</span>
-                        <i class="icon-command"></i><span>{{item.articleComments}}</span>
+                        <span style="margin-right:10px;" @click="like" :class="{active: item.isLike}"><i class="icon-like"></i>{{item.articleLikes}}</span>
+                        <i class="icon-command" @click="comment(item.articleId)"></i><span>{{item.articleComments}}</span>
                     </el-col>
                     </el-row>
                 </div>
@@ -40,7 +40,7 @@
           </el-col>
           <el-col :span="4">
             <div >
-              <el-card class="upload" shadow="never" style="border:0px">
+              <el-card class="upload" shadow="never" style="border:0px;width=100%; height=100%">
                 <img  src="@/assets/arabica-1300.png" width="100%" height="100%" />
                 <div style="text-align:center;font-size:14px;">在这里发布你的任何想法！</div>
                 <el-row style="text-align:center;padding-left:35px;padding-top:20px">
@@ -73,7 +73,8 @@ export default {
       useravatar:'',
       tabledata: [
         {
-            userId: 'AO404官方小助手',
+            useravatar:require('../../src/assets/mlogo.png'),
+            userName: 'AO404官方小助手',
             articleHeading: '欢迎来到AO404!',
             publishTime:'2021-12-22 0:49',
             articleContent: '这里还什么都没有哦~去发现页看看吧~',
@@ -82,7 +83,7 @@ export default {
             articleComments:'0',
             picture:require('../../src/assets/discover_pic1.png'),
             articleId:'',
-            
+            isLike:false
           }
       ]
     }
@@ -90,6 +91,12 @@ export default {
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
+    },
+    like(){
+      
+    },
+    comment(articleId){
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
     },
     gotoArticleInfo(articleId){
       console.log(articleId),
@@ -165,6 +172,10 @@ export default {
     margin-left: 50px;
     margin-bottom: 20px;
 }
+.page_content{
+  height: 100%;
+  width: 100%;
+}
 .title{
     font-size: 20px;
     font-weight:bold;
@@ -185,8 +196,8 @@ export default {
     padding-right:50px;
 }
 .box-card{
-    /* width: 800px; */
-    margin-left: 300px;
+    width: 600px;
+    margin-left: 250px;
 }
 .writer_name{
     font-size: 14px;

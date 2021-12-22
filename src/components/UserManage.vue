@@ -70,7 +70,7 @@
                                     <el-button
                                       size="mini"
                                       type="danger"
-                                     @click.native.prevent="deleteRow(scope.$index, tableData)">删除</el-button>
+                                     @click="deleteRow(scope.$index, scope.row)">删除</el-button>
                                   </template>
                                 </el-table-column>
                               </el-table>
@@ -106,22 +106,23 @@ export default({
       handleEdit(key, keyPath) {
         console.log(key, keyPath);
       },
-      deleteRow(index, rows){
-        //console.log( rows.userId);
+      deleteRow(index, row){
+        console.log( row.userId);
         this.$axios({
         method:"delete",
         url: 'api/admin/deleteUser',
         params:{
-          userId: rows.userId,
+          userId: row.userId,
         },
-        headers:{
-         token:window.sessionStorage.getItem("token")}
+        // headers:{
+        //  token:window.sessionStorage.getItem("token")}
         }).then(res=>{
           if(res.data.msg=="Success"){
-            rows.splice(index, 1);}
+            this.tableData.splice(index, 1);}
             console.log(res);
         },err=>{
           console.log(err);
+          console.log(row.data);
         });
         
       },

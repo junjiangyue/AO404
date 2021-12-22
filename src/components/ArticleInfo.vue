@@ -49,6 +49,8 @@ export default {
   data(){
     return {
       articleInformation:[
+          {
+          }
       ]
     }
   },
@@ -58,26 +60,25 @@ export default {
     },
   },
   mounted: function(){
-      console.log(this.$route.params.articleId),
-    this.$axios({
-    method:"get",
-    url: 'api/article/articleInfo',
-    headers:{
-    token:window.sessionStorage.getItem("token")},
-    params:{
-        articleId:this.$route.params.articleId,
-        
-    }
-    }).then(res=>{
-		console.log(res);
-    if(res.data.code=='200')
-    {
-      this.articleInformation = res.data.data.articleInformation
-    }
-    else console.log(res.data.code);
-		},err=>{
-			console.log(err);
-		})
+      console.log(this.$route.params.articleId);
+        this.$axios({
+        method:"get",
+        url: 'api/article/articleInfo',
+        headers:{
+        token:window.sessionStorage.getItem("token")},
+        params:{
+            articleId:this.$route.params.articleId,
+        }
+        }).then(res=>{
+            console.log(res);
+        if(res.data.code=='200')
+        {
+        this.articleInformation = res.data.data.articleInformation
+        }
+        else console.log(res.data.code);
+            },err=>{
+                console.log(err);
+            })
 }
 }
 </script>
