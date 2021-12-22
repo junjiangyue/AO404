@@ -31,7 +31,7 @@
       <div v-for="(item) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
-            <img v-bind:src="pic" width="50px" align="middle">
+            <img style="border-radius: 50%;" :src="useravatar"  width="50px" align="middle">
             <span>{{userName}}</span>
           </p>
           <p id="title">{{item.articleHeading}}</p>

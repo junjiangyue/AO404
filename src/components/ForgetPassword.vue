@@ -80,7 +80,7 @@ export default {
         verify(){
            this.$axios({
                method:"post",
-               url:'http://localhost:8080/mail/mail',
+               url:'api/mail/mail',
                params:{email:this.ruleForm.email},
            }).then(res=>{
                this.vericode = res.data;
@@ -99,11 +99,10 @@ export default {
             }else {
                 this.$axios({
                 method:"post",
-                url: 'api/user/register',
+                url: 'api/user/forgetPassword',
                 params:{
-                   userName:this.ruleForm.name,
-                   userPassword:this.ruleForm.password,
-                   userEmail:this.ruleForm.email
+                   userId:this.ruleForm.userid,
+                   newPassword:this.ruleForm.password,
                 }
            }).then(res=>{
                if (res.data.msg != "关键数据缺失")

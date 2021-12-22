@@ -48,8 +48,7 @@ export default {
     },
   data(){
     return {
-      articleInformation:[
-      ],
+      articleInformation:[],
       commentContent:[]
     }
   },
@@ -93,8 +92,6 @@ export default {
             console.log(res);
             this.commentContent = res.data.data.commentList;
         })
-
-
 }
 }
 </script>
