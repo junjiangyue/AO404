@@ -170,9 +170,11 @@ export default {
         },err=>{
             console.log(err);
         });
+        console.log(this.$route.query.articleId)
+        console.log("deded")
         this.$axios({
             method:"post",
-            params:{articleId:this.$route.params.articleId},
+            params:{articleId:this.$route.query.articleId},
             url: 'api/picture/getArticleImg',
             headers: { token:window.sessionStorage.getItem("token")}
         }).then(res=>{

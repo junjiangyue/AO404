@@ -4,7 +4,7 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" id="userpic" :src="useravatar" />
+                <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" id="userpic" :src="useravatar" />
                 <img v-else style="border-radius: 50%;" id="userpic" src="@/assets/mlogo.png" />
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">

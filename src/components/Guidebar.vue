@@ -1,7 +1,7 @@
 <template>
 <div class="guidebar">
 <div class="grid-content">
-    <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" class="logo" :src="useravatar"/>
+    <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" class="logo" :src="useravatar"/>
     <img v-else style="border-radius: 50%;" class="logo" src="@/assets/mlogo.png"/>
     </div>
   <li class="grid-content">
@@ -94,7 +94,7 @@
             console.log(res)
             console.log(res.data)
         this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-        console.log(this.useravatar)
+        // console.log(this.useravatar)
         })
     }
   }

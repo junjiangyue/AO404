@@ -9,7 +9,7 @@
         <div id="user-card">
           <div id="head-name">
             <p>
-              <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle">
+              <img v-if="useravatar!=null" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+useravatar" width="70px" align="middle">
               <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="70px" align="middle">
               <span id="bigname">{{userName}}</span>
               <el-button v-if="isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(userID)">+关注</el-button>
@@ -33,7 +33,8 @@
       <div v-for="(item, index) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
-            <img style="border-radius: 50%;" :src="useravatar"  width="50px" align="middle">
+            <img v-if="item.userAvatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar"  width="50px" align="middle">
+            <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png"  width="50px" align="middle">
             <span>{{userName}}</span>
           </p>
           <p id="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</p>
@@ -74,18 +75,18 @@ export default {
     console.log('userID',this.userID);
     this.getUserInfo(),
     this.getUserArticle(),
-    this.getMyRelation(),
-    this.$axios({
-            method:"post",
-            url:'http://47.102.194.89:8080/picture/getAvatar',
-            responseType: 'arraybuffer',
-            headers: { token:window.sessionStorage.getItem("token")}
-        }).then(res=>{
-            console.log(res)
-            console.log(res.data)
-        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-        // console.log(this.useravatar)
-        })
+    this.getMyRelation()
+    // this.$axios({
+    //         method:"post",
+    //         url:'http://47.102.194.89:8080/picture/getAvatar',
+    //         responseType: 'arraybuffer',
+    //         headers: { token:window.sessionStorage.getItem("token")}
+    //     }).then(res=>{
+    //         console.log(res)
+    //         console.log(res.data)
+    //     this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+    //     // console.log(this.useravatar)
+    //     })
   },
   methods: {
     getUserInfo(){
@@ -95,8 +96,12 @@ export default {
         params:{userId:this.userID},
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
+        // console.log(res.data.data.userAvatar)
         console.log('该用户信息数据：', res.data);
         this.userName=res.data.data.userName;
+        this.useravatar = res.data.data.userAvatar;
+        console.log(this.useravatar)
+        console.log('data:image/jpeg;base64,'+this.useravatar)
       },err=>{
         console.log(err);
       })
@@ -183,22 +188,22 @@ export default {
       console.log("传值"+index),
       this.tempIndex=index
     },
-    arrayBufferToBase64(buffer) {
-                  var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-            //   var binary = ''
-            //   var bytes = new Uint8Array(buffer)
-            //   var len = bytes.byteLength
-            //   for(var i = 0; i < len; i++) {
-            //       binary += String.fromCharCode(bytes[i])
-            //   }
-            //   return window.btoa(binary)
-          },
+    // arrayBufferToBase64(buffer) {
+    //               var binary = '';
+    // var bytes = new Uint8Array( buffer );
+    // var len = bytes.byteLength;
+    // for (var i = 0; i < len; i++) {
+    //     binary += String.fromCharCode( bytes[ i ] );
+    // }
+    // return window.btoa( binary );
+    //         //   var binary = ''
+    //         //   var bytes = new Uint8Array(buffer)
+    //         //   var len = bytes.byteLength
+    //         //   for(var i = 0; i < len; i++) {
+    //         //       binary += String.fromCharCode(bytes[i])
+    //         //   }
+    //         //   return window.btoa(binary)
+    //       },
     openTag(id) {
       console.log('openTagId',id);
       this.$router.push({name:'Tag',query:{tagID:id}});

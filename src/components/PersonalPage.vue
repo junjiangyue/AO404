@@ -48,7 +48,7 @@
               <div id="user-card">
                 <div id="head-name">
                   <p>
-                    <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
+                    <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
                     <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="70px" align="middle"/>
                     <span id="bigname">{{userName}}</span>
                   </p>
@@ -60,7 +60,8 @@
             <div v-for="(item, index) in tabledata" :key="item.id">
               <div id="article-card">
                 <p id="user-head">
-                  <img style="border-radius: 50%;" :src="useravatar" width="50px" align="middle">
+                  <img v-if="userAvatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle">
+                  <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="50px" align="middle">
                   <span>{{userName}}</span>
                 </p>
                 <p id="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</p>
@@ -100,18 +101,18 @@ export default {
   },
   mounted:function(){
     this.getMyInfo(),
-    this.getMyArticle(),
-    this.$axios({
-        method:"post",
-        url:'http://47.102.194.89:8080/picture/getAvatar',
-        responseType: 'arraybuffer',
-        headers: { token:window.sessionStorage.getItem("token")}
-    }).then(res=>{
-        console.log(res)
-        console.log(res.data)
-    this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-    // console.log(this.useravatar)
-    })
+    this.getMyArticle()
+    // this.$axios({
+    //     method:"post",
+    //     url:'http://47.102.194.89:8080/picture/getAvatar',
+    //     responseType: 'arraybuffer',
+    //     headers: { token:window.sessionStorage.getItem("token")}
+    // }).then(res=>{
+    //     console.log(res)
+    //     console.log(res.data)
+    // this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+    // // console.log(this.useravatar)
+    // })
   },
   methods: {
     gotoArticleInfo(articleId){
@@ -168,22 +169,22 @@ export default {
         console.log(err);
       })
     },
-    arrayBufferToBase64(buffer) {
-                  var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-            //   var binary = ''
-            //   var bytes = new Uint8Array(buffer)
-            //   var len = bytes.byteLength
-            //   for(var i = 0; i < len; i++) {
-            //       binary += String.fromCharCode(bytes[i])
-            //   }
-            //   return window.btoa(binary)
-    },
+    // arrayBufferToBase64(buffer) {
+    //               var binary = '';
+    // var bytes = new Uint8Array( buffer );
+    // var len = bytes.byteLength;
+    // for (var i = 0; i < len; i++) {
+    //     binary += String.fromCharCode( bytes[ i ] );
+    // }
+    // return window.btoa( binary );
+    //         //   var binary = ''
+    //         //   var bytes = new Uint8Array(buffer)
+    //         //   var len = bytes.byteLength
+    //         //   for(var i = 0; i < len; i++) {
+    //         //       binary += String.fromCharCode(bytes[i])
+    //         //   }
+    //         //   return window.btoa(binary)
+    // },
     openTag(id) {
       console.log('openTagId',id);
       this.$router.push({name:'Tag',params:{tagID:id}});
