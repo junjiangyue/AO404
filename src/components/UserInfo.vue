@@ -48,11 +48,11 @@
               <hr color=#EFEEEE SIZE=1>
               <div id="photoblock"><p>
 
-                <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
+                <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
                 <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" id="headphoto" @click="headDialogVisible = true">
-
+                <div>
                 <el-button @click="headDialogVisible = true">上传头像</el-button>
-
+                </div>
                 <el-dialog title="修改头像" :visible.sync="headDialogVisible" width="25%" center append-to-body>
                   <span>
                     <el-upload
@@ -120,7 +120,7 @@ export default {
       userId:'',
       userName: '',
       // pic: require('../../src/assets/mlogo.png'),
-      useravatar: '',
+      useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png',
       userEmail: '',
       input_name: '哈哈哈',
       headDialogVisible: false,

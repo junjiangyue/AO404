@@ -15,7 +15,7 @@
                 <div class="time">{{articleInformation.publishTime}}</div>
                 <div class="article_content">
                     {{articleInformation.articleContent}}
-                    <div><img class="picture" v-bind:src="'data:image/jpeg;base64,'+articlePicture" width="200px" height="auto"/></div>
+                    <div><img v-if="articlePicture" class="picture" v-bind:src="'data:image/jpeg;base64,'+articlePicture" width="200px" height="auto"/></div>
                  </div>
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
                     <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>

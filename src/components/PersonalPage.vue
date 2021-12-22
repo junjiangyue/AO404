@@ -233,7 +233,7 @@ export default {
   data() {
     return {
       userName: '',
-      useravatar: '',
+      useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png',
       // pic: require('../../src/assets/mlogo.png'),
       article_num:'',
       tip:'这里空空如也，快去创作者中心记录你的生活吧~',

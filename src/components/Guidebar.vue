@@ -31,7 +31,7 @@
         activeIndex: '1',
         activeIndex2: '1',
         input2:'',
-        useravatar:''
+        useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png'
       };
     },
     methods: {
@@ -94,7 +94,7 @@
             console.log(res)
             console.log(res.data)
         this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-        // console.log(this.useravatar)
+        console.log(this.useravatar)
         })
     }
   }
