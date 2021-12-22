@@ -46,7 +46,7 @@
             <div id="user-info">
               <div id="info">账号安全</div>
               <hr color=#EFEEEE SIZE=1>
-              <div id="photoblock"><p><img style="border-radius: 50%;" :src="useravatar" id="headphoto"></p></div>
+              <div id="photoblock"><p><img v-if="useravatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+useravatar" id="headphoto"><img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" id="headphoto"></p></div>
               <div id="userinfo">
                 <p>账&ensp;号&ensp;ID：{{user_id}}</p>
                 <p>昵&emsp;&emsp;称：{{user_name}}</p>
@@ -87,18 +87,18 @@ export default {
     Guidebar
   },
   mounted:function(){
-    this.getMyInfo(),
-    this.$axios({
-            method:"post",
-            url:'http://47.102.194.89:8080/picture/getAvatar',
-            responseType: 'arraybuffer',
-            headers: { token:window.sessionStorage.getItem("token")}
-        }).then(res=>{
-            console.log(res)
-            console.log(res.data)
-        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-        // console.log(this.useravatar)
-        })
+    this.getMyInfo()
+    // this.$axios({
+    //         method:"post",
+    //         url:'http://47.102.194.89:8080/picture/getAvatar',
+    //         responseType: 'arraybuffer',
+    //         headers: { token:window.sessionStorage.getItem("token")}
+    //     }).then(res=>{
+    //         console.log(res)
+    //         console.log(res.data)
+    //     this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+    //     // console.log(this.useravatar)
+    //     })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -182,26 +182,29 @@ export default {
         console.log('userName',this.user_name);
         this.password=res.data.data.userPassword;
         console.log('userPassword',this.password)
+        this.useravatar = res.data.data.userAvatar
+        console.log(res.data.data.userAvatar)
+        console.log(this.useravatar)
       },err=>{
         console.log(err);
       })
     },
-    arrayBufferToBase64(buffer) {
-                  var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-            //   var binary = ''
-            //   var bytes = new Uint8Array(buffer)
-            //   var len = bytes.byteLength
-            //   for(var i = 0; i < len; i++) {
-            //       binary += String.fromCharCode(bytes[i])
-            //   }
-            //   return window.btoa(binary)
-          }
+    // arrayBufferToBase64(buffer) {
+    //               var binary = '';
+    // var bytes = new Uint8Array( buffer );
+    // var len = bytes.byteLength;
+    // for (var i = 0; i < len; i++) {
+    //     binary += String.fromCharCode( bytes[ i ] );
+    // }
+    // return window.btoa( binary );
+    //         //   var binary = ''
+    //         //   var bytes = new Uint8Array(buffer)
+    //         //   var len = bytes.byteLength
+    //         //   for(var i = 0; i < len; i++) {
+    //         //       binary += String.fromCharCode(bytes[i])
+    //         //   }
+    //         //   return window.btoa(binary)
+    //       }
   },
   data() {
     return {
@@ -215,7 +218,7 @@ export default {
       inputNewpswAgain: '',
       pswDialogVisible: false,
       confirmpswDialogVisible: false,
-      useravatar: ''
+      useravatar: 0
     }
   }
 }

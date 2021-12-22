@@ -9,7 +9,8 @@
         <div id="user-card">
           <div id="head-name">
             <p>
-              <img style="border-radius: 50%;" :src="useravatar" width="70px" align="middle">
+              <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle">
+              <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="70px" align="middle">
               <span id="bigname">{{userName}}</span>
               <el-button v-if="isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(userID)">+关注</el-button>
               <el-button v-else round plain type="info" id="follow" @click="openDialog(userID)">已关注</el-button>
