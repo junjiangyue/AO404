@@ -16,7 +16,7 @@
                     <el-button
                       @click.native.prevent="liketag(scope.$index, scope.row)"
                       type="text" class="skiptag-btn">
-                      {{scope.row.tagName}}
+                      # {{scope.row.tagName}}
                     </el-button>
                   </template>
                 </el-table-column>
@@ -31,7 +31,7 @@
                     <el-button
                       @click.native.prevent="tag(scope.$index, scope.row)"
                       type="text" class="skiptag-btn">
-                      {{scope.row.tagName}}
+                      # {{scope.row.tagName}}
                     </el-button>
                   </template>
                 </el-table-column>
@@ -69,12 +69,12 @@ import Guidebar from '@/components/Guidebar'
       liketag(index, row) {
         console.log('index:',index);
         console.log('tagID:',this.MyLikeTag[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.MyLikeTag[index].tagId,state:1}});
+        this.$router.push({name:'Tag',params:{tagID:this.MyLikeTag[index].tagId}});
       },
       tag(index, row) {
         console.log('index:',index);
         console.log('tagID:',this.tableData[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId,state:0}});
+        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId}});
       },
       getLikeTag(){
         this.$axios({

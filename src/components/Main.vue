@@ -4,16 +4,16 @@
       <div class="page_content">
         <el-row>
           <el-col :span="16">
-            <div class="article_list" v-for="(item) in tabledata" :key="item.articleId">
+            <div class="article_list" v-for="(item, index) in tabledata" :key="item.articleId">
             <el-card class="box-card">
                 <div  class="clearfix">
                   <el-row>
                     <el-col :span="3">
-                      <img v-if="item.userAvatar" style="border-radius: 50%;" class="writer_avatar" :src="'data:image/jpeg;base64,'+item.userAvatar"/>
-                      <img v-else style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/>
+                      <img v-if="item.userAvatar" @click="openOtherUserPage(item.userId)" style="border-radius: 50%;" class="writer_avatar" :src="'data:image/jpeg;base64,'+item.userAvatar"/>
+                      <img v-else @click="openOtherUserPage(item.userId)" style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/>
                       </el-col>
                       <el-col :span="6" style="padding-top: 10px">
-                        <div class="writer_name">{{item.userName}}</div>
+                        <div class="writer_name"><el-button @click="openOtherUserPage(item.userId)" type="text" class="writer_name">{{item.userName}}</el-button></div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
                   </el-row>
                 </div>
@@ -30,10 +30,14 @@
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag" v-for="(tag) in item.tagList" :key="tag.tagId">{{tag.tagName}}</div></el-col>
+                    <div class="tag" v-for="(tag) in item.tagList" :key="tag.tagId">
+                      <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}</el-button>
+                    </div></el-col>
                     <el-col :span="6">
-                        <span style="margin-right:10px;" @click="like" :class="{active: item.isLike}"><i class="icon-like"></i>{{item.articleLikes}}</span>
-                        <i class="icon-command" @click="comment(item.articleId)"></i><span>{{item.articleComments}}</span>
+                        <span style="margin-right:10px;">
+                          <img @click="like(item.articleId,index)" class="icon-like" v-if="item.isLiked === 0" src="@/assets/unlike.png"/>
+                           <img @click="like(item.articleId,index)" class="icon-like" v-else src="@/assets/like.png"/>{{item.articleLikes}}</span>
+                        <span><img class="icon-command" @click="comment(item.articleId)" src="@/assets/command.png"/>{{item.articleComments}}</span>
                     </el-col>
                     </el-row>
                 </div>
@@ -72,6 +76,7 @@ export default {
     },
   data(){
     return {
+      
       // useravatar:'',
       tabledata: [
         {
@@ -85,7 +90,8 @@ export default {
             articleComments:'0',
             picture:require('../../src/assets/discover_pic1.png'),
             articleId:'',
-            isLike:false
+            isLiked:false,
+            like_src:'',
           }
       ]
     }
@@ -94,8 +100,46 @@ export default {
     jumppoatword() {
       this.$router.push('/Postword')
     },
-    like(){
-      
+    like(articleId,index){
+      console.log(index);
+      console.log(this.tabledata[index].isLiked);
+      if (this.tabledata[index].isLiked == 0){ // 没有点赞过
+          this.$axios({
+          method:"post",
+          url: 'api/article/likeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          console.log(res);
+          //this.tabledata[index].like_src = require('../../src/assets/like.png');
+          console.log("点赞成功");
+          //console.log(this.tabledata[index].like_src);
+          this.tabledata[index].isLiked = 1;
+          this.tabledata[index].articleLikes +=1;
+          },err=>{
+            console.log(err);
+          })
+      }else{ // 取消点赞
+          this.$axios({
+          method:"post",
+          url: 'api/article/unlikeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          this.tabledata[index].isLiked = 0;
+          this.tabledata[index].articleLikes -=1;
+          console.log(res);
+          console.log("取消点赞成功");
+          },err=>{
+            console.log(err);
+          })
+      }
     },
     comment(articleId){
       this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
@@ -104,6 +148,14 @@ export default {
       console.log(articleId),
       this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
     },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+    }
     // arrayBufferToBase64(buffer) {
     //               var binary = '';
     // var bytes = new Uint8Array( buffer );
@@ -145,7 +197,21 @@ export default {
     {
       this.tabledata.articleHeading = '暂时没有关注任何人，去发现页看看吧~'
     }
-    else this.tabledata = res.data.data.homeList;
+    else{
+       this.tabledata = res.data.data.homeList;
+       var i = 0;
+       console.log(res.data.data.homeList.length);
+       var j=res.data.data.homeList.length;
+       while(j!= 0 ){
+         if(res.data.data.homeList[i].isLiked == 1){
+            this.like_src = require('../../src/assets/like.png');
+         }else{
+           this.like_src = require('../../src/assets/unlike.png');
+         }
+         i = i+1;
+         j = j-1;
+         }
+       }
 		},err=>{
 			console.log(err);
 		})
@@ -204,19 +270,28 @@ export default {
 .writer_name{
     font-size: 14px;
     font-weight:bold;
+    color: #000;
+}
+.writer_name:hover{
+    color: rgb(53, 154, 248);
 }
 .picture{
   width: 200px;
   height: 200px;
 }
 .icon-like {
-    content: url(../../src/assets/like.png);
     width: 13px;
     padding-right:5px;
 }
 .icon-command {
-    content: url(../../src/assets/command.png);
     width: 13px;
     padding-right:5px;
+  }
+  .opentag-btn {
+    color: #606266;
+    font-size: 14px;
+  }
+  .opentag-btn:hover {
+    color: #5087f5;
   }
 </style>

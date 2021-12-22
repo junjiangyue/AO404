@@ -47,16 +47,21 @@
               <div id="info">账号资料</div>
               <hr color=#EFEEEE SIZE=1>
               <div id="photoblock"><p>
+
                 <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
                 <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" id="headphoto" @click="headDialogVisible = true">
+
+                <el-button @click="headDialogVisible = true">上传头像</el-button>
+
                 <el-dialog title="修改头像" :visible.sync="headDialogVisible" width="25%" center append-to-body>
                   <span>
                     <el-upload
                       class="avatar-uploader"
-                      action="/api/picture/uploadAvatar"
+                      action="http://47.102.194.89:8080/picture/uploadAvatar"
                       :headers="headers"
                       :show-file-list="false"
-                      :on-success="handleAvatarSuccess">
+                      :on-success="handleAvatarSuccess"
+                      :before-upload="beforeAvatarUpload">
                       <img v-if="imageUrl" :src="imageUrl" class="avatar">
                       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
@@ -213,13 +218,19 @@ export default {
         url: 'api/picture/getAvatar',
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
-        console.log('获得我的头像数据：', res.data);
+        //console.log('获得我的头像数据：', res.data);
       },err=>{
         console.log(err);
       })
     },
     postAvatar() {
-      this.$axios({
+      this.headDialogVisible = false;
+      this.$message({
+            message: '信息修改成功！',
+            type: 'success'
+          });
+      location.reload();
+      /*this.$axios({
         method:"post",
         url: 'api/picture/uploadAvatar',
         headers: { token:window.sessionStorage.getItem("token")}
@@ -228,8 +239,23 @@ export default {
         
       },err=>{
         console.log(err);
-      })
+      })*/
     },
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
     uploadAvatar:function(){
       this.$el.querySelector('.hiddenInput').click()
     },
@@ -246,7 +272,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log("上传图片",res)
-    },
+      },
     arrayBufferToBase64(buffer) {
                   var binary = '';
     var bytes = new Uint8Array( buffer );

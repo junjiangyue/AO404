@@ -29,23 +29,29 @@
         </div>
       </div>
       <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
+      <div v-if="article_num==0" class="tip">{{tip}}</div>
       <div v-for="(item) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
             <img style="border-radius: 50%;" :src="useravatar"  width="50px" align="middle">
             <span>{{userName}}</span>
           </p>
-          <p id="title">{{item.articleHeading}}</p>
+          <p id="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</p>
           <hr align=center color=#EFEEEE SIZE=1 width="95%">
           <p id="content">{{item.articleContent}}</p>
           <img v-bind:src="item.picture" width="100px" id="picture">
           <div>
-            <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
-              <i class="icon-like"></i>
-              <span>{{item.articleLikes}}</span>
-              <i class="icon-command"></i>
-              <span>{{item.articleComments}}</span>
-            </p>
+            <div id="time">
+              <div class="alignment">{{item.publishTime}}</div>
+              <div class="alignment">|</div>
+              <div class="alignment" v-for="tag in item.tagList" :key="tag.id">
+                <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}； </el-button>
+              </div>
+              <i class="alignment" id="icon-like-other"></i>
+              <span class="alignment" id="likenum-other">{{item.articleLikes}}</span>
+              <i class="alignment" id="icon-command-other"></i>
+              <span class="alignment" id="commandnum-other">{{item.articleComments}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -190,7 +196,15 @@ export default {
             //       binary += String.fromCharCode(bytes[i])
             //   }
             //   return window.btoa(binary)
-          }
+          },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
   },
   data() {
     return {
@@ -201,6 +215,7 @@ export default {
       article_num:'',
       isMyFollow:0,
       dialogVisible: false,
+      tip:'这里空空如也，去其他用户的主页看看吧~',
       tabledata: [{
           articleId: 1,
           articleHeading: '',
@@ -221,6 +236,10 @@ export default {
 </script>
 
 <style>
+  .alignment {
+    display: inline-block;
+    vertical-align: top;
+  }
   .el-row {
     margin-bottom: 20px;
   }
@@ -243,7 +262,7 @@ export default {
     width: 1000px;
     margin: 0px auto;
     margin-top: 30px;
-    margin-bottom: 50px;
+    padding-bottom: 60px;
   }
   #page-content {
     width: 1200px;
@@ -270,6 +289,12 @@ export default {
   .txt {
     margin-left: 25px;
   }
+  .tip {
+    margin-left: 25px;
+    margin-top: 30px;
+    font-size: 18px;
+    color: #1a1b1c;
+  }
   #article-card {
     border-style: solid;
     border-width: 2px;
@@ -295,17 +320,26 @@ export default {
   #picture {
     margin-left: 30px;
   }
-  .icon-like {
+  #icon-like-other {
     content: url(../../src/assets/like.png);
     width: 13px;
-    margin-left: 600px;
-    margin-right: 5px;
+    position: absolute;
+    right: 400px;
+
   }
-  .icon-command {
+  #likenum-other{
+    position: absolute;
+    right: 385px;
+  }
+  #icon-command-other {
     content: url(../../src/assets/command.png);
     width: 13px;
-    margin-left: 20px;
-    margin-right: 5px;
+    position: absolute;
+    right: 340px;
+  }
+  #commandnum-other{
+    position: absolute;
+    right: 325px;
   }
   #time {
     margin-left: 30px;
@@ -315,5 +349,10 @@ export default {
   #follow {
     margin-top: 10px;
     margin-left: 50px;
+  }
+  .opentag-btn {
+    color: #606266;
+    font-size: 12px;
+    padding: 0px;
   }
 </style>
