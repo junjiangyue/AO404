@@ -1,7 +1,8 @@
 <template>
 <div class="guidebar">
 <div class="grid-content">
-    <img style="border-radius: 50%;" class="logo" :src="useravatar"/>
+    <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" class="logo" :src="useravatar"/>
+    <img v-else style="border-radius: 50%;" class="logo" src="@/assets/mlogo.png"/>
     </div>
   <li class="grid-content">
     <el-button type="text" @click="gotoMain" class="guide">首页</el-button></li>

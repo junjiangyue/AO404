@@ -50,7 +50,8 @@
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="fan-user">
-                      <img style="border-radius: 50%;" v-bind:src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
+                      <img v-if="item.userAvatar" style="border-radius: 50%;" v-bind:src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
+                      <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="55px" align="middle">
                       <span><el-button @click="openOtherUserPage(item.userId)" type="text" id="fan-name">{{item.userName}}</el-button></span>
                       <el-button v-if="item.isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(item.userId)">+关注</el-button>
                       <el-button v-else round plain type="info" id="follow" @click="openDialog(item.userId)">已关注</el-button>

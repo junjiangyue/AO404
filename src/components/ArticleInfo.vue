@@ -3,8 +3,11 @@
     <Guidebar></Guidebar>
     <div class="article">
         <el-card class="box-card">
+
              <div slot="header" class="clearfix" @click="openOtherUserPage(articleInformation.userId)">
-                    <li><img style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/></li>
+                    <li><img v-if="articleInformation.userAvatar" style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/><img v-else style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/></li>
+
+
                     <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
             <div class="content">
@@ -12,7 +15,7 @@
                 <div class="time">{{articleInformation.publishTime}}</div>
                 <div class="article_content">
                     {{articleInformation.articleContent}}
-                    <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
+                    <div><img class="picture" v-bind:src="'data:image/jpeg;base64,'+articlePicture" width="200px" height="auto"/></div>
                  </div>
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
                     <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
@@ -31,9 +34,12 @@
                 </el-card>
             <div class="comments" v-for="(item) in commentContent" :key="item.commentId">
                 <el-card class="comments-card">
-                    <div class="cmter_info">
-                <el-avatar v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
-                <span class="writer_name">{{item.userName}}</span>
+
+                    <div class="cmter_info" @click="openOtherUserPage(item.userId)">
+                        <el-avatar v-if="item.userAvatar" v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
+                <el-avatar v-else src="@/assets/mlogo.png"></el-avatar>
+                        <span class="writer_name">{{item.userName}}</span>
+
                     </div>
                     <div class="comment_content">
                      {{item.commentInfo}}
@@ -65,6 +71,7 @@ export default {
       articleInformation:[],
       commentContent:[],
       myId:'',
+      articlePicture:''
     }
   },
   methods:{
@@ -160,6 +167,18 @@ export default {
             console.log('我的信息数据：', res.data);
             this.myId=res.data.data.userId;
             console.log('userId',this.myId);
+        },err=>{
+            console.log(err);
+        });
+        this.$axios({
+            method:"post",
+            params:{articleId:this.$route.params.articleId},
+            url: 'api/picture/getArticleImg',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log('文章图片：', res);
+            this.articlePicture = res.data[0]
+            //this.myId=res.data.data.userId;
         },err=>{
             console.log(err);
         });
