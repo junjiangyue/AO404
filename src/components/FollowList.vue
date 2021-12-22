@@ -50,7 +50,7 @@
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="follow-user">
-                      <img v-bind:src="item.userAvatar" width="55px" align="middle">
+                      <img style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
                       <span><el-button @click="openOtherUserPage(item.userId)" type="text" id="follow-name">{{item.userName}}</el-button></span>
                       <el-button round id="cancle-follow" @click="dialogVisible = true">取消关注</el-button>
                       <el-dialog
@@ -147,20 +147,11 @@ export default {
       headers: { token:window.sessionStorage.getItem("token")},
     }).then(res=>{
       console.log('关注列表信息',res.data);
-      // this.follow_num = res.data.data.followlist.length;
       this.tabledata = res.data.data.followList;
       console.log(res.data.data.followList);
       this.follow_num = this.tabledata.length;
+      console.log(res.data.data.followList);
     });
-    /*this.$axios({
-      method:"post",
-      url:'http://47.102.194.89:8080/picture/getAvatar',
-      params: {},
-      headers: { token:window.sessionStorage.getItem("token")},
-    }).then(res=>{
-      console.log('头像信息',res.data);
-    })*/
-
   }
 }
 </script>

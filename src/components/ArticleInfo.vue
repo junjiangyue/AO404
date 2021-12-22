@@ -3,8 +3,8 @@
     <Guidebar></Guidebar>
     <div class="article">
         <el-card class="box-card">
-             <div slot="header" class="clearfix">
-                    <li><img class="writer_avatar" v-bind:src="articleInformation.userAvatar"/></li>
+             <div slot="header" class="clearfix" @click="openOtherUserPage(articleInformation.userId)">
+                    <li><img style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/></li>
                     <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
             <div class="content">
@@ -14,18 +14,19 @@
                     {{articleInformation.articleContent}}
                     <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
                  </div>
-                <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId"> {{item.tagName}}</div>
+                <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
+                    <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
             </div>
             <el-divider></el-divider>
             <div class="commentsbody">
-            <div class="comments" v-for="(item) in articleInformation.commmetList" :key="item.commentId">
+            <div class="comments" v-for="(item) in commentContent" :key="item.commentId">
                 <el-card class="comments-card">
                     <div class="cmter_info">
-                <el-avatar v-bind:src="item.avatar"></el-avatar>
+                <el-avatar v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
                 <span class="writer_name">{{item.userName}}</span>
                     </div>
                     <div class="comment_content">
-                     {{item.comment}}
+                     {{item.commentInfo}}
                     </div>
                     <div class="comment_time">
                      {{item.conmentTime}}  
@@ -48,13 +49,28 @@ export default {
     },
   data(){
     return {
-      articleInformation:[
-      ]
+      articleInformation:[],
+      commentContent:[],
+      myId:'',
     }
   },
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
+    },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      if(id==this.myId){
+        console.log('我的id');
+        this.$router.push({path:'/PersonalPage'});
+      } else {
+        console.log('别人的id');
+        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      }
     },
   },
   mounted: function(){
@@ -77,7 +93,32 @@ export default {
     else console.log(res.data.code);
 		},err=>{
 			console.log(err);
-		})
+		});
+
+        this.$axios({
+            method:"get",
+            url:'api/article/articleComment',
+            headers:{
+    token:window.sessionStorage.getItem("token")},
+    params:{
+        articleId:this.$route.params.articleId,
+        
+    }
+        }).then(res=>{
+            console.log(res);
+            this.commentContent = res.data.data.commentList;
+        });
+        this.$axios({
+            method:"get",
+            url: 'api/user/myInfo',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log('我的信息数据：', res.data);
+            this.myId=res.data.data.userId;
+            console.log('userId',this.myId);
+        },err=>{
+            console.log(err);
+        });
 }
 }
 </script>
@@ -85,7 +126,7 @@ export default {
 <style>
 .commentsbody {
     width:100%;
-    height: 195px;
+    height: auto;
 }
 .writer_avatar{
     width:50px;
@@ -143,4 +184,11 @@ li{
 .comment_content{
     margin-left: 40px;
 }
+.opentag-btn {
+    color: #606266;
+    font-size: 15px;
+  }
+  .opentag-btn:hover {
+    color: #5087f5;
+  }
 </style>

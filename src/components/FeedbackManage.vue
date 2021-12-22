@@ -131,15 +131,16 @@ export default({
           this.$axios({
             method:"post",
             url: 'api/feedback/answerfeedback',
-            headers:{
-            token:window.sessionStorage.getItem("token")},
+            // headers:{
+            // token:window.sessionStorage.getItem("token")},
             params:{
-                message:parseString(value),
-                messageHead:parseString(value),
                 feedbackId:row.feedbackId,
+                message:value,
+                messageHead:value,
             }
             }).then(res=>{
                 console.log(res);
+                this.tableData.splice(index, 1);
         },err=>{
           console.log(err);
         })

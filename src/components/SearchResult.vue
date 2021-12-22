@@ -7,8 +7,10 @@
                 <el-card class="box1-card">
                     <div v-for="(item) in usertabledata" :key="item.id" class="text-item">
                         <div class="userBlock">
+                            <img v-if="item.userAvatar" style="margin:10px 20px;border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
+                            <img v-else style="margin:10px 20px;border-radius: 50%;" src="@/assets/mlogo.png"  width="55px" align="middle"/>
                             <h3 class="userMessage">用户名：<el-button style="font-size: 20px" type="text" @click="openOtherUserPage(item.userId)">{{item.userName}}</el-button></h3>
-                            <p class="userMessage">{{item.userAvatar}}</p>
+                            <!-- <p class="userMessage">{{item.userAvatar}}</p> -->
                         </div>
                     </div>
                 </el-card>
@@ -70,6 +72,7 @@
     display: inline-block;
     vertical-align: top;
     font-size: 18px;
+    margin-top: 30px;
 }
 .tagMessage {
     display: inline-block;

@@ -33,14 +33,16 @@
         <el-col :span="8" v-for="(item) in tabledata" :key="item.id" :offset="0">
           <div class="card">
             <el-card :body-style="{ padding: '0px' }">
-              <p class="article_heading">{{item.articleHeading}}</p>
+              <div @click="gotoArticleInfo(item.articleId)"><p class="article_heading">{{item.articleHeading}}</p>
               <div class="content"><p class="article_content">{{item.articleContent}}</p>
-              <!--<img src="../../src/assets/discover_pic1.png" class="image">--></div>
+              <!--<img src="../../src/assets/discover_pic1.png" class="image">--></div></div>
               <hr color=#EFEEEE SIZE=1>
               <div id="user" style="padding: 0px;">
                 <div id="user-name">
                   <p>
-                    <img v-bind:src="item.pic" width="50px" align="middle">
+                    <!-- <img v-bind:src="item.pic" width="50px" align="middle"> -->
+                    <img v-if="item.userAvatar" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle" @click="openOtherUserPage(item.userId)">
+                    <img v-else src="@/assets/mlogo.png"  width="50px" align="middle" @click="openOtherUserPage(item.userId)"/>
                     <span>
                       <el-button @click="openOtherUserPage(item.userId)" type="text" class="skiptag-btn">
                         {{item.userName}}
@@ -101,6 +103,10 @@ export default {
         })
   },
   methods: {
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
     addSubscribe() {
       this.$axios({
         method:"post",

@@ -9,7 +9,7 @@
         <div id="user-card">
           <div id="head-name">
             <p>
-              <img v-bind:src="pic" width="70px" align="middle">
+              <img style="border-radius: 50%;" :src="useravatar" width="70px" align="middle">
               <span id="bigname">{{userName}}</span>
               <el-button v-if="isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(userID)">+关注</el-button>
               <el-button v-else round plain type="info" id="follow" @click="openDialog(userID)">已关注</el-button>
@@ -32,20 +32,25 @@
       <div v-for="(item) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
-            <img v-bind:src="pic" width="50px" align="middle">
+            <img style="border-radius: 50%;" :src="useravatar"  width="50px" align="middle">
             <span>{{userName}}</span>
           </p>
-          <p id="title">{{item.articleHeading}}</p>
+          <p id="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</p>
           <hr align=center color=#EFEEEE SIZE=1 width="95%">
           <p id="content">{{item.articleContent}}</p>
           <img v-bind:src="item.picture" width="100px" id="picture">
           <div>
-            <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
-              <i class="icon-like"></i>
-              <span>{{item.articleLikes}}</span>
-              <i class="icon-command"></i>
-              <span>{{item.articleComments}}</span>
-            </p>
+            <div id="time">
+              <div class="alignment">{{item.publishTime}}</div>
+              <div class="alignment">|</div>
+              <div class="alignment" v-for="tag in item.tagList" :key="tag.id">
+                <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}； </el-button>
+              </div>
+              <i class="alignment" id="icon-like-other"></i>
+              <span class="alignment" id="likenum-other">{{item.articleLikes}}</span>
+              <i class="alignment" id="icon-command-other"></i>
+              <span class="alignment" id="commandnum-other">{{item.articleComments}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +71,18 @@ export default {
     console.log('userID',this.userID);
     this.getUserInfo(),
     this.getUserArticle(),
-    this.getMyRelation()
+    this.getMyRelation(),
+    this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
   },
   methods: {
     getUserInfo(){
@@ -164,12 +180,37 @@ export default {
       console.log("传值"+index),
       this.tempIndex=index
     },
+    arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
   },
   data() {
     return {
       userID:'',
       userName: '',
-      pic: require('../../src/assets/mlogo.png'),
+      // pic: require('../../src/assets/mlogo.png'),
+      useravatar: '',
       article_num:'',
       isMyFollow:0,
       dialogVisible: false,
@@ -194,6 +235,10 @@ export default {
 </script>
 
 <style>
+  .alignment {
+    display: inline-block;
+    vertical-align: top;
+  }
   .el-row {
     margin-bottom: 20px;
   }
@@ -274,17 +319,26 @@ export default {
   #picture {
     margin-left: 30px;
   }
-  .icon-like {
+  #icon-like-other {
     content: url(../../src/assets/like.png);
     width: 13px;
-    margin-left: 600px;
-    margin-right: 5px;
+    position: absolute;
+    right: 400px;
+
   }
-  .icon-command {
+  #likenum-other{
+    position: absolute;
+    right: 385px;
+  }
+  #icon-command-other {
     content: url(../../src/assets/command.png);
     width: 13px;
-    margin-left: 20px;
-    margin-right: 5px;
+    position: absolute;
+    right: 340px;
+  }
+  #commandnum-other{
+    position: absolute;
+    right: 325px;
   }
   #time {
     margin-left: 30px;
@@ -294,5 +348,10 @@ export default {
   #follow {
     margin-top: 10px;
     margin-left: 50px;
+  }
+  .opentag-btn {
+    color: #606266;
+    font-size: 12px;
+    padding: 0px;
   }
 </style>

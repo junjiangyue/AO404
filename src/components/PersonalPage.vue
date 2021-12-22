@@ -63,7 +63,7 @@
                   <img style="border-radius: 50%;" :src="useravatar" width="50px" align="middle">
                   <span>{{userName}}</span>
                 </p>
-                <p id="title">{{item.articleHeading}}</p>
+                <p id="title" @click="gotoArticleInfo(item.articleId)">{{item.articleHeading}}</p>
                 <hr align=center color=#EFEEEE SIZE=1 width="95%">
                 <p id="content">{{item.articleContent}}</p>
                 <img v-bind:src="item.picture" width="100px" id="picture">
@@ -75,9 +75,9 @@
                       <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}； </el-button>
                     </div>
                     <i class="alignment" id="icon-like"></i>
-                    <span class="alignment">{{item.articleLikes}}</span>
+                    <span class="alignment" id="likenum">{{item.articleLikes}}</span>
                     <i class="alignment" id="icon-command"></i>
-                    <span class="alignment">{{item.articleComments}}</span>
+                    <span class="alignment" id="commandnum">{{item.articleComments}}</span>
                   </div>
                 </div>
               </div>
@@ -112,6 +112,10 @@ export default {
     })
   },
   methods: {
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -288,14 +292,26 @@ export default {
   #icon-like {
     content: url(../../src/assets/like.png);
     width: 13px;
-    margin-left: 500px;
-    margin-right: 5px;
+    /*margin-left: 500px;
+    margin-right: 5px;*/
+    position: absolute;
+    right: 150px;
+  }
+  #likenum{
+    position: absolute;
+    right: 135px;
   }
   #icon-command {
     content: url(../../src/assets/command.png);
     width: 13px;
-    margin-left: 20px;
-    margin-right: 5px;
+    /*margin-left: 20px;
+    margin-right: 5px;*/
+    position: absolute;
+    right: 90px;
+  }
+  #commandnum{
+    position: absolute;
+    right: 75px;
   }
   #time {
     margin-left: 30px;
