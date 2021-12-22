@@ -40,7 +40,9 @@
               <div id="user" style="padding: 0px;">
                 <div id="user-name">
                   <p>
-                    <img v-bind:src="item.pic" width="50px" align="middle">
+                    <!-- <img v-bind:src="item.pic" width="50px" align="middle"> -->
+                    <img v-if="item.userAvatar" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle">
+                    <img v-else src="@/assets/mlogo.png"  width="50px" align="middle"/>
                     <span>
                       <el-button @click="openOtherUserPage(item.userId)" type="text" class="skiptag-btn">
                         {{item.userName}}
