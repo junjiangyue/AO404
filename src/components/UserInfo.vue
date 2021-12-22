@@ -52,7 +52,7 @@
                   <span>
                     <el-upload
                       class="avatar-uploader"
-                      action="/api/picture/uploadAvatar"
+                      action="http://47.102.194.89:8080/picture/uploadAvatar"
                       :headers="headers"
                       :show-file-list="false"
                       :on-success="handleAvatarSuccess">
