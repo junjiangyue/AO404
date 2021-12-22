@@ -56,7 +56,7 @@
                         <el-card class="box-card" style="margin-right:40px">
                             <div  class="text_item">
                               <i class="el-icon-data-analysis" style="margin-right:10px"></i>
-                                <a>本周新增用户</a><p>{{new_user}}</p>
+                                <a>本周新增文章</a><p>{{new_user}}</p>
                             </div>
                             </el-card>
                     </el-col>
@@ -77,9 +77,9 @@ export default({
       return {
         input2:'',
         activeIndex: '1',
-        user_number: 10000,
-        article_number:5000,
-        new_user:200,
+        user_number: '',
+        article_number:'',
+        new_user:'',
       };
     },
     methods: {
@@ -90,20 +90,20 @@ export default({
 		  // 指定图表的配置项和数据
 		  var option = {
 			  title: {
-				  text: 'ECharts 入门示例'
+				  text: '一周文章数分析'
 			  },
 			  tooltip: {},
 			  legend: {
-				  data:['销量']
+				  data:['文章数']
 			  },
 			  xAxis: {
-				  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+				  data: ["周一","周二","周三","周四","周五","周六","周日"]
 			  },
 			  yAxis: {},
 			  series: [{
-				  name: '销量',
+				  name: '文章数',
 				  type: 'bar',
-				  data: [5, 20, 36, 10, 10, 20]
+				  data: [1, 3, 5, 0, 0, 0,0]
 			  }]
 		  };
 
@@ -128,7 +128,34 @@ export default({
 
     },
     mounted() {
-  	this.myEcharts();
+  	this.myEcharts(),
+    this.$axios({
+        method:"post",
+        url: 'api/admin/getUserList',
+        }).then(res=>{
+            this.user_number = res.data.data.userList.length;
+            console.log("用户总数:",res.data.data.userList.length);
+		},err=>{
+			console.log(err);
+		}),
+    this.$axios({
+        method:"post",
+        url: 'api/admin/getArticleList',
+        }).then(res=>{
+            this.article_number = res.data.data.articleList.length;
+            console.log("总文章数:",res.data.data.articleList.length);
+		},err=>{
+			console.log(err);
+		}),
+    this.$axios({
+        method:"get",
+        url: 'api/admin/weekNew',
+        }).then(res=>{
+            this.new_user = res.data.data.weekNew;
+            console.log("新增文章数:",res.data.data.weekNew);
+		},err=>{
+			console.log(err);
+		})
   }
 })
 </script>

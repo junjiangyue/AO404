@@ -116,7 +116,7 @@ export default {
   methods: {
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({name:'ArticleInfo',query:{articleId:articleId}});
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

@@ -309,7 +309,7 @@ export default {
     },
     mounted:function() {
         console.log("kaishi");
-        this.gettagName = this.$route.params.tagName;//获得传过来的tagName
+        this.gettagName = this.$route.query.tagName;//获得传过来的tagName
         console.log('gettagName',this.gettagName);
         this.$axios({
             method:"post",

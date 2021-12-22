@@ -130,7 +130,7 @@ export default {
     },
     openOtherUserPage(id){
       console.log('打开的userid',id);
-      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      this.$router.push({name:'OtherUserPage',query:{userID:id}});
     }
   },
   data() {

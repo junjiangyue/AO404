@@ -142,19 +142,19 @@ export default {
       }
     },
     comment(articleId){
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({name:'ArticleInfo', query:{articleId:articleId}});
     },
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({name:'ArticleInfo', query:{articleId:articleId}});
     },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',params:{tagID:id}});
+      this.$router.push({name:'Tag', query:{tagID:id}});
     },
     openOtherUserPage(id){
       console.log('打开的userid',id);
-      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      this.$router.push({name:'OtherUserPage', query:{userID:id}});
     }
     // arrayBufferToBase64(buffer) {
     //               var binary = '';

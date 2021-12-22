@@ -60,7 +60,7 @@
         // toMenu (item) {
           if (this.$route.path !== '/SearchResult') {
           // this.$router.push({ path: '/SearchResult' })
-          this.$router.push({name:'SearchResult',params:{searchcontent:this.input2}});
+          this.$router.push({name:'SearchResult',query:{searchcontent:this.input2}});
            }
         // }
 

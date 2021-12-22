@@ -34,22 +34,13 @@
             <el-main class="main">
                 <h1> 反馈列表</h1>
                 <el-row>
-                    <el-col :span="12">
+                    <el-col >
                         <el-card class="box-card"
                         style="margin-right:20px">
                              <div class="text_item">
                               <i class="el-icon-user" style="margin-right:10px"></i>
                                 <a>新增反馈数</a>
                                 <p>{{new_feedback}}</p>
-                            </div>
-                            </el-card>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-card class="box-card" style="margin-right:40px">
-                             <div class="text_item">
-                              <i class="el-icon-user" style="margin-right:10px"></i>
-                                <a>未处理反馈数</a>
-                                <p>{{undeal_feedback}}</p>
                             </div>
                             </el-card>
                     </el-col>
@@ -101,8 +92,7 @@ export default({
       return {
         input2:'',
         activeIndex: '4',
-        new_feedback:100,
-        undeal_feedback:10,
+        new_feedback:'',
         tableData:[],
         message:'',
       };
@@ -115,6 +105,7 @@ export default({
           token:window.sessionStorage.getItem("token")}
         }).then(res=>{
             this.tableData = res.data.data.feedbackList;
+            this.new_feedback = res.data.data.feedbackList.length;
             console.log(res);
       },err=>{
         console.log(err);

@@ -39,7 +39,7 @@
                         style="margin-right:20px">
                             <div class="text_item">
                               <i class="el-icon-user" style="margin-right:10px"></i>
-                                <a>新增文章数</a>
+                                <a>总文章数</a>
                                 <p>{{new_article}}</p>
                             </div>
                             </el-card>
@@ -48,7 +48,7 @@
                         <el-card class="box-card" style="margin-right:40px">
                             <div class="text_item">
                               <i class="el-icon-user" style="margin-right:10px"></i>
-                                <a>未审核文章数</a>
+                                <a>新增文章数</a>
                                 <p>{{unaudit_article}}</p>
                             </div>
                             </el-card>
@@ -56,7 +56,6 @@
                 </el-row>
                  <el-card class="box-card" style="margin-top:20px;margin-right:40px">
                             <el-table :data="tableData"  border style="width: 100%;height=100%">
-                                <el-table-column prop="userName" label="用户名" ></el-table-column>
                                 <el-table-column prop="userId" label="用户ID"></el-table-column>
                                 <el-table-column prop="articleId" label="文章ID"></el-table-column>
                                 <el-table-column prop="articleHeading" label="文章内容"></el-table-column>
@@ -80,8 +79,8 @@ export default({
       return {
         input2:'',
         activeIndex: '3',
-        new_article: 100,
-        unaudit_article:50,
+        new_article: '',
+        unaudit_article:'',
          tableData: []
       };
     },
@@ -92,6 +91,24 @@ export default({
         }).then(res=>{
             this.tableData = res.data.data.articleList;
             console.log(res);
+		},err=>{
+			console.log(err);
+		}),
+    this.$axios({
+        method:"post",
+        url: 'api/admin/getArticleList',
+        }).then(res=>{
+            this.new_article = res.data.data.articleList.length;
+            console.log("总文章数:",res.data.data.articleList.length);
+		},err=>{
+			console.log(err);
+		}),
+    this.$axios({
+        method:"get",
+        url: 'api/admin/weekNew',
+        }).then(res=>{
+            this.unaudit_article = res.data.data.weekNew;
+            console.log("新增文章数:",res.data.data.weekNew);
 		},err=>{
 			console.log(err);
 		})
@@ -110,7 +127,7 @@ export default({
          token:window.sessionStorage.getItem("token")}
         }).then(res=>{
           console.log(row.articleId),
-          this.$router.push({name:'ArticleInfo',params:{articleId:row.articleId}});
+          this.$router.push({name:'ArticleAdmin',query:{articleId:row.articleId}});
           console.log(res);
         },err=>{
           console.log(err);
