@@ -68,8 +68,8 @@ export default {
     Guidebar
   },
   mounted:function(){
-    console.log(this.$route.params.userID);
-    this.userID=this.$route.params.userID;
+    console.log(this.$route.query.userID);
+    this.userID=this.$route.query.userID;
     console.log('userID',this.userID);
     this.getUserInfo(),
     this.getUserArticle(),
@@ -200,11 +200,11 @@ export default {
           },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',params:{tagID:id}});
+      this.$router.push({path:'/Tag',query:{tagID:id}});
     },
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({path:'/ArticleInfo',query:{articleId:articleId}});
     },
     like(articleId,index){
       console.log(index);

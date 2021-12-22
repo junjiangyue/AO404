@@ -223,6 +223,7 @@ export default {
         });
                 this.articleId = res.data.articleId;
                 this.$refs.upload.submit();
+                this.$router.push('/PersonalPage');
           }
             })}
             else {

@@ -60,7 +60,7 @@ export default {
     },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',params:{tagID:id}});
+      this.$router.push({path:'/Tag',query:{tagID:id}});
     },
     openOtherUserPage(id){
       console.log('打开的userid',id);
@@ -69,19 +69,19 @@ export default {
         this.$router.push({path:'/PersonalPage'});
       } else {
         console.log('别人的id');
-        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+        this.$router.push({path:'/OtherUserPage',query:{userID:id}});
       }
     },
   },
   mounted: function(){
-      console.log(this.$route.params.articleId),
+      console.log(this.$route.query.articleId),
         this.$axios({
         method:"get",
         url: 'api/article/articleInfo',
         headers:{
         token:window.sessionStorage.getItem("token")},
         params:{
-            articleId:this.$route.params.articleId,
+            articleId:this.$route.query.articleId,
             
         }
         }).then(res=>{
@@ -101,7 +101,7 @@ export default {
                 headers:{
         token:window.sessionStorage.getItem("token")},
         params:{
-            articleId:this.$route.params.articleId,
+            articleId:this.$route.query.articleId,
             
         }
         }).then(res=>{
@@ -121,7 +121,7 @@ export default {
         });
         this.$axios({
             method:"post",
-            params:{articleId:this.$route.params.articleId},
+            params:{articleId:this.$route.query.articleId},
             url: 'api/picture/getArticleImg',
             headers: { token:window.sessionStorage.getItem("token")}
         }).then(res=>{

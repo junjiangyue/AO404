@@ -67,8 +67,8 @@ export default {
     Guidebar
   },
   mounted:function(){
-    console.log(this.$route.params.tagID);
-    this.tagID = this.$route.params.tagID;
+    console.log(this.$route.query.tagID);
+    this.tagID = this.$route.query.tagID;
     //this.subscribe=this.$route.params.state;
     console.log('tagID:', this.tagID);
     //console.log('subscribe',this.subscribe);
@@ -105,7 +105,7 @@ export default {
   methods: {
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({path:'/ArticleInfo',query:{articleId:articleId}});
     },
     addSubscribe() {
       this.$axios({
@@ -175,7 +175,7 @@ export default {
         this.$router.push({path:'/PersonalPage'});
       } else {
         console.log('别人的id');
-        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+        this.$router.push({path:'/OtherUserPage',query:{userID:id}});
       }
     },
     joinTag(){
