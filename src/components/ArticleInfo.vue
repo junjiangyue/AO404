@@ -15,7 +15,7 @@
                 <div class="time">{{articleInformation.publishTime}}</div>
                 <div class="article_content">
                     {{articleInformation.articleContent}}
-                    <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
+                    <div><img class="picture" v-bind:src="'data:image/jpeg;base64,'+articlePicture" width="200px" height="auto"/></div>
                  </div>
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
                     <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
@@ -57,7 +57,8 @@ export default {
     return {
       articleInformation:[],
       commentContent:[],
-      myId:''
+      myId:'',
+      articlePicture:''
     }
   },
   methods:{
@@ -132,6 +133,7 @@ export default {
             headers: { token:window.sessionStorage.getItem("token")}
         }).then(res=>{
             console.log('文章图片：', res);
+            this.articlePicture = res.data[0]
             //this.myId=res.data.data.userId;
         },err=>{
             console.log(err);
