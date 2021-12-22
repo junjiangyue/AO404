@@ -24,6 +24,7 @@ import UserInfo from '@/components/UserInfo'
 import AccountSecurity from '@/components/AccountSecurity'
 import OtherUserPage from '@/components/OtherUserPage'
 import ForgetPassword from '@/components/ForgetPassword'
+import SearchResult from '@/components/SearchResult'
 
 Vue.use(Router)
 
@@ -137,6 +138,11 @@ export default new Router({
       name:'ForgetPassword',
       component:ForgetPassword,
       meta: {  requireAuth:true  }
+    },{
+      path:'/SearchResult',
+      name:'SearchResult',
+      component:SearchResult,
+      meta: { requireAuth:true }
     }
   ]
 })

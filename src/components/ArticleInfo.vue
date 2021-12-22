@@ -4,32 +4,31 @@
     <div class="article">
         <el-card class="box-card">
              <div slot="header" class="clearfix">
-                    <li><img class="writer_avatar" src="@/assets/mlogo.png"/></li>
-                    <li><span class="writer_name">作者名称</span></li>
+                    <li><img class="writer_avatar" v-bind:src="articleInformation.userAvatar"/></li>
+                    <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
             <div class="content">
-                <div class="title">标题</div>
-                <div class="time">发布时间</div>
+                <div class="title">{{articleInformation.articleHeading}}</div>
+                <div class="time">{{articleInformation.publishTime}}</div>
                 <div class="article_content">
-                    <p>【我用早餐叫醒你】</p>
-                    <p>弱者才会一蹶不振，我要逆风翻盘。</p>
-                    <p>今日份元气早餐：蛋花酒酿/XO酱配法棍🥖/糖心苹果</p>
-                    <img class="picture" src="@/assets/arabica-1300.png" width="100%" height="100%"/>
+                    {{articleInformation.articleContent}}
+                    <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
                  </div>
-                <div class="tag">#标签</div>
+                <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId"> {{item.tagName}}</div>
             </div>
             <el-divider></el-divider>
-            <div class="comments">
+
+            <div class="comments" v-for="(item) in articleInformation.commmetList" :key="item.commentId">
                 <el-card class="comments-card">
                     <div class="cmter_info">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                <span class="writer_name">昵称</span>
+                <el-avatar v-bind:src="item.avatar"></el-avatar>
+                <span class="writer_name">{{item.userName}}</span>
                     </div>
                     <div class="comment_content">
-                     太棒啦！   
+                     {{item.comment}}
                     </div>
                     <div class="comment_time">
-                     评论时间  
+                     {{item.conmentTime}}  
                     </div>
                 </el-card>
             </div>
@@ -45,7 +44,40 @@ export default {
     name:'AricleInfo',
     components: {
     Guidebar
+    },
+  data(){
+    return {
+      articleInformation:[
+      ]
     }
+  },
+  methods:{
+    jumppoatword() {
+      this.$router.push('/Postword')
+    },
+  },
+  mounted: function(){
+      console.log(this.$route.params.articleId),
+    this.$axios({
+    method:"get",
+    url: 'api/article/articleInfo',
+    headers:{
+    token:window.sessionStorage.getItem("token")},
+    params:{
+        articleId:this.$route.params.articleId,
+        
+    }
+    }).then(res=>{
+		console.log(res);
+    if(res.data.code=='200')
+    {
+      this.articleInformation = res.data.data.articleInformation
+    }
+    else console.log(res.data.code);
+		},err=>{
+			console.log(err);
+		})
+}
 }
 </script>
 

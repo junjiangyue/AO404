@@ -59,7 +59,7 @@
                                 <el-table-column prop="userName" label="用户名" ></el-table-column>
                                 <el-table-column prop="userId" label="用户ID"></el-table-column>
                                 <el-table-column prop="articleId" label="文章ID"></el-table-column>
-                                <el-table-column prop="articleContent" label="文章内容"></el-table-column>
+                                <el-table-column prop="articleHeading" label="文章内容"></el-table-column>
                                 <el-table-column prop="publishTime" label="发布时间"></el-table-column>
                                 <el-table-column prop="tagName" label="标签名"></el-table-column>
                                 <el-table-column label="操作">
@@ -98,8 +98,8 @@ export default({
 		})
     },
     methods: {
-      handleEdit(key, keyPath) {
-        console.log(key, keyPath);
+      handleEdit(index, rows) {
+        // 将文章ID传给ArticleInfo页面
       },
       handleDelete(index, rows){
         console.log( rows.userId);
