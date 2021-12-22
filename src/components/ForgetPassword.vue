@@ -5,19 +5,19 @@
     </div>   
     <div class="content">
         <div class="login" style="text-align:center">
-            <h1>Hello, Welcome to us!</h1>
+            <h1>Reset Your Password</h1>
             <div class="editview">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                      <el-form-item prop="email">
                 <li><el-input v-model="ruleForm.email" placeholder="请输入邮箱" width=300px ></el-input></li></el-form-item>
-                <el-form-item prop="name">
-                <li><el-input v-model="ruleForm.name" placeholder="请输入一个昵称" width=300px ></el-input></li></el-form-item>
-                    <el-form-item prop="password">
-                <li><el-input placeholder="请输入密码" v-model="ruleForm.password" show-password width=300px></el-input></li></el-form-item>
                 <el-form-item prop="verification_code">
                 <li><el-input placeholder="请输入验证码" v-model="ruleForm.verification_code" class="veri">
                      <el-button slot="append" class="get_veri" @click="verify">获取验证码</el-button></el-input></li></el-form-item>
-                <li><el-button type="primary" round class="btn_signup" @click="register">注册</el-button></li>
+                     <el-form-item prop="userid">
+                <li><el-input v-model="ruleForm.userid" placeholder="请输入您的ID" ></el-input></li></el-form-item>
+                <el-form-item prop="password">
+                <li><el-input placeholder="请输入新的密码" v-model="ruleForm.password" show-password width=300px></el-input></li></el-form-item>
+                <li><el-button type="primary" round class="btn_signup" @click="changePsw">确定</el-button></li>
                 </el-form>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: 'SignUp',
+    name: 'ForgetPassword',
     data() {
     var checkEmail = (rule, value, callback) => {
         if (!value) {
@@ -45,9 +45,9 @@ export default {
           return callback(new Error('密码不能为空!'));
           }
         };
-        var checkName = (rule, value, callback) => {
+        var checkId = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('昵称不能为空!'));
+          return callback(new Error('ID不能为空!'));
           }
         };
     return {
@@ -57,17 +57,17 @@ export default {
       email: '',
       password:'',
       verification_code:'',
-      name:'',
+      userid:'',
       },
       rules: {
-        email: [
+            email: [
           {validator: checkEmail,trigger: "blur"}
           ],
            password: [
           {validator: checkPass,trigger: "blur"}
           ],
-          name: [
-          {validator: checkName,trigger: "blur"}
+          userid: [
+          {validator: checkId,trigger: "blur"}
           ],
         }
       };
@@ -90,7 +90,7 @@ export default {
 				console.log(err);
 			})
         },
-        register(){
+        changePsw(){
             if(this.ruleForm.verification_code != this.vericode){
                 this.$message({
                 showClose: true,
@@ -109,7 +109,7 @@ export default {
                if (res.data.msg != "关键数据缺失")
                {
 				console.log(res.data);
-                this.$router.push('/Main')
+                this.$router.push('/')
                 }
                 else{
                 this.$message({

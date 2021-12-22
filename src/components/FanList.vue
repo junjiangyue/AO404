@@ -51,9 +51,9 @@
                     <hr color=#EFEEEE SIZE=1>
                     <p id="fan-user">
                       <img v-bind:src="item.userAvatar" width="55px" align="middle">
-                      <span id="fan-name">{{item.userName}}</span>
-                      <el-button v-if="item.follow === 0" round plain type="primary" id="follow" @click="addFollow(index)">+关注</el-button>
-                      <el-button v-else round plain type="info" id="follow" @click="openDialog(index)">已关注</el-button>
+                      <span><el-button @click="openOtherUserPage(item.userId)" type="text" id="fan-name">{{item.userName}}</el-button></span>
+                      <el-button v-if="item.isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(item.userId)">+关注</el-button>
+                      <el-button v-else round plain type="info" id="follow" @click="openDialog(item.userId)">已关注</el-button>
                       <el-dialog
                         title="提示"
                         :visible.sync="dialogVisible"
@@ -61,7 +61,7 @@
                         <span>确认取消关注该用户？</span>
                         <span slot="footer" class="dialog-footer">
                           <el-button @click="dialogVisible = false">取 消</el-button>
-                          <el-button type="primary" @click="cancleFollow(index)">确 定</el-button>
+                          <el-button type="primary" @click="cancleFollow(item.userId)">确 定</el-button>
                         </span>
                       </el-dialog>
                     </p>
@@ -105,34 +105,55 @@ export default {
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
     },
-    addFollow(index) {
-      console.log("关注"+index),
-      this.$set (this.tabledata, index, {id: 1,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 1}),
-      this.$message({
-          message: '关注成功',
-          type: 'success'
-        });
+    addFollow(id) {
+      console.log('要关注的id',id),
+      this.$axios({
+        method:"post",
+        url: 'api/user/follow',
+        params: {followingId:id},
+        headers: { token:window.sessionStorage.getItem("token")},
+      }).then(res=>{
+        console.log(res.data);
+        if(res.data.msg=="Success"){
+          this.$message({
+            message: '关注成功',
+            type: 'success'
+          });
+          location.reload();
+        }
+      })
     },
-    cancleFollow(index) {
-      index=this.tempIndex,
-      console.log("取消关注"+index),
-      this.$set (this.tabledata, index, {id: 2,
-          user_name: '哈哈哈',
-          picture: require('../../src/assets/mlogo.png'),
-          follow: 0}),
-      this.dialogVisible=false,
-      this.$message({
-          message: '取消关注成功',
-          type: 'success'
-        });
+    cancleFollow(id) {
+      console.log('要取关的id',id)
+      this.$axios({
+        method:"post",
+        url: 'api/user/unfollow',
+        params:{
+            followingId:id,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('取消关注数据：', res.data);
+        if(res.data.msg=="Success"){
+          this.$message({
+            message: '取关成功',
+            type: 'success'
+          });
+          this.dialogVisible = false;
+          location.reload();
+        }
+      },err=>{
+        console.log(err);
+      });
     },
     openDialog(index) {
       this.dialogVisible = true,
       console.log("传值"+index),
       this.tempIndex=index
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      this.$router.push({name:'OtherUserPage',params:{userID:id}});
     }
   },
   data() {
@@ -199,6 +220,12 @@ export default {
   #fan-name {
     font-size: 18px;
     margin-left: 10px;
+    color: #1a1b1c;
+  }
+  #fan-name:hover {
+    font-size: 18px;
+    margin-left: 10px;
+    color: #4c9ff1;
   }
   #follow {
     float: right;

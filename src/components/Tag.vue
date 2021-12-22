@@ -41,7 +41,11 @@
                 <div id="user-name">
                   <p>
                     <img v-bind:src="item.pic" width="50px" align="middle">
-                    <span>{{item.userId}}</span>
+                    <span>
+                      <el-button @click="openOtherUserPage(item.userId)" type="text" class="skiptag-btn">
+                        {{item.userName}}
+                      </el-button>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -129,6 +133,10 @@ export default {
       },err=>{
         console.log(err);
       })
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      this.$router.push({name:'OtherUserPage',params:{userID:id}});
     }
   },
   data() {
@@ -253,5 +261,8 @@ export default {
     margin-top: 20px;
     margin-left: 20px;
     font-size: 16px;
+  }
+  .skiptag-btn {
+    color: #606266;
   }
 </style>

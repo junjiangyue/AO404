@@ -66,7 +66,7 @@
                 <p id="content">{{item.articleContent}}</p>
                 <img v-bind:src="item.picture" width="100px" id="picture">
                 <div>
-                  <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
+                  <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tagList.tagName}}
                     <i class="icon-like"></i>
                     <span>{{item.articleLikes}}</span>
                     <i class="icon-command"></i>
@@ -119,7 +119,7 @@ export default {
       console.log('hahaha');
       this.$axios({
         method:"get",
-        url: 'api/article/userArticle',
+        url: 'api/article/myArticle',
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
         console.log('我的文章数据：', res.data);

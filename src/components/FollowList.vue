@@ -51,8 +51,18 @@
                     <hr color=#EFEEEE SIZE=1>
                     <p id="follow-user">
                       <img v-bind:src="item.userAvatar" width="55px" align="middle">
-                      <span id="follow-name">{{item.userName}}</span>
-                      <el-button round id="cancle-follow" @click="unfollow()">取消关注</el-button>
+                      <span><el-button @click="openOtherUserPage(item.userId)" type="text" id="follow-name">{{item.userName}}</el-button></span>
+                      <el-button round id="cancle-follow" @click="dialogVisible = true">取消关注</el-button>
+                      <el-dialog
+                        title="提示"
+                        :visible.sync="dialogVisible"
+                        width="30%">
+                        <span>确认取消关注该用户？</span>
+                        <span slot="footer" class="dialog-footer">
+                          <el-button @click="dialogVisible = false">取 消</el-button>
+                          <el-button type="primary" @click="unfollow(item.userId)">确 定</el-button>
+                        </span>
+                      </el-dialog>
                     </p>
                   </div>
                 </div>
@@ -94,24 +104,38 @@ export default {
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
     },
-    unfollow(){
+    unfollow(id){
+      console.log('要取关的id',id),
       this.$axios({
         method:"post",
         url: 'api/user/unfollow',
         params:{
-            followingId:this.tagID,
+            followingId:id,
         },
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
         console.log('取消关注数据：', res.data);
+        if(res.data.msg=="Success"){
+          this.$message({
+            message: '取关成功',
+            type: 'success'
+          });
+          this.dialogVisible = false;
+          location.reload();
+        }
       },err=>{
         console.log(err);
       });
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      this.$router.push({name:'OtherUserPage',params:{userID:id}});
     }
   },
   data() {
     return {
-      follow_num:20,
+      follow_num:'',
+      dialogVisible: false,
       tabledata: []
     }
   },
@@ -128,14 +152,14 @@ export default {
       console.log(res.data.data.followList);
       this.follow_num = this.tabledata.length;
     });
-    this.$axios({
+    /*this.$axios({
       method:"post",
       url:'http://47.102.194.89:8080/picture/getAvatar',
       params: {},
       headers: { token:window.sessionStorage.getItem("token")},
     }).then(res=>{
       console.log('头像信息',res.data);
-    })
+    })*/
 
   }
 }
@@ -180,6 +204,12 @@ export default {
   #follow-name {
     font-size: 18px;
     margin-left: 10px;
+    color: #1a1b1c;
+  }
+  #follow-name:hover {
+    font-size: 18px;
+    margin-left: 10px;
+    color: #4c9ff1;
   }
   #cancle-follow {
     float: right;

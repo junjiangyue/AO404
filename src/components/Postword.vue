@@ -4,7 +4,7 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img id="userpic" src="@/assets/mlogo.png"/>
+                <img style="border-radius: 50%;" id="userpic" :src="useravatar"/>
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
                 <h2>{{user_name}}</h2>
@@ -13,7 +13,7 @@
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
                 <div class="picimg">
-                <el-upload :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
+                <el-upload ref="upload" :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{file}">
                         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -181,7 +181,8 @@ export default {
                 'token':window.sessionStorage.getItem("token")
             },
             fileList:[],
-            tagnamelist: []
+            tagnamelist: [],
+            useravatar: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
             // fileList: []
         }
     },
@@ -201,12 +202,15 @@ export default {
             this.$axios({
                 method:"post",
                 url: 'http://47.102.194.89:8080/article/publishArticle',
-                data: {
+                params: {
                     articleHeading: this.input,
                     articleContent: this.textarea,
+                },
+                data: {
                     tagList: this.tagnamelist,
                 },
-                headers: { token:window.sessionStorage.getItem("token")},
+                headers: { token:window.sessionStorage.getItem("token"),
+                'Content-Type': 'application/json;'},
             }).then(res=>{
                 console.log(res);
                 if(res.status == 200) {
@@ -215,6 +219,8 @@ export default {
           message: '发布成功，感谢您的使用！',
           type: 'success'
         });
+                this.articleId = res.data.articleId;
+                this.$refs.upload.submit();
           }
             })}
             else {
@@ -288,6 +294,15 @@ export default {
           message: '取消发布内容'
         });
           }
+    },
+    mounted:function() {
+        this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            headers: { token:window.sessionStorage.getItem("token")},
+        }).then(res=>{
+            console.log(res)
+        })
     }
 }
 </script>

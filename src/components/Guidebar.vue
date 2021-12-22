@@ -28,7 +28,8 @@
     data() {
       return {
         activeIndex: '1',
-        activeIndex2: '1'
+        activeIndex2: '1',
+        input2:''
       };
     },
     methods: {
@@ -36,7 +37,7 @@
         console.log(key, keyPath);
       },
       gotoMain(){
-        this.$router.push('/')
+        this.$router.push('/Main')
       },
       gotoDiscover(){
         this.$router.push('/Discover')
@@ -90,7 +91,7 @@
     font-size: 16px;
     margin-left:300px
 }
-.el-input__inner{
+>>>.el-input__inner{
     border-radius:20px;
     border-width:0px;
 }

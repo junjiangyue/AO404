@@ -78,7 +78,6 @@
                 <el-dialog title="修改资料" :visible.sync="infoDialogVisible" width="40%" center>
                   <div id="input-info">
                     <p>昵&emsp;&emsp;称：<el-input  placeholder="请输入内容"  v-model="input_name"  clearable style="width: 300px"></el-input></p>
-                    <p>关联邮箱：<el-input  placeholder="请输入内容"  v-model="input_email"  clearable style="width: 300px"></el-input></p>
                   </div>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="infoDialogVisible = false">取消修改</el-button>
@@ -117,7 +116,6 @@ export default {
       pic: require('../../src/assets/mlogo.png'),
       userEmail: '',
       input_name: '哈哈哈',
-      input_email:'123456@qq.com',
       headDialogVisible: false,
       infoDialogVisible: false,
       confirmDialogVisible: false,
@@ -154,13 +152,28 @@ export default {
       this.$router.push({path: '/AccountSecurity'});
     },
     changeInfo() {
-      console.log(this.input_name,this.input_email),
-      this.infoDialogVisible=false,
-      this.confirmDialogVisible=false,
-      this.$message({
-          message: '信息修改成功！',
-          type: 'success'
-        });
+      this.$axios({
+        method:"post",
+        url: 'api/user/resetName',
+        params:{
+            newName:this.input_name,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('修改用户信息数据：', res.data);
+        if(res.data.msg=="Success"){
+          console.log(this.input_name),
+          this.infoDialogVisible=false,
+          this.confirmDialogVisible=false,
+          this.$message({
+            message: '信息修改成功！',
+            type: 'success'
+          });
+          location.reload();
+        }
+      },err=>{
+        console.log(err);
+      })
     },
     getMyInfo() {
       this.$axios({
@@ -172,6 +185,7 @@ export default {
         this.userId=res.data.data.userId;
         console.log('userId',this.userId);
         this.userName=res.data.data.userName;
+        this.input_name=this.userName;
         console.log('userName',this.userName);
         this.userEmail=res.data.data.userEmail;
         console.log('userEmail',this.userEmail);
@@ -186,7 +200,7 @@ export default {
         url: 'api/picture/getAvatar',
         headers: { token:window.sessionStorage.getItem("token")}
       }).then(res=>{
-        console.log('我的头像数据：', res.data);
+        console.log('获得我的头像数据：', res.data);
       },err=>{
         console.log(err);
       })

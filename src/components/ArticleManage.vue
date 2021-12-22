@@ -58,7 +58,7 @@
                             <el-table :data="tableData"  border style="width: 100%;height=100%">
                                 <el-table-column prop="userName" label="用户名" ></el-table-column>
                                 <el-table-column prop="userId" label="用户ID"></el-table-column>
-                                <el-table-column prop="articleHeading" label="文章标题"></el-table-column>
+                                <el-table-column prop="articleId" label="文章ID"></el-table-column>
                                 <el-table-column prop="articleContent" label="文章内容"></el-table-column>
                                 <el-table-column prop="publishTime" label="发布时间"></el-table-column>
                                 <el-table-column prop="tagName" label="标签名"></el-table-column>
@@ -79,6 +79,7 @@
 export default({
     data() {
       return {
+        input2:'',
         activeIndex: '3',
         new_article: 100,
         unaudit_article:50,
@@ -97,8 +98,28 @@ export default({
 		})
     },
     methods: {
-      handleSelect(key, keyPath) {
+      handleEdit(key, keyPath) {
         console.log(key, keyPath);
+      },
+      handleDelete(index, rows){
+        console.log( rows.userId);
+        this.$axios({
+        method:"delete",
+        url: 'api/admin/deleteArticle',
+        params:{
+          userId: rows.articleId,
+        },
+        headers:{
+         token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          if(res.msg=="Success")
+          {
+            rows.splice(index, 1);
+            }
+            console.log(res);
+        },err=>{
+          console.log(err);
+        })
       },
       gotoAdmin(){
         this.$router.push('/Admin')

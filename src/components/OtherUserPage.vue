@@ -5,37 +5,49 @@
     </div>
     <div class="main">
       <div id="usercard">
-              <div><img src="../../src/assets/personalpage.png" width="100%" class="bg-purple-light"></div>
-              <div id="user-card">
-                <div id="head-name">
-                  <p>
-                    <img v-bind:src="pic" width="70px" align="middle">
-                    <span id="bigname">{{userName}}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
-            <div v-for="(item) in tabledata" :key="item.id">
-              <div id="article-card">
-                <p id="user-head">
-                  <img v-bind:src="pic" width="50px" align="middle">
-                  <span>{{userName}}</span>
-                </p>
-                <p id="title">{{item.articleHeading}}</p>
-                <hr align=center color=#EFEEEE SIZE=1 width="95%">
-                <p id="content">{{item.articleContent}}</p>
-                <img v-bind:src="item.picture" width="100px" id="picture">
-                <div>
-                  <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
-                    <i class="icon-like"></i>
-                    <span>{{item.articleLikes}}</span>
-                    <i class="icon-command"></i>
-                    <span>{{item.articleComments}}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div><img src="../../src/assets/personalpage.png" width="100%" class="bg-purple-light"></div>
+        <div id="user-card">
+          <div id="head-name">
+            <p>
+              <img v-bind:src="pic" width="70px" align="middle">
+              <span id="bigname">{{userName}}</span>
+              <el-button v-if="isMyFollow === 0" round plain type="primary" id="follow" @click="addFollow(userID)">+关注</el-button>
+              <el-button v-else round plain type="info" id="follow" @click="openDialog(userID)">已关注</el-button>
+              <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%">
+                <span>确认取消关注该用户？</span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="cancleFollow(userID)">确 定</el-button>
+                </span>
+              </el-dialog>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
+      <div v-for="(item) in tabledata" :key="item.id">
+        <div id="article-card">
+          <p id="user-head">
+            <img v-bind:src="pic" width="50px" align="middle">
+            <span>{{userName}}</span>
+          </p>
+          <p id="title">{{item.articleHeading}}</p>
+          <hr align=center color=#EFEEEE SIZE=1 width="95%">
+          <p id="content">{{item.articleContent}}</p>
+          <img v-bind:src="item.picture" width="100px" id="picture">
+          <div>
+            <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tag}}
+              <i class="icon-like"></i>
+              <span>{{item.articleLikes}}</span>
+              <i class="icon-command"></i>
+              <span>{{item.articleComments}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,15 +60,118 @@ export default {
     Guidebar
   },
   mounted:function(){
+    console.log(this.$route.params.userID);
+    this.userID=this.$route.params.userID;
+    console.log('userID',this.userID);
+    this.getUserInfo(),
+    this.getUserArticle(),
+    this.getMyRelation()
   },
   methods: {
-    
+    getUserInfo(){
+      this.$axios({
+        method:"get",
+        url: 'api/user/userInfo',
+        params:{userId:this.userID},
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('该用户信息数据：', res.data);
+        this.userName=res.data.data.userName;
+      },err=>{
+        console.log(err);
+      })
+    },
+    getUserArticle(){
+      console.log('我开始了');
+      this.$axios({
+        method:"get",
+        url: 'api/article/userArticle',
+        params:{userId:this.userID},
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('该用户文章数据：', res.data);
+        this.article_num=res.data.data.userArtList.length;
+        this.tabledata=res.data.data.userArtList;
+      },err=>{
+        console.log(err);
+      });
+      console.log('我结束了');
+    },
+    getMyRelation(){
+      this.$axios({
+        method:"post",
+        url: 'api/user/getMyRelation',
+        params: {},
+        headers: { token:window.sessionStorage.getItem("token")},
+      }).then(res=>{
+        console.log('关系列表信息',res.data);
+        // this.follow_num = res.data.data.followlist.length;
+        this.followdata = res.data.data.followList;
+        console.log('关注',res.data.data.followList);
+        var i=0;
+        for(i;i<res.data.data.followList.length;i++){
+          if(this.userID==this.followdata[i].userId&&this.followdata[i].isMyFollow==1){
+            this.isMyFollow=1;
+            console.log('是我的关注');
+          }
+        }
+      });
+    },
+    addFollow(id) {
+      console.log('要关注的id',id),
+      this.$axios({
+        method:"post",
+        url: 'api/user/follow',
+        params: {followingId:id},
+        headers: { token:window.sessionStorage.getItem("token")},
+      }).then(res=>{
+        console.log(res.data);
+        if(res.data.msg=="Success"){
+          this.$message({
+            message: '关注成功',
+            type: 'success'
+          });
+          this.isMyFollow=1;
+        }
+      })
+    },
+    cancleFollow(id) {
+      console.log('要取关的id',id)
+      this.$axios({
+        method:"post",
+        url: 'api/user/unfollow',
+        params:{
+            followingId:id,
+        },
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('取消关注数据：', res.data);
+        if(res.data.msg=="Success"){
+          this.$message({
+            message: '取关成功',
+            type: 'success'
+          });
+          this.dialogVisible = false;
+          this.isMyFollow=0;
+        }
+      },err=>{
+        console.log(err);
+      });
+    },
+    openDialog(index) {
+      this.dialogVisible = true,
+      console.log("传值"+index),
+      this.tempIndex=index
+    },
   },
   data() {
     return {
+      userID:'',
       userName: '',
       pic: require('../../src/assets/mlogo.png'),
       article_num:'',
+      isMyFollow:0,
+      dialogVisible: false,
       tabledata: [{
           articleId: 1,
           articleHeading: '',
@@ -66,7 +181,11 @@ export default {
           tag: '',
           articleComments: '',
           articleLikes: ''
-        }]
+        }],
+      followdata:[{
+        isMyFollow:'',
+        userId:'',
+      }]
     }
   }
 }
@@ -95,6 +214,7 @@ export default {
     width: 1000px;
     margin: 0px auto;
     margin-top: 30px;
+    margin-bottom: 50px;
   }
   #page-content {
     width: 1200px;
@@ -162,5 +282,9 @@ export default {
     margin-left: 30px;
     font-size: 12px;
     flood-color: darkgray;
+  }
+  #follow {
+    margin-top: 10px;
+    margin-left: 50px;
   }
 </style>
