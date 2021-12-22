@@ -4,7 +4,7 @@
     <div class="article">
         <el-card class="box-card">
              <div slot="header" class="clearfix">
-                    <li><img style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/></li>
+                    <li><img v-if="articleInformation.userAvatar" style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/><img v-else style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/></li>
                     <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
             <div class="content">
@@ -21,7 +21,8 @@
             <div class="comments" v-for="(item) in commentContent" :key="item.commentId">
                 <el-card class="comments-card">
                     <div class="cmter_info">
-                <el-avatar v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
+                <el-avatar v-if="item.userAvatar" v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
+                <el-avatar v-else src="@/assets/mlogo.png"></el-avatar>
                 <span class="writer_name">{{item.userName}}</span>
                     </div>
                     <div class="comment_content">

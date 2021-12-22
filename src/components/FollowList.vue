@@ -50,7 +50,8 @@
                   <div>
                     <hr color=#EFEEEE SIZE=1>
                     <p id="follow-user">
-                      <img style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
+                      <img v-if="item.userAvatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="55px" align="middle">
+                      <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="55px" align="middle">
                       <span><el-button @click="openOtherUserPage(item.userId)" type="text" id="follow-name">{{item.userName}}</el-button></span>
                       <el-button round id="cancle-follow" @click="dialogVisible = true">取消关注</el-button>
                       <el-dialog

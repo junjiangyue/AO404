@@ -48,8 +48,8 @@
               <div id="user-card">
                 <div id="head-name">
                   <p>
-                    <img style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
-                    
+                    <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
+                    <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="70px" align="middle"/>
                     <span id="bigname">{{userName}}</span>
                   </p>
                 </div>

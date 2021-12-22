@@ -47,7 +47,8 @@
               <div id="info">账号资料</div>
               <hr color=#EFEEEE SIZE=1>
               <div id="photoblock"><p>
-                <img style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
+                <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
+                <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" id="headphoto" @click="headDialogVisible = true">
                 <el-dialog title="修改头像" :visible.sync="headDialogVisible" width="25%" center append-to-body>
                   <span>
                     <el-upload

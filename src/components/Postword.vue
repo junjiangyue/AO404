@@ -4,7 +4,8 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img style="border-radius: 50%;" id="userpic" :src="useravatar" />
+                <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" id="userpic" :src="useravatar" />
+                <img v-else style="border-radius: 50%;" id="userpic" src="@/assets/mlogo.png" />
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
                 <h2>{{user_name}}</h2>
@@ -13,7 +14,16 @@
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
                 <div class="picimg">
-                <el-upload ref="upload" :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false">
+
+                    <!-- <div>
+                <img style="width:300px;height:300px;margin-left:300px;border-radius: 10px;" id="img1" src alt />
+                </div>
+                <el-button icon="el-icon-upload">上传图片
+                <input type="file" ref="file2" name="check_img_url" @change="tirggerFile($event)" />
+                </el-button> -->
+                <el-upload ref="upload" :file-list="fileList" :headers="headers" :action="'http://47.102.194.89:8080/picture/uploadFile'" list-type="picture-card" :auto-upload="false" :data="uploadData" >
+                <!-- <el-upload ref="upload" :file-list="fileList" :headers="headers" :action=" 'http://47.102.194.89:8080/picture/uploadFile' + '?articleId='+articleId " list-type="picture-card" :auto-upload="false"> -->
+                <!-- <el-upload ref="upload" :file-list="fileList" :headers="headers" :action="" list-type="picture-card" :auto-upload="false"> -->
                     <i slot="default" class="el-icon-plus"></i>
                     <div slot="file" slot-scope="{file}">
                         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
@@ -155,6 +165,7 @@ h2{
 </style>
 <script>
 import Guidebar from '@/components/Guidebar'
+// import axios from 'axios'
 export default {
     name: 'Postword',
     components: {
@@ -163,6 +174,7 @@ export default {
     data() {
         return {
             // popup: 0,
+            // fileimg:'',
             circleUrl: '',
             user_name: '原神',
             input: '',
@@ -177,7 +189,10 @@ export default {
             tags: [],
             number: 0,
             tagId: 12,
-            articleId: 11111,
+            // articleId: '',
+            uploadData: {
+                articleId: 250,
+            },
             headers: {
                 'token':window.sessionStorage.getItem("token")
             },
@@ -188,6 +203,19 @@ export default {
         }
     },
     methods: {
+
+        // tirggerFile(event) {
+        //         var file = event.target.files;
+        //           var reader = new FileReader();//读取文件
+        //           console.log(reader);
+        //         reader.readAsDataURL(file[0]);
+        //         console.log(file[0]);
+        //            reader.onload = function() {
+        //          document.getElementById("img1").src = reader.result;
+        //     };
+        //     this.fileimg = file[0];
+        //     console.log(this.fileimg)
+        // },
         postcontent() {
             if(this.textarea&&this.tags[0].name&&this.input != '') {
 
@@ -220,7 +248,36 @@ export default {
           message: '发布成功，感谢您的使用！',
           type: 'success'
         });
-                this.articleId = res.data.articleId;
+                // this.articleId = res.data.articleId;
+                this.uploadData.articleId = parseInt(res.data.articleId);
+                // console.log(this.articleId);
+
+                // this.$axios({
+                //     method:"post",
+                //     url: 'http://47.102.194.89:8080/picture/uploadFile',
+                //     params: {
+                //         articleId: this.articleId,
+                //     },
+                //     data: {
+                //         file: this.fileimg,
+                //     },
+                //     headers: { token:window.sessionStorage.getItem("token")},
+                // }).then(res=>{
+                //     console.log(res)
+                // })
+                // let data = new FormData();
+                // data.append("articleId",this.articleId);
+                // data.append("file",this.fileimg);
+                // console.log(data);
+                // let config = {headers: { token:window.sessionStorage.getItem("token")}}
+                // axios.post("http://47.102.194.89:8080/picture/uploadFile",data,config)
+                // .then(res=>{
+                //     console.log(res)
+                // })
+
+
+
+
                 this.$refs.upload.submit();
           }
             })}

@@ -9,7 +9,9 @@
                 <div  class="clearfix">
                   <el-row>
                     <el-col :span="3">
-                      <img style="border-radius: 50%;" class="writer_avatar" :src="'data:image/jpeg;base64,'+item.userAvatar"/></el-col>
+                      <img v-if="item.userAvatar" style="border-radius: 50%;" class="writer_avatar" :src="'data:image/jpeg;base64,'+item.userAvatar"/>
+                      <img v-else style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/>
+                      </el-col>
                       <el-col :span="6" style="padding-top: 10px">
                         <div class="writer_name">{{item.userName}}</div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
