@@ -9,9 +9,9 @@
                 <div  class="clearfix">
                   <el-row>
                     <el-col :span="3">
-                      <img style="border-radius: 50%;" class="writer_avatar" :src="'data:image/jpeg;base64,'+item.userAvatar"/></el-col>
+                      <img style="border-radius: 50%;" class="writer_avatar" @click="openOtherUserPage(item.userId)" :src="'data:image/jpeg;base64,'+item.userAvatar"/></el-col>
                       <el-col :span="6" style="padding-top: 10px">
-                        <div class="writer_name">{{item.userName}}</div>
+                        <div class="writer_name"><el-button @click="openOtherUserPage(item.userId)" type="text" class="writer_name">{{item.userName}}</el-button></div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
                   </el-row>
                 </div>
@@ -28,7 +28,9 @@
                     <el-divider></el-divider>
                     <el-row>
                       <el-col :span="16">
-                    <div class="tag" v-for="(tag) in item.tagList" :key="tag.tagId">{{tag.tagName}}</div></el-col>
+                    <div class="tag" v-for="(tag) in item.tagList" :key="tag.tagId">
+                      <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}</el-button>
+                    </div></el-col>
                     <el-col :span="6">
                         <span style="margin-right:10px;">
                           <img @click="like(item.articleId,index)" class="icon-like" v-if="item.isLiked === 0" src="@/assets/unlike.png"/>
@@ -144,6 +146,14 @@ export default {
       console.log(articleId),
       this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
     },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+    }
     // arrayBufferToBase64(buffer) {
     //               var binary = '';
     // var bytes = new Uint8Array( buffer );
@@ -258,6 +268,10 @@ export default {
 .writer_name{
     font-size: 14px;
     font-weight:bold;
+    color: #000;
+}
+.writer_name:hover{
+    color: rgb(53, 154, 248);
 }
 .picture{
   width: 200px;
@@ -270,5 +284,12 @@ export default {
 .icon-command {
     width: 13px;
     padding-right:5px;
+  }
+  .opentag-btn {
+    color: #606266;
+    font-size: 14px;
+  }
+  .opentag-btn:hover {
+    color: #5087f5;
   }
 </style>

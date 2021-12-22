@@ -24,7 +24,7 @@
         </div>
         <hr color=#EFEEEE SIZE=1>
         <div id=join-button>
-          <el-button id="join">参与话题</el-button>
+          <el-button id="join" @click="joinTag">参与话题</el-button>
         </div>
       </div>
     </div>
@@ -33,16 +33,16 @@
         <el-col :span="8" v-for="(item) in tabledata" :key="item.id" :offset="0">
           <div class="card">
             <el-card :body-style="{ padding: '0px' }">
-              <p class="article_heading">{{item.articleHeading}}</p>
+              <div @click="gotoArticleInfo(item.articleId)"><p class="article_heading">{{item.articleHeading}}</p>
               <div class="content"><p class="article_content">{{item.articleContent}}</p>
-              <!--<img src="../../src/assets/discover_pic1.png" class="image">--></div>
+              <!--<img src="../../src/assets/discover_pic1.png" class="image">--></div></div>
               <hr color=#EFEEEE SIZE=1>
               <div id="user" style="padding: 0px;">
                 <div id="user-name">
                   <p>
                     <!-- <img v-bind:src="item.pic" width="50px" align="middle"> -->
-                    <img v-if="item.userAvatar" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle">
-                    <img v-else src="@/assets/mlogo.png"  width="50px" align="middle"/>
+                    <img v-if="item.userAvatar" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle" @click="openOtherUserPage(item.userId)">
+                    <img v-else src="@/assets/mlogo.png"  width="50px" align="middle" @click="openOtherUserPage(item.userId)"/>
                     <span>
                       <el-button @click="openOtherUserPage(item.userId)" type="text" class="skiptag-btn">
                         {{item.userName}}
@@ -69,12 +69,44 @@ export default {
   mounted:function(){
     console.log(this.$route.params.tagID);
     this.tagID = this.$route.params.tagID;
-    this.subscribe=this.$route.params.state;
+    //this.subscribe=this.$route.params.state;
     console.log('tagID:', this.tagID);
-    console.log('subscribe',this.subscribe);
-    this.getTagPage()
+    //console.log('subscribe',this.subscribe);
+    this.getTagPage();
+    this.$axios({
+        method:"get",
+        url: 'api/user/myInfo',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的信息数据：', res.data);
+        this.userId=res.data.data.userId;
+        console.log('userId',this.userId);
+      },err=>{
+        console.log(err);
+      });
+    this.$axios({
+          method:"get",
+          url: 'api/tag/getMyLikeTag',
+          headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          console.log('订阅列表1：', res.data);
+          this.MyLikeTag=res.data.data.list;
+          var i=0;
+          for(i;i<res.data.data.list.length;i++){
+            if(this.tagID==this.MyLikeTag[i].tagId){
+              this.subscribe=1;
+              console.log('是我的订阅');
+            }
+          }
+        },err=>{
+          console.log(err);
+        })
   },
   methods: {
+    gotoArticleInfo(articleId){
+      console.log(articleId),
+      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
     addSubscribe() {
       this.$axios({
         method:"post",
@@ -138,11 +170,22 @@ export default {
     },
     openOtherUserPage(id){
       console.log('打开的userid',id);
-      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      if(id==this.userId){
+        console.log('我的id');
+        this.$router.push({path:'/PersonalPage'});
+      } else {
+        console.log('别人的id');
+        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      }
+    },
+    joinTag(){
+      console.log('tagName',this.tagName);
+      this.$router.push({name:'Postword',params:{tagName:this.tagName}});
     }
   },
   data() {
     return {
+      userId:'',
       tagID:'',
       tagName: '',
       articleNum: '',
@@ -156,7 +199,10 @@ export default {
           userHead:'',
           userName:'',
           userId:''
-        }]
+        }],
+      MyLikeTag:[{
+          tagId:''
+        }],
     }
   }
 }

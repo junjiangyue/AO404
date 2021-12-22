@@ -3,7 +3,7 @@
     <Guidebar></Guidebar>
     <div class="article">
         <el-card class="box-card">
-             <div slot="header" class="clearfix">
+             <div slot="header" class="clearfix" @click="openOtherUserPage(articleInformation.userId)">
                     <li><img style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/></li>
                     <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
@@ -14,7 +14,8 @@
                     {{articleInformation.articleContent}}
                     <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
                  </div>
-                <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId"> {{item.tagName}}</div>
+                <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
+                    <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
             </div>
             <el-divider></el-divider>
             <div class="commentsbody">
@@ -49,12 +50,27 @@ export default {
   data(){
     return {
       articleInformation:[],
-      commentContent:[]
+      commentContent:[],
+      myId:'',
     }
   },
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
+    },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    },
+    openOtherUserPage(id){
+      console.log('打开的userid',id);
+      if(id==this.myId){
+        console.log('我的id');
+        this.$router.push({path:'/PersonalPage'});
+      } else {
+        console.log('别人的id');
+        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      }
     },
   },
   mounted: function(){
@@ -91,7 +107,18 @@ export default {
         }).then(res=>{
             console.log(res);
             this.commentContent = res.data.data.commentList;
-        })
+        });
+        this.$axios({
+            method:"get",
+            url: 'api/user/myInfo',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log('我的信息数据：', res.data);
+            this.myId=res.data.data.userId;
+            console.log('userId',this.myId);
+        },err=>{
+            console.log(err);
+        });
 }
 }
 </script>
@@ -157,4 +184,11 @@ li{
 .comment_content{
     margin-left: 40px;
 }
+.opentag-btn {
+    color: #606266;
+    font-size: 15px;
+  }
+  .opentag-btn:hover {
+    color: #5087f5;
+  }
 </style>

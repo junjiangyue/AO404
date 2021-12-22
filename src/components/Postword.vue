@@ -164,7 +164,7 @@ export default {
         return {
             // popup: 0,
             circleUrl: '',
-            user_name: '原神',
+            user_name: '',
             input: '',
             textarea: '',
             inputtag: '',
@@ -178,6 +178,7 @@ export default {
             number: 0,
             tagId: 12,
             articleId: 11111,
+            gettagName:'',
             headers: {
                 'token':window.sessionStorage.getItem("token")
             },
@@ -313,7 +314,9 @@ export default {
           }
     },
     mounted:function() {
-        console.log("kaishi")
+        console.log("kaishi");
+        this.gettagName = this.$route.params.tagName;//获得传过来的tagName
+        console.log('gettagName',this.gettagName);
         // this.$axios({
         //     method:"post",
         //     url:'http://47.102.194.89:8080/picture/getAvatar',
@@ -336,6 +339,17 @@ export default {
             console.log(res.data)
         this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
         // console.log(this.useravatar)
+        });
+        this.$axios({
+            method:"get",
+            url: 'api/user/myInfo',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log('我的信息数据：', res.data);
+            this.user_name=res.data.data.userName;
+            console.log('userName',this.user_name);
+        },err=>{
+            console.log(err);
         })
         
     }
