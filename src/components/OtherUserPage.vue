@@ -28,6 +28,7 @@
         </div>
       </div>
       <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
+      <div v-if="article_num==0" class="tip">{{tip}}</div>
       <div v-for="(item) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
@@ -172,6 +173,7 @@ export default {
       article_num:'',
       isMyFollow:0,
       dialogVisible: false,
+      tip:'这里空空如也，去其他用户的主页看看吧~',
       tabledata: [{
           articleId: 1,
           articleHeading: '',
@@ -214,7 +216,7 @@ export default {
     width: 1000px;
     margin: 0px auto;
     margin-top: 30px;
-    margin-bottom: 50px;
+    padding-bottom: 60px;
   }
   #page-content {
     width: 1200px;
@@ -240,6 +242,12 @@ export default {
   }
   .txt {
     margin-left: 25px;
+  }
+  .tip {
+    margin-left: 25px;
+    margin-top: 30px;
+    font-size: 18px;
+    color: #1a1b1c;
   }
   #article-card {
     border-style: solid;

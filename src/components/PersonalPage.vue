@@ -56,6 +56,7 @@
               </div>
             </div>
             <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
+            <div v-if="article_num==0" class="tip">{{tip}}</div>
             <div v-for="(item) in tabledata" :key="item.id">
               <div id="article-card">
                 <p id="user-head">
@@ -70,7 +71,9 @@
                   <div id="time">
                     <div class="alignment">{{item.publishTime}}</div>
                     <div class="alignment">|</div>
-                    <div class="alignment" v-for="tag in item.tagList" :key="tag.id">{{tag.tagName}}</div>
+                    <div class="alignment" v-for="tag in item.tagList" :key="tag.id">
+                      <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}； </el-button>
+                    </div>
                     <i class="alignment" id="icon-like"></i>
                     <span class="alignment">{{item.articleLikes}}</span>
                     <i class="alignment" id="icon-command"></i>
@@ -97,16 +100,16 @@ export default {
     this.getMyInfo(),
     this.getMyArticle(),
     this.$axios({
-            method:"post",
-            url:'http://47.102.194.89:8080/picture/getAvatar',
-            responseType: 'arraybuffer',
-            headers: { token:window.sessionStorage.getItem("token")}
-        }).then(res=>{
-            console.log(res)
-            console.log(res.data)
-        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
-        // console.log(this.useravatar)
-        })
+        method:"post",
+        url:'http://47.102.194.89:8080/picture/getAvatar',
+        responseType: 'arraybuffer',
+        headers: { token:window.sessionStorage.getItem("token")}
+    }).then(res=>{
+        console.log(res)
+        console.log(res.data)
+    this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+    // console.log(this.useravatar)
+    })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -174,7 +177,11 @@ export default {
             //       binary += String.fromCharCode(bytes[i])
             //   }
             //   return window.btoa(binary)
-          }
+    },
+    openTag(id) {
+      console.log('openTagId',id);
+      this.$router.push({name:'Tag',params:{tagID:id}});
+    }
   },
   data() {
     return {
@@ -182,6 +189,7 @@ export default {
       useravatar: '',
       // pic: require('../../src/assets/mlogo.png'),
       article_num:'',
+      tip:'这里空空如也，快去创作者中心记录你的生活吧~',
       tabledata: [{
           articleId: 1,
           articleHeading: '',
@@ -245,6 +253,13 @@ export default {
   .txt {
     margin-left: 25px;
   }
+  .tip {
+    margin-left: 25px;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    font-size: 18px;
+    color: #1a1b1c;
+  }
   #article-card {
     border-style: solid;
     border-width: 2px;
@@ -273,7 +288,7 @@ export default {
   #icon-like {
     content: url(../../src/assets/like.png);
     width: 13px;
-    margin-left: 600px;
+    margin-left: 500px;
     margin-right: 5px;
   }
   #icon-command {
@@ -286,6 +301,11 @@ export default {
     margin-left: 30px;
     font-size: 12px;
     flood-color: darkgray;
+  }
+  .opentag-btn {
+    color: #606266;
+    font-size: 12px;
+    padding: 0px;
   }
 
   /*菜单部分*/

@@ -7,7 +7,7 @@
                 <el-card class="box1-card">
                     <div v-for="(item) in usertabledata" :key="item.id" class="text-item">
                         <div class="userBlock">
-                            <h3 class="userMessage">用户名：{{item.userName}}</h3>
+                            <h3 class="userMessage">用户名：<el-button style="font-size: 20px" type="text" @click="openOtherUserPage(item.userId)">{{item.userName}}</el-button></h3>
                             <p class="userMessage">{{item.userAvatar}}</p>
                         </div>
                     </div>
@@ -154,6 +154,16 @@ export default {
             console.log(this.usertabledata);
             console.log(this.tagtabledata);
         })
+        },
+        openOtherUserPage(id){
+            console.log('打开的userid',id);
+            if(id==this.userId){
+                console.log('我的id');
+                this.$router.push({path:'/PersonalPage'});
+            } else {
+                console.log('别人的id');
+                this.$router.push({name:'OtherUserPage',params:{userID:id}});
+            }
         }
     },
     mounted:function() {
@@ -173,6 +183,17 @@ export default {
             console.log(res)
             this.usertabledata = res.data.data.userResult;
             this.tagtabledata = res.data.data.tagResult;
+        });
+        this.$axios({
+            method:"get",
+            url: 'api/user/myInfo',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log('我的信息数据：', res.data);
+            this.userId=res.data.data.userId;
+            console.log('userId',this.userId);
+        },err=>{
+            console.log(err);
         })
     }
 }

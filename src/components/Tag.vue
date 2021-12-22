@@ -24,7 +24,7 @@
         </div>
         <hr color=#EFEEEE SIZE=1>
         <div id=join-button>
-          <el-button id="join">参与话题</el-button>
+          <el-button id="join" @click="joinTag">参与话题</el-button>
         </div>
       </div>
     </div>
@@ -67,10 +67,38 @@ export default {
   mounted:function(){
     console.log(this.$route.params.tagID);
     this.tagID = this.$route.params.tagID;
-    this.subscribe=this.$route.params.state;
+    //this.subscribe=this.$route.params.state;
     console.log('tagID:', this.tagID);
-    console.log('subscribe',this.subscribe);
-    this.getTagPage()
+    //console.log('subscribe',this.subscribe);
+    this.getTagPage();
+    this.$axios({
+        method:"get",
+        url: 'api/user/myInfo',
+        headers: { token:window.sessionStorage.getItem("token")}
+      }).then(res=>{
+        console.log('我的信息数据：', res.data);
+        this.userId=res.data.data.userId;
+        console.log('userId',this.userId);
+      },err=>{
+        console.log(err);
+      });
+    this.$axios({
+          method:"get",
+          url: 'api/tag/getMyLikeTag',
+          headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+          console.log('订阅列表1：', res.data);
+          this.MyLikeTag=res.data.data.list;
+          var i=0;
+          for(i;i<res.data.data.list.length;i++){
+            if(this.tagID==this.MyLikeTag[i].tagId){
+              this.subscribe=1;
+              console.log('是我的订阅');
+            }
+          }
+        },err=>{
+          console.log(err);
+        })
   },
   methods: {
     addSubscribe() {
@@ -136,11 +164,22 @@ export default {
     },
     openOtherUserPage(id){
       console.log('打开的userid',id);
-      this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      if(id==this.userId){
+        console.log('我的id');
+        this.$router.push({path:'/PersonalPage'});
+      } else {
+        console.log('别人的id');
+        this.$router.push({name:'OtherUserPage',params:{userID:id}});
+      }
+    },
+    joinTag(){
+      console.log('tagName',this.tagName);
+      this.$router.push({name:'Postword',params:{tagName:this.tagName}});
     }
   },
   data() {
     return {
+      userId:'',
       tagID:'',
       tagName: '',
       articleNum: '',
@@ -154,7 +193,10 @@ export default {
           userHead:'',
           userName:'',
           userId:''
-        }]
+        }],
+      MyLikeTag:[{
+          tagId:''
+        }],
     }
   }
 }
