@@ -114,7 +114,7 @@ export default {
   methods: {
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+      this.$router.push({name:'ArticleInfo',query:{articleId:articleId}});
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -184,7 +184,7 @@ export default {
     },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',params:{tagID:id}});
+      this.$router.push({name:'Tag',query:{tagID:id}});
     }
   },
   data() {

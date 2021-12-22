@@ -25,6 +25,7 @@ import AccountSecurity from '@/components/AccountSecurity'
 import OtherUserPage from '@/components/OtherUserPage'
 import ForgetPassword from '@/components/ForgetPassword'
 import SearchResult from '@/components/SearchResult'
+import ArticleAdmin from '@/components/ArticleAdmin'
 
 Vue.use(Router)
 
@@ -143,6 +144,11 @@ export default new Router({
       name:'SearchResult',
       component:SearchResult,
       meta: { requireAuth:true }
+    },
+    {
+        path:'/ArticleAdmin',
+        name:'ArticleAdmin',
+        component:ArticleAdmin,
     }
   ]
 })

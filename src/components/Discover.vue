@@ -69,12 +69,12 @@ import Guidebar from '@/components/Guidebar'
       liketag(index, row) {
         console.log('index:',index);
         console.log('tagID:',this.MyLikeTag[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.MyLikeTag[index].tagId}});
+        this.$router.push({name:'Tag',query:{tagID:this.MyLikeTag[index].tagId}});
       },
       tag(index, row) {
         console.log('index:',index);
         console.log('tagID:',this.tableData[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.tableData[index].tagId}});
+        this.$router.push({name:'Tag',query:{tagID:this.tableData[index].tagId}});
       },
       getLikeTag(){
         this.$axios({
