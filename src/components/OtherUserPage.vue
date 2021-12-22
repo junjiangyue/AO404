@@ -29,7 +29,7 @@
       </div>
       <div class="txt"><p >全部帖子（{{article_num}}个）</p></div>
       <div v-if="article_num==0" class="tip">{{tip}}</div>
-      <div v-for="(item) in tabledata" :key="item.id">
+      <div v-for="(item, index) in tabledata" :key="item.id">
         <div id="article-card">
           <p id="user-head">
             <img style="border-radius: 50%;" :src="useravatar"  width="50px" align="middle">
@@ -46,7 +46,9 @@
               <div class="alignment" v-for="tag in item.tagList" :key="tag.id">
                 <el-button type="text" @click="openTag(tag.tagId)" class="opentag-btn"># {{tag.tagName}}； </el-button>
               </div>
-              <i class="alignment" id="icon-like-other"></i>
+              <!--<i class="alignment" id="icon-like-other"></i>-->
+              <img @click="like(item.articleId,index)" id="icon-like-other" v-if="item.isLiked === 0" src="@/assets/unlike.png"/>
+              <img @click="like(item.articleId,index)" id="icon-like-other" v-else src="@/assets/like.png"/>
               <span class="alignment" id="likenum-other">{{item.articleLikes}}</span>
               <i class="alignment" id="icon-command-other"></i>
               <span class="alignment" id="commandnum-other">{{item.articleComments}}</span>
@@ -204,6 +206,47 @@ export default {
       console.log(articleId),
       this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
     },
+    like(articleId,index){
+      console.log(index);
+      console.log(this.tabledata[index].isLiked);
+      if (this.tabledata[index].isLiked == 0){ // 没有点赞过
+          this.$axios({
+          method:"post",
+          url: 'api/article/likeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          console.log(res);
+          //this.tabledata[index].like_src = require('../../src/assets/like.png');
+          console.log("点赞成功");
+          //console.log(this.tabledata[index].like_src);
+          this.tabledata[index].isLiked = 1;
+          this.tabledata[index].articleLikes +=1;
+          },err=>{
+            console.log(err);
+          })
+      }else{ // 取消点赞
+          this.$axios({
+          method:"post",
+          url: 'api/article/unlikeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          this.tabledata[index].isLiked = 0;
+          this.tabledata[index].articleLikes -=1;
+          console.log(res);
+          console.log("取消点赞成功");
+          },err=>{
+            console.log(err);
+          })
+      }
+    },
   },
   data() {
     return {
@@ -320,7 +363,7 @@ export default {
     margin-left: 30px;
   }
   #icon-like-other {
-    content: url(../../src/assets/like.png);
+    /*content: url(../../src/assets/like.png);*/
     width: 13px;
     position: absolute;
     right: 400px;
@@ -344,6 +387,7 @@ export default {
     margin-left: 30px;
     font-size: 12px;
     flood-color: darkgray;
+    margin-bottom: 10px;
   }
   #follow {
     margin-top: 10px;
