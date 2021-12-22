@@ -17,7 +17,7 @@
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId"> {{item.tagName}}</div>
             </div>
             <el-divider></el-divider>
-
+            <div class="commentsbody">
             <div class="comments" v-for="(item) in articleInformation.commmetList" :key="item.commentId">
                 <el-card class="comments-card">
                     <div class="cmter_info">
@@ -31,6 +31,7 @@
                      {{item.conmentTime}}  
                     </div>
                 </el-card>
+            </div>
             </div>
         </el-card>
 
@@ -82,6 +83,10 @@ export default {
 </script>
 
 <style>
+.commentsbody {
+    width:100%;
+    height: 195px;
+}
 .writer_avatar{
     width:50px;
     height:50px;

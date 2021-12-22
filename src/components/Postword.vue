@@ -4,7 +4,7 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img style="border-radius: 50%;" id="userpic" :src="useravatar"/>
+                <img style="border-radius: 50%;" id="userpic" :src="useravatar" />
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
                 <h2>{{user_name}}</h2>
@@ -163,6 +163,7 @@ export default {
     data() {
         return {
             // popup: 0,
+            circleUrl: '',
             user_name: '原神',
             input: '',
             textarea: '',
@@ -293,17 +294,50 @@ export default {
           title: '消息',
           message: '取消发布内容'
         });
+          },
+          arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
           }
     },
     mounted:function() {
+        console.log("kaishi")
+        // this.$axios({
+        //     method:"post",
+        //     url:'http://47.102.194.89:8080/picture/getAvatar',
+        //     responseType: 'arraybuffer',
+        //     headers: { token:window.sessionStorage.getItem("token")},
+        // }).then(res=>{
+        //     console.log("头像"),
+        //     console.log(res),
+        //     this.circleUrl = 'data:image/jpeg;base64,' + this.arrayBufferToBase64(res.data)
+        //     console.log(this.circleUrl)
+        //     // this.useravatar = this.circleUrl
+        // })
         this.$axios({
             method:"post",
             url:'http://47.102.194.89:8080/picture/getAvatar',
-            headers: { token:window.sessionStorage.getItem("token")},
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
         }).then(res=>{
-            console.log("头像"),
             console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
         })
+        
     }
 }
 </script>
