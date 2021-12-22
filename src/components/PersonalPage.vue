@@ -48,7 +48,8 @@
               <div id="user-card">
                 <div id="head-name">
                   <p>
-                    <img v-bind:src="pic" width="70px" align="middle">
+                    <img style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
+                    
                     <span id="bigname">{{userName}}</span>
                   </p>
                 </div>
@@ -58,7 +59,7 @@
             <div v-for="(item) in tabledata" :key="item.id">
               <div id="article-card">
                 <p id="user-head">
-                  <img v-bind:src="pic" width="50px" align="middle">
+                  <img style="border-radius: 50%;" :src="useravatar" width="50px" align="middle">
                   <span>{{userName}}</span>
                 </p>
                 <p id="title">{{item.articleHeading}}</p>
@@ -66,12 +67,15 @@
                 <p id="content">{{item.articleContent}}</p>
                 <img v-bind:src="item.picture" width="100px" id="picture">
                 <div>
-                  <p id="time">{{item.publishTime}}&emsp;|&emsp;{{item.tagList.tagName}}
-                    <i class="icon-like"></i>
-                    <span>{{item.articleLikes}}</span>
-                    <i class="icon-command"></i>
-                    <span>{{item.articleComments}}</span>
-                  </p>
+                  <div id="time">
+                    <div class="alignment">{{item.publishTime}}</div>
+                    <div class="alignment">|</div>
+                    <div class="alignment" v-for="tag in item.tagList" :key="tag.id">{{tag.tagName}}</div>
+                    <i class="alignment" id="icon-like"></i>
+                    <span class="alignment">{{item.articleLikes}}</span>
+                    <i class="alignment" id="icon-command"></i>
+                    <span class="alignment">{{item.articleComments}}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -91,7 +95,18 @@ export default {
   },
   mounted:function(){
     this.getMyInfo(),
-    this.getMyArticle()
+    this.getMyArticle(),
+    this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -143,12 +158,29 @@ export default {
       },err=>{
         console.log(err);
       })
+    },
+    arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
     }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          }
   },
   data() {
     return {
       userName: '',
-      pic: require('../../src/assets/mlogo.png'),
+      useravatar: '',
+      // pic: require('../../src/assets/mlogo.png'),
       article_num:'',
       tabledata: [{
           articleId: 1,
@@ -166,6 +198,10 @@ export default {
 </script>
 
 <style>
+.alignment {
+  display: inline-block;
+  vertical-align: top;
+}
   .el-row {
     margin-bottom: 20px;
   }
@@ -234,13 +270,13 @@ export default {
   #picture {
     margin-left: 30px;
   }
-  .icon-like {
+  #icon-like {
     content: url(../../src/assets/like.png);
     width: 13px;
     margin-left: 600px;
     margin-right: 5px;
   }
-  .icon-command {
+  #icon-command {
     content: url(../../src/assets/command.png);
     width: 13px;
     margin-left: 20px;

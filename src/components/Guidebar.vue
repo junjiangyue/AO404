@@ -1,7 +1,7 @@
 <template>
 <div class="guidebar">
 <div class="grid-content">
-    <img class="logo" src="@/assets/mlogo.png">
+    <img style="border-radius: 50%;" class="logo" :src="useravatar"/>
     </div>
   <li class="grid-content">
     <el-button type="text" @click="gotoMain" class="guide">首页</el-button></li>
@@ -29,7 +29,8 @@
       return {
         activeIndex: '1',
         activeIndex2: '1',
-        input2:''
+        input2:'',
+        useravatar:''
       };
     },
     methods: {
@@ -64,7 +65,36 @@
 
 
         // this.$router.push({name:'SearchResult',params:{searchcontent:this.input2}});
-      }
+      },
+      arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          }
+    },
+    mounted:function() {
+      this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
     }
   }
 </script>
@@ -84,8 +114,12 @@
     width:50px;
     height:50px;
     padding: 20px 0;
-    padding-right:40px;
-    padding-left:250px
+    margin-left: 250px;
+    margin-right: 40px;
+    /* padding-right:40px;
+    padding-left:250px; */
+    /* border-radius: 50%; */
+    
   }
   .guidebar{
       background: #843E30;

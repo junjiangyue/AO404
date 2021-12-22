@@ -166,6 +166,7 @@ export default {
     }
   },
   mounted:function() {
+    console.log("hello")
     this.$axios({
       method: "post",
       url: 'http://47.102.194.89:8080/user/getMyRelation',

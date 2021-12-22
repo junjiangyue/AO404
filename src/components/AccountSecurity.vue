@@ -46,7 +46,7 @@
             <div id="user-info">
               <div id="info">账号安全</div>
               <hr color=#EFEEEE SIZE=1>
-              <div id="photoblock"><p><img v-bind:src="pic" id="headphoto"></p></div>
+              <div id="photoblock"><p><img style="border-radius: 50%;" :src="useravatar" id="headphoto"></p></div>
               <div id="userinfo">
                 <p>账&ensp;号&ensp;ID：{{user_id}}</p>
                 <p>昵&emsp;&emsp;称：{{user_name}}</p>
@@ -87,7 +87,18 @@ export default {
     Guidebar
   },
   mounted:function(){
-    this.getMyInfo()
+    this.getMyInfo(),
+    this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -174,20 +185,37 @@ export default {
       },err=>{
         console.log(err);
       })
+    },
+    arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
     }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          }
   },
   data() {
     return {
       user_id: 12345,
       user_name: '原神',
-      pic: require('../../src/assets/mlogo.png'),
+      // pic: require('../../src/assets/mlogo.png'),
       password:'',
       message:'',
       inputOldpsw: '',
       inputNewpsw: '',
       inputNewpswAgain: '',
       pswDialogVisible: false,
-      confirmpswDialogVisible: false
+      confirmpswDialogVisible: false,
+      useravatar: ''
     }
   }
 }

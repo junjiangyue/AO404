@@ -47,7 +47,7 @@
               <div id="info">账号资料</div>
               <hr color=#EFEEEE SIZE=1>
               <div id="photoblock"><p>
-                <img v-bind:src="pic" id="headphoto" @click="headDialogVisible = true">
+                <img style="border-radius: 50%;" :src="useravatar" id="headphoto" @click="headDialogVisible = true">
                 <el-dialog title="修改头像" :visible.sync="headDialogVisible" width="25%" center append-to-body>
                   <span>
                     <el-upload
@@ -113,7 +113,8 @@ export default {
     return {
       userId:'',
       userName: '',
-      pic: require('../../src/assets/mlogo.png'),
+      // pic: require('../../src/assets/mlogo.png'),
+      useravatar: '',
       userEmail: '',
       input_name: '哈哈哈',
       headDialogVisible: false,
@@ -127,7 +128,18 @@ export default {
   },
   mounted:function(){
     this.getMyInfo(),
-    this.getAvatar()
+    this.getAvatar(),
+    this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -233,7 +245,23 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log("上传图片",res)
+    },
+    arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
     }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          }
   }
 }
 </script>

@@ -9,7 +9,7 @@
                 <div  class="clearfix">
                   <el-row>
                     <el-col :span="3">
-                      <img class="writer_avatar" src="@/assets/mlogo.png"/></el-col>
+                      <img style="border-radius: 50%;" class="writer_avatar" :src="useravatar"/></el-col>
                       <el-col :span="6" style="padding-top: 10px">
                         <div class="writer_name">{{item.userId}}</div>
                         <div style="font-size:12px;color:#939498">发布了动态</div></el-col>
@@ -70,6 +70,7 @@ export default {
     },
   data(){
     return {
+      useravatar:'',
       tabledata: [
         {
             userId: 'AO404官方小助手',
@@ -93,9 +94,37 @@ export default {
     gotoArticleInfo(articleId){
       console.log(articleId),
       this.$router.push({name:'ArticleInfo',params:{articleId:articleId}});
+    },
+    arrayBufferToBase64(buffer) {
+                  var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
     }
+    return window.btoa( binary );
+            //   var binary = ''
+            //   var bytes = new Uint8Array(buffer)
+            //   var len = bytes.byteLength
+            //   for(var i = 0; i < len; i++) {
+            //       binary += String.fromCharCode(bytes[i])
+            //   }
+            //   return window.btoa(binary)
+          }
   },
   mounted: function(){
+    this.$axios({
+            method:"post",
+            url:'http://47.102.194.89:8080/picture/getAvatar',
+            responseType: 'arraybuffer',
+            headers: { token:window.sessionStorage.getItem("token")}
+        }).then(res=>{
+            console.log(res)
+            console.log(res.data)
+        this.useravatar = 'data:image/jpeg;base64,'+this.arrayBufferToBase64(res.data)
+        // console.log(this.useravatar)
+        })
+
     this.$axios({
     method:"get",
     url: 'api/article/homeArticle',
@@ -129,6 +158,7 @@ export default {
 .writer_avatar{
     width:50px;
     height:50px;
+    /* border-color: black; */
 }
 .clearfix{
     text-align: left;

@@ -158,7 +158,7 @@ export default {
   },
   data() {
     return {
-      follow_num:20,
+      follow_num:'',
       dialogVisible: false,
       tempIndex:null,
       tabledata: []
@@ -174,8 +174,9 @@ export default {
       console.log(res);
       // this.follow_num = res.data.data.followlist.length;
       this.tabledata = res.data.data.fanList;
-      console.log(res.data.data.fanlist);
-      this.follow_num = this.tabledata.length;
+      console.log(res.data.data.fanList);
+      this.follow_num = res.data.data.fanList.length;
+      console.log(this.follow_num)
     })
   }
 }
