@@ -110,12 +110,12 @@ export default {
 				console.log(res.data);
                  this.$alert(res.data.userId, '请牢记您的ID', {
                     confirmButtonText: '确定',
-                    callback: action => {
-                        this.$message({
-                        type: 'info',
-                        message: `action: ${ action }`
-                        });
-                    }
+                    // callback: action => {
+                    //     this.$message({
+                    //     type: 'info',
+                    //     message: `action: ${ action }`
+                    //     });
+                    // }
                     });
                 this.$router.push('/')
                 }

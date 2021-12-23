@@ -14,7 +14,7 @@
                     <img class="picture" v-bind:src="articleInformation.picture" width="100%" height="100%"/>
                  </div>
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
-                    <el-button  type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
+                    <p  class="opentag-btn"># {{item.tagName}}</p></div>
             </div>
             <el-divider></el-divider>
             <div class="commentsbody">

@@ -312,6 +312,7 @@ export default {
         console.log("kaishi");
         this.gettagName = this.$route.query.tagName;//获得传过来的tagName
         console.log('gettagName',this.gettagName);
+        this.tags.push({name: this.gettagName,type:''});
         this.$axios({
             method:"post",
             url:'http://47.102.194.89:8080/picture/getAvatar',

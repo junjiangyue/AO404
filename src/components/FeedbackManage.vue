@@ -29,7 +29,6 @@
         </el-aside>
         <el-container>
             <el-header>
-                <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2"></el-input>
                 </el-header>
             <el-main class="main">
                 <h1> 反馈列表</h1>
@@ -90,7 +89,6 @@
 export default({
     data() {
       return {
-        input2:'',
         activeIndex: '4',
         new_feedback:'',
         tableData:[],
@@ -112,12 +110,18 @@ export default({
       })
     },
     methods: {
-
       handleEdit(index,row){
         this.$prompt('请输入', '编辑', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
+          if (value == null){
+              this.$message({
+                showClose: true,
+                message: '不能为空!',
+                type: 'error'})
+          }
+          else {
           console.log(value,row.feedbackId),
           this.$axios({
             method:"post",
@@ -129,12 +133,14 @@ export default({
                 message:value,
                 messageHead:value,
             }
+            
             }).then(res=>{
                 console.log(res);
                 this.tableData.splice(index, 1);
         },err=>{
           console.log(err);
         })
+          }
         })
       },
       gotoAdmin(){

@@ -6,8 +6,6 @@
 
              <div slot="header" class="clearfix" @click="openOtherUserPage(articleInformation.userId)">
                     <li><img v-if="articleInformation.userAvatar" style="border-radius: 50%;" class="writer_avatar" v-bind:src="'data:image/jpeg;base64,'+articleInformation.userAvatar"/><img v-else style="border-radius: 50%;" class="writer_avatar" src="@/assets/mlogo.png"/></li>
-
-
                     <li><span class="writer_name">{{articleInformation.userName}}</span></li>
             </div>
             <div class="content">
@@ -17,8 +15,17 @@
                     {{articleInformation.articleContent}}
                     <div><img v-if="articlePicture" class="picture" v-bind:src="'data:image/jpeg;base64,'+articlePicture" width="200px" height="auto"/></div>
                  </div>
+                 <el-row>
+                      <el-col :span="16">
                 <div class="tag" v-for="(item) in articleInformation.tagList" :key="item.tagId">
-                    <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div>
+                    <el-button @click="openTag(item.tagId)" type="text" class="opentag-btn"># {{item.tagName}}</el-button></div></el-col>
+                    <el-col :span="6">
+                        <span style="margin-right:10px;">
+                          <img @click="like(articleInformation.articleId)" class="icon-like" v-if="articleInformation.isLiked === 0" src="@/assets/unlike.png"/>
+                           <img @click="like(articleInformation.articleId)" class="icon-like" v-else src="@/assets/like.png"/>{{articleInformation.articleLikes}}</span>
+                        <span><img class="icon-command" src="@/assets/command.png"/>{{articleInformation.articleComments}}</span>
+                    </el-col>
+                 </el-row>
             </div>
             <el-divider></el-divider>
             <div class="commentsbody">
@@ -71,12 +78,52 @@ export default {
       articleInformation:[],
       commentContent:[],
       myId:'',
-      articlePicture:''
+      articlePicture:'',
     }
   },
   methods:{
     jumppoatword() {
       this.$router.push('/Postword')
+    },
+    like(articleId){
+      console.log(this.isLiked);
+      if (this.articleInformation.isLiked == 0){ // 没有点赞过
+          this.$axios({
+          method:"post",
+          url: 'api/article/likeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          console.log(res);
+          //this.tabledata[index].like_src = require('../../src/assets/like.png');
+          console.log("点赞成功");
+          //console.log(this.tabledata[index].like_src);
+          this.articleInformation.isLiked = 1;
+          this.articleInformation.articleLikes +=1;
+          },err=>{
+            console.log(err);
+          })
+      }else{ // 取消点赞
+          this.$axios({
+          method:"post",
+          url: 'api/article/unlikeArticle',
+          headers:{
+          token:window.sessionStorage.getItem("token")},
+          params:{
+          articleId:articleId,
+          }
+          }).then(res=>{
+          this.articleInformation.isLiked = 0;
+          this.articleInformation.articleLikes -=1;
+          console.log(this.articleInformation.isLiked);
+          console.log("取消点赞成功");
+          },err=>{
+            console.log(err);
+          })
+      }
     },
     commit(){
         console.log('评论的内容',this.textarea);
@@ -260,5 +307,13 @@ li{
     text-align: center;
     font-size: 12px;
     color: #686868;
+  }
+  .icon-like {
+    width: 13px;
+    padding-right:5px;
+}
+.icon-command {
+    width: 13px;
+    padding-right:5px;
   }
 </style>
