@@ -190,6 +190,7 @@ export default {
       },
       commit() {
         console.log(this.textarea);
+        if(this.textarea!=''&&this.input!=''){
         this.$axios({
           method:"post",
           url: 'http://47.102.194.89:8080/feedback/feedback',
@@ -206,7 +207,14 @@ export default {
           type: 'success'
         });
           }
-        })
+        })}
+        else {
+          this.$notify({
+          title: '警告',
+          message: '输入不可以为空',
+          type: 'warning'
+        });
+        }
       },
     }
 }

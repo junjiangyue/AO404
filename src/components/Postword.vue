@@ -9,7 +9,7 @@
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
                 <h2>{{user_name}}</h2>
-                <el-input id="inputtitle" v-model="input" placeholder="请输入内容"></el-input>
+                <el-input id="inputtitle" v-model="input" placeholder="请输入标题"></el-input>
                 <el-input id="inputcontent" type="textarea" :rows="2" placeholder="请输入内容" v-model="textarea"></el-input>
                 
                 <div class="addimgbutton" @click="changetag" id="tag">
@@ -48,7 +48,12 @@
                 <div class="dropmenu" id="tag" v-bind:style="{ marginTop: movetag + 'px'}">
                     <img id="addtitleimg" src="@/assets/addtitle.png">
                 </div>
-                <el-input class="inputtagblock" id="tag" @keyup.enter.native="onSubmit" v-bind:style="{ marginTop: movetag + 'px'}" v-model="inputtag" placeholder="请输入内容"></el-input>
+
+                <el-tooltip class="item" effect="dark" content="输入回车添加标签" placement="top-start">
+                    <el-input class="inputtagblock" id="tag" @keyup.enter.native="onSubmit" v-bind:style="{ marginTop: movetag + 'px'}" v-model="inputtag" placeholder="请输入内容"></el-input>
+                </el-tooltip>
+
+                <!-- <el-input class="inputtagblock" id="tag" @keyup.enter.native="onSubmit" v-bind:style="{ marginTop: movetag + 'px'}" v-model="inputtag" placeholder="请输入内容"></el-input> -->
                 <!-- <div class="blocktian" id="tian" v-show="popup"></div> -->
                 <el-tag class="blocktian" @close="handleClose(tag)" v-for="tag in tags" :key="tag.name" closable :type="tag.type">{{tag.name}}</el-tag>
                 <br>
@@ -293,10 +298,12 @@ export default {
               this.input = '';
               this.textarea = '';
               this.inputtag = '';
+              this.tags=[]
               this.$notify.info({
           title: '消息',
           message: '取消发布内容'
         });
+        this.moveblock -=60;
           },
           arrayBufferToBase64(buffer) {
                   var binary = '';
@@ -312,7 +319,9 @@ export default {
         console.log("kaishi");
         this.gettagName = this.$route.query.tagName;//获得传过来的tagName
         console.log('gettagName',this.gettagName);
+        if(typeof(this.gettagName) != "undefined"){
         this.tags.push({name: this.gettagName,type:''});
+    }
         this.$axios({
             method:"post",
             url:'http://47.102.194.89:8080/picture/getAvatar',

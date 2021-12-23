@@ -37,7 +37,7 @@
 
                     <div class="cmter_info" @click="openOtherUserPage(item.userId)">
                         <el-avatar v-if="item.userAvatar" v-bind:src="'data:image/jpeg;base64,'+item.userAvatar"></el-avatar>
-                <el-avatar v-else src="@/assets/mlogo.png"></el-avatar>
+                <el-avatar v-else v-bind:src="urlimg"></el-avatar>
                         <span class="writer_name">{{item.userName}}</span>
 
                     </div>
@@ -65,6 +65,7 @@ export default {
     },
   data(){
     return {
+        urlimg:'https://s2.loli.net/2021/12/23/OaPtoLARdHmqxeb.png',
       articleId:'',
       userName:'',
       textarea:'',

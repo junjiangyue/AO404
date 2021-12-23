@@ -5,11 +5,11 @@
     <div class="noticehead"><h2 style="color:#101010;margin-left:20px;margin-bottom: 0px;">通知</h2></div>
     <el-divider></el-divider>
     <el-card class="box-card">
-        <div v-for="(item) in tabledata" :key="item.id" class="text-item">
+        <div v-for="(item) in resultList" :key="item.index" class="text-item">
             <div class="noticeblock">
                 <h3>通知</h3>
-                <p>{{item.feedbackContent}}</p>
-                <p>{{item.feedbackTime}}</p>
+                <p>{{item.messageHead}}</p>
+                <!-- <p>{{item.message}}</p> -->
                 <!-- <img @click="changeview" v-if="lay_type" src="@/assets/noticebottom.png" alt />
                 <img @click="changeview" v-else src="@/assets/noticeup.png" alt /> -->
             </div>
@@ -101,22 +101,80 @@ export default {
             // activeName: '',
             // lay_type: 0,
             userId: 123,
-            tabledata: []
+            tabledata: [],
+            feedIdList:[],
+            resultList:[]
+
         }
     },
     mounted:function() {
         this.$axios({
             method:"get",
-            url:'http://47.102.194.89:8080/feedback/getfeedback',
-            params: {},
+            url: 'http://47.102.194.89:8080/feedback/getUserfeedback',
+            params:{},
             headers: { token:window.sessionStorage.getItem("token")},
         }).then(res=>{
-            console.log(res);
-            // console.log(res.data.data.myNotice);
-            this.tabledata = res.data.data.feedbackList;
-            // this.tabledata.title = res.data.data.myNotice.noticeTitle;
-            // console.log(res.data.data.myNotice.array);
+            console.log("test")
+            console.log(res.data.data.feedbackList);
+            this.feedIdList = res.data.data.feedbackList;
+            console.log(this.feedIdList)
+            console.log(res.data.data.feedbackList.length)
+            var count = 0;
+            for(;count<res.data.data.feedbackList.length;count++){
+            var num;
+            num = res.data.data.feedbackList[count].feedbackId;
+            // consolelog(this.feedIdList[0].feedbackId)
+            console.log(num)
+            this.$axios({
+                method:"get",
+                url:'http://47.102.194.89:8080/feedback/getanswer',
+                params:{
+                    feedbackId:num
+                },
+                headers: { token:window.sessionStorage.getItem("token")},
+            }).then(res=>{
+                console.log(res)
+                console.log(res.data.data.answer)
+                if(res.data.data.answer!=null){
+                this.resultList.push({messageHead: res.data.data.answer.messageHead});
+                }
+            })
+            }
+            console.log("lll")
+            console.log(this.resultList)
         })
+
+
+        // this.$axios({
+        //     method:"get",
+        //     url:'http://47.102.194.89:8080/feedback/getfeedback',
+        //     params: {},
+        //     headers: { token:window.sessionStorage.getItem("token")},
+        // }).then(res=>{
+        //     console.log(res);
+        //     // console.log(res.data.data.myNotice);
+        //     this.tabledata = res.data.data.feedbackList;
+        //     // this.tabledata.title = res.data.data.myNotice.noticeTitle;
+        //     // console.log(res.data.data.myNotice.array);
+        // })
+
+        // var num;
+        // num = this.feedIdList[0].feedbackId;
+        // console.log(this.feedIdList[0].feedbackId)
+        // console.log(num)
+        // console.log("daying")
+        // this.feedIdList.forEach(item => console.log(item))
+        // this.feedIdList.array.forEach(element => {
+        //     console.log(element)
+        // });
+        // this.$axios({
+        //     method:"get",
+        //     url:'http://47.102.194.89:8080/feedback/getanswer',
+        //     params:{},
+        //     headers: { token:window.sessionStorage.getItem("token")},
+        // }).then(res=>{
+        //     console.log(res)
+        // })
 
     },
     methods: {

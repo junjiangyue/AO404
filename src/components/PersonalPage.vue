@@ -48,7 +48,7 @@
               <div id="user-card">
                 <div id="head-name">
                   <p>
-                    <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" :src="useravatar" width="70px" align="middle"/>
+                    <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+useravatar" width="70px" align="middle"/>
                     <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="70px" align="middle"/>
                     <span id="bigname">{{userName}}</span>
                   </p>
@@ -60,7 +60,7 @@
             <div v-for="(item, index) in tabledata" :key="item.id">
               <div id="article-card">
                 <p id="user-head">
-                  <img v-if="userAvatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle">
+                  <img v-if="item.userAvatar" style="border-radius: 50%;" :src="'data:image/jpeg;base64,'+item.userAvatar" width="50px" align="middle">
                   <img v-else style="border-radius: 50%;" src="@/assets/mlogo.png" width="50px" align="middle">
                   <span>{{userName}}</span>
                 </p>
@@ -165,6 +165,8 @@ export default {
         console.log('我的信息数据：', res.data);
         this.userName=res.data.data.userName;
         console.log('userName',this.userName);
+        this.useravatar = res.data.data.userAvatar;
+        // console.log(this.useravatar)
       },err=>{
         console.log(err);
       })
@@ -234,7 +236,7 @@ export default {
   data() {
     return {
       userName: '',
-      useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png',
+      useravatar: '',
       // pic: require('../../src/assets/mlogo.png'),
       article_num:'',
       tip:'这里空空如也，快去创作者中心记录你的生活吧~',
