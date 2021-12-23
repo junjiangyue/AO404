@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.102.194.89:3306/ao404?serverTimezone=CST&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://47.102.194.89:3306/ao404?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
     username: root
     password: 123456
   mail:
@@ -24,3 +24,7 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+
+file:
+  doc-dir: file/

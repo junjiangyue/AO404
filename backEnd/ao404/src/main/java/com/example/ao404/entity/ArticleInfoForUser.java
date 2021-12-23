@@ -7,7 +7,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-public class ArticleInformation {
+public class ArticleInfoForUser {
+
     private int articleId;
     private int userId;
     private String userName;
@@ -25,22 +26,7 @@ public class ArticleInformation {
     private int ArticleLikes;
 
     private int ArticleComments;
-
-    public ArticleInformation(int articleId, int userId, String userName, byte[] userAvatar, String articleHeading, String articleContent, Timestamp publishTime, List<Tag> tagList, int articleLikes, int articleComments) {
-        this.articleId = articleId;
-        this.userId = userId;
-        this.userName = userName;
-        this.userAvatar = userAvatar;
-        this.articleHeading = articleHeading;
-        this.articleContent = articleContent;
-        this.publishTime = publishTime;
-        this.tagList = tagList;
-        ArticleLikes = articleLikes;
-        ArticleComments = articleComments;
-    }
-
-    public ArticleInformation() {
-    }
+    private int isLiked;
 
     public int getArticleId() {
         return articleId;
@@ -56,6 +42,22 @@ public class ArticleInformation {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public byte[] getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(byte[] userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
     public String getArticleHeading() {
@@ -82,14 +84,6 @@ public class ArticleInformation {
         this.publishTime = publishTime;
     }
 
-//    public int getTagId() {
-//        return tagId;
-//    }
-//
-//    public void setTagId(int tagId) {
-//        this.tagId = tagId;
-//    }
-
     public List<Tag> getTagList() {
         return tagList;
     }
@@ -112,5 +106,27 @@ public class ArticleInformation {
 
     public void setArticleComments(int articleComments) {
         ArticleComments = articleComments;
+    }
+
+    public int getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
+    }
+
+    public ArticleInfoForUser(int articleId, int userId, String userName, byte[] userAvatar, String articleHeading, String articleContent, Timestamp publishTime, List<Tag> tagList, int articleLikes, int articleComments, int isLiked) {
+        this.articleId = articleId;
+        this.userId = userId;
+        this.userName = userName;
+        this.userAvatar = userAvatar;
+        this.articleHeading = articleHeading;
+        this.articleContent = articleContent;
+        this.publishTime = publishTime;
+        this.tagList = tagList;
+        ArticleLikes = articleLikes;
+        ArticleComments = articleComments;
+        this.isLiked = isLiked;
     }
 }

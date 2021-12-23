@@ -32,7 +32,10 @@ public interface UserMapper {
     @Update("update user set user_avatar = #{userAvatar} where user_id = #{userId} ")
     int updateAvatar(@Param("userId") int userId,@Param("userAvatar") byte[] userAvatar);
 
-    @Update("update user set user_password = #{newPassword} where user_id = #{userId}")
+  @Update("update user set user_name = #{newuserName} where user_id = #{userId}")
+  int updateName(@Param("userId") int userId,@Param("newuserName") String newuserName);
+
+  @Update("update user set user_password = #{newPassword} where user_id = #{userId}")
     int updatePassword(@Param("userId") int userId,@Param("newPassword") String newPassword);
 
     @Select("SELECT * FROM user WHERE user_name LIKE CONCAT(CONCAT('%', #{userName}), '%');")

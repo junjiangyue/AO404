@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class FileProperties {
+//    private String docDir= "../file/";
 
-
-    private String docDir= "src/main/resources/file/";
+    private String docDir;
+//    private String docDir= "src/main/resources/file/";
 }

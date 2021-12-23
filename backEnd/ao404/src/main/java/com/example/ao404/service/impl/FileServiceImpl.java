@@ -75,6 +75,8 @@ public class FileServiceImpl implements FileService {
             byte[] bytes = new byte[inputStream.available()];
             inputStream.read(bytes, 0, inputStream.available());
 
+            pictureMapper.delAvatar(typeId);
+            pictureMapper.fileInsert(typeId,fileName,"avatar");
             userMapper.updateAvatar(typeId,bytes);
         }
         System.out.println("absolutePath:"+fileRealPath.getCanonicalPath());

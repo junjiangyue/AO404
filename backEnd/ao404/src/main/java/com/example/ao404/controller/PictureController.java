@@ -4,6 +4,8 @@ import com.example.ao404.entity.FileProperties;
 import com.example.ao404.entity.RestControllerHelper;
 import com.example.ao404.service.FileService;
 import com.example.ao404.tools.GetInformationFromRequest;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -86,37 +88,57 @@ public class PictureController {
     @ApiOperation(value="获取头像")
     @PostMapping("getAvatar")
     @ResponseBody
-    public  Map<String,Object> getAvatarImage(HttpServletRequest request)
+    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataTypeClass = String.class, name = "token", value = "token标记", required = true)})
+    public  byte[] getAvatarImage(HttpServletRequest request)
     {
+        Map<String, Object> map = new HashMap<>();
 
         GetInformationFromRequest getInfo = new GetInformationFromRequest(request);
         int userId = getInfo.getUserId();
 
         RestControllerHelper helper = new RestControllerHelper();
 
+
+//        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+//        Path avatarPath = Paths.get(fileProperties.getDocDir()).toAbsolutePath().normalize();
+//        Path path = avatarPath.resolve(avatarName).normalize();
+
         String avatarName =fileService.getAvatar(userId);
+        if(avatarName == null)
+        {
+            return null;
+        }
 
         Path avatarPath = Paths.get(fileProperties.getDocDir()).toAbsolutePath().normalize();
         Path path = avatarPath.resolve(avatarName).normalize();
 
 
         File file = new File(path.toString());
+
+
+//        String path = "file:/root/usr/java/file";
+
+//        File file = new File(path.toString());
+//        File file = new File(path+"/"+avatarName);
         try {
             FileInputStream inputStream = new FileInputStream(file);
             byte[] bytes = new byte[inputStream.available()];
             inputStream.read(bytes, 0, inputStream.available());
-            helper.setMsg("Success");
-            helper.setData(bytes);
-            return helper.toJsonMap();
+
+            return bytes;
+//            map.put("bytes",bytes);
+//            helper.setMsg("Success");
+//            helper.setData(map);
+//            return helper.toJsonMap();
 
 
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -124,18 +146,28 @@ public class PictureController {
     @ApiOperation(value="获取文章图片")
     @PostMapping("getArticleImg")
     @ResponseBody
-    public Map<String, Object> getArticleImage(int articleId)
+    public List<byte[]> getArticleImage(int articleId)
     {
         Map<String, Object> map = new HashMap<>();
         RestControllerHelper helper = new RestControllerHelper();
         List<String> articleImg = fileService.getArticleImgName(articleId);
 
-        Path imgPath = Paths.get(fileProperties.getDocDir()).toAbsolutePath().normalize();
+        if(articleImg.size()==0)
+        {
+            return null;
+        }
+//        String avatarName =fileService.getAvatar(userId);
+        Path avatarPath = Paths.get(fileProperties.getDocDir()).toAbsolutePath().normalize();
+
+
+//        File file = new File(path.toString());
+
 
         List<byte[]> imgList = new ArrayList<>();
         for(int i=0;i<articleImg.size();i++)
         {
-            Path path = imgPath.resolve(articleImg.get(i)).normalize();
+            String ImgName =articleImg.get(i);
+            Path path = avatarPath.resolve(ImgName).normalize();
 
             File file = new File(path.toString());
             try {
@@ -144,6 +176,8 @@ public class PictureController {
                 inputStream.read(bytes, 0, inputStream.available());
 //                return bytes;
                 imgList.add(bytes);
+
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -151,10 +185,8 @@ public class PictureController {
             }
 
         }
+        return imgList;
 
-        map.put("imgList",imgList);
-        helper.setMsg("Success");
-        helper.setData(map);
-        return helper.toJsonMap();
+
     }
 }

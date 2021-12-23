@@ -1,10 +1,7 @@
 package com.example.ao404.mapper;
 
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,6 +29,8 @@ public interface PictureMapper {
     @Select("select file_name from picture where type_id =#{userId} and file_type = 'avatar' ")
     public String getAvatar(@Param("userId") int userId);
 
+    @Delete("delete from picture where type_id =#{userId} and file_type = 'avatar' ")
+    public int delAvatar(@Param("userId") int userId);
 
     //
 //    @Select("select file_name from files where source_id =${sourceId}")

@@ -17,6 +17,15 @@ public class Feedback {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp feedbackTime;
     private String feedbackContent;
+    private int isAnswered;
+
+    public int getIsAnswered() {
+        return isAnswered;
+    }
+
+    public void setIsAnswered(int isAnswered) {
+        this.isAnswered = isAnswered;
+    }
 
     public int getFeedbackId() {
         return feedbackId;
@@ -50,11 +59,19 @@ public class Feedback {
         this.feedbackContent = feedbackContent;
     }
 
-    public Feedback(int feedbackId, int userId, Timestamp feedbackTime, String feedbackContent) {
+//    public Feedback(int feedbackId, int userId, Timestamp feedbackTime, String feedbackContent) {
+//        this.feedbackId = feedbackId;
+//        this.userId = userId;
+//        this.feedbackTime = feedbackTime;
+//        this.feedbackContent = feedbackContent;
+//    }
+
+    public Feedback(int feedbackId, int userId, Timestamp feedbackTime, String feedbackContent, int isAnswered) {
         this.feedbackId = feedbackId;
         this.userId = userId;
         this.feedbackTime = feedbackTime;
         this.feedbackContent = feedbackContent;
+        this.isAnswered = isAnswered;
     }
 
     public Feedback() {

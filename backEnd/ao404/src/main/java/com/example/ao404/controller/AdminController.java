@@ -5,6 +5,8 @@ import com.example.ao404.entity.Article;
 import com.example.ao404.entity.User;
 import com.example.ao404.mapper.ArticleMapper;
 import com.example.ao404.mapper.UserMapper;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,31 @@ public class AdminController {
         List<User> userList = userMapper.userList();
 
         map.put("userList", userList);
+        helper.setMsg("Success");
+        helper.setData(map);
+        return helper.toJsonMap();
+
+    }
+    @ApiOperation(value = "本周新增帖子数")
+    @GetMapping("weekNew")
+    public Map<String, Object> weekNew() {
+        Map<String,Object> map = new HashMap<>();
+
+        List<Article> artilceList = articleMapper.articleList();
+
+        int count=0 ;
+
+        for(int i=0;i<artilceList.size();i++)
+        {
+            long t1 = artilceList.get(i).getPublishTime().getTime();
+            long t2 =  System.currentTimeMillis() ;
+            int hours=(int) ((t2 - t1)/(1000*60*60));
+            if(hours<=168)
+            {
+                count++;
+            }
+        }
+        map.put("weekNew", count);
         helper.setMsg("Success");
         helper.setData(map);
         return helper.toJsonMap();
@@ -80,5 +107,7 @@ public class AdminController {
         return helper.toJsonMap();
 
     }
+
+
 
 }

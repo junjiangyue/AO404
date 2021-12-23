@@ -18,7 +18,7 @@ public class Article {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp publishTime;
 
-    private int tagId;
+//    private int tagId;
 
     public int getArticleId() {
         return articleId;
@@ -60,21 +60,27 @@ public class Article {
         this.publishTime = publishTime;
     }
 
-    public int getTagId() {
-        return tagId;
-    }
+//    public int getTagId() {
+//        return tagId;
+//    }
+//
+//    public void setTagId(int tagId) {
+//        this.tagId = tagId;
+//    }
 
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
-    }
-
-    public Article(int articleId, int userId, String articleHeading, String articleContent, Timestamp publishTime, int tagId) {
+    public Article(int articleId, int userId, String articleHeading, String articleContent, Timestamp publishTime) {
         this.articleId = articleId;
         this.userId = userId;
         this.articleHeading = articleHeading;
         this.articleContent = articleContent;
         this.publishTime = publishTime;
-        this.tagId = tagId;
+//        this.tagId = tagId;
+    }
+
+    public Article(int userId, String articleHeading, String articleContent) {
+        this.userId = userId;
+        this.articleHeading = articleHeading;
+        this.articleContent = articleContent;
     }
 
     public Article() {

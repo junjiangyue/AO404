@@ -12,13 +12,20 @@ public class Tag {
     private String tagName;
     private int articleNum;
 
+
+
+    public Tag() {
+    }
+
+    public Tag(String tagName) {
+        this.tagName = tagName;
+        this.articleNum = 0;
+    }
+
     public Tag(int tagId, String tagName, int articleNum) {
         this.tagId = tagId;
         this.tagName = tagName;
         this.articleNum = articleNum;
-    }
-
-    public Tag() {
     }
 
     public int getTagId() {
