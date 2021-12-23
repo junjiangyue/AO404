@@ -59,7 +59,7 @@
                     <p>再次输入新密码：<el-input placeholder="再次输入新密码" v-model="inputNewpswAgain" show-password style="width: 300px"></el-input></p>
                   </div>
                   <span slot="footer" class="dialog-footer">
-                    <el-button @click="pswDialogVisible = false">取消修改</el-button>
+                    <el-button @click="cancelChange()">取消修改</el-button>
                     <el-button type="primary" @click="submitModify()">提交修改</el-button>
                     <el-dialog title="提示" :visible.sync="confirmpswDialogVisible" width="25%" center append-to-body>
                       <span>确认提交修改？</span>
@@ -189,6 +189,12 @@ export default {
         console.log(err);
       })
     },
+    cancelChange(){
+      this.inputOldpsw='';
+      this.inputNewpsw='';
+      this.inputNewpswAgain='';
+      this.pswDialogVisible = false;
+    }
     // arrayBufferToBase64(buffer) {
     //               var binary = '';
     // var bytes = new Uint8Array( buffer );

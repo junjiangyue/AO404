@@ -52,7 +52,7 @@
               <img @click="like(item.articleId,index)" id="icon-like-other" v-if="item.isLiked === 0" src="@/assets/unlike.png"/>
               <img @click="like(item.articleId,index)" id="icon-like-other" v-else src="@/assets/like.png"/>
               <span class="alignment" id="likenum-other">{{item.articleLikes}}</span>
-              <i class="alignment" id="icon-command-other"></i>
+              <i class="alignment" id="icon-command-other" @click="comment(item.articleId)"></i>
               <span class="alignment" id="commandnum-other">{{item.articleComments}}</span>
             </div>
           </div>
@@ -89,6 +89,9 @@ export default {
     //     })
   },
   methods: {
+    comment(articleId){
+      this.$router.push({name:'ArticleInfo', query:{articleId:articleId}});
+    },
     getUserInfo(){
       this.$axios({
         method:"get",
