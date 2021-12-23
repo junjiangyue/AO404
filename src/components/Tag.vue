@@ -105,7 +105,7 @@ export default {
   methods: {
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',query:{articleId:articleId}});
+      this.$router.push({path:'/ArticleInfo',query:{articleId:articleId}});
     },
     addSubscribe() {
       this.$axios({
@@ -303,7 +303,7 @@ export default {
     font-size: 20px;
   }
   .content{
-    height: 300px;
+    height: 250px;
   }
   .article_content{
     margin-top: 20px;

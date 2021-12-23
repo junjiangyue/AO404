@@ -114,7 +114,7 @@ export default {
   },
   mounted: function(){
     console.log(this.$route. query.articleId),
-    this.$axios({
+        this.$axios({
         method:"get",
         url:'api/user/myInfo',
          headers:{

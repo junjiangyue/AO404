@@ -238,6 +238,7 @@ export default {
         });
                 this.uploadData.articleId = parseInt(res.data.articleId);
                 this.$refs.upload.submit();
+                this.$router.push('/PersonalPage');
           }
             })}
             else {

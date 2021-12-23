@@ -62,7 +62,7 @@
                         <span>确认取消关注该用户？</span>
                         <span slot="footer" class="dialog-footer">
                           <el-button @click="dialogVisible = false">取 消</el-button>
-                          <el-button type="primary" @click="cancleFollow(item.userId)">确 定</el-button>
+                          <el-button type="primary" @click="cancleFollow(tempIndex)">确 定</el-button>
                         </span>
                       </el-dialog>
                     </p>

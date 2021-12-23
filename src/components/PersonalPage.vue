@@ -187,7 +187,7 @@ export default {
     // },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',params:{tagID:id}});
+      this.$router.push({path:'/Tag',query:{tagID:id}});
     },
     like(articleId,index){
       console.log(index);
