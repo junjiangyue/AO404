@@ -16,11 +16,11 @@
       active-text-color="#black">
       <el-menu-item index="1">
         <i class="el-icon-notebook-2"></i>
-        <span slot="title">主页</span>
+        <span slot="title">创作主页</span>
       </el-menu-item>
       <el-menu-item index="2">
         <i class="el-icon-document"></i>
-        <span slot="title"><router-link to="/notice" style="text-decoration:none;color:#2c3e50;">通知</router-link></span>
+        <span slot="title"><router-link to="/notice" style="text-decoration:none;color:#2c3e50;">系统通知</router-link></span>
       </el-menu-item>
       <el-menu-item index="3">
         <i class="el-icon-s-order"></i>
@@ -39,8 +39,8 @@
         </div>
         <div class="centerbox2">
           <h2>与我相关</h2>
-          <div class="owninfro" style="margin-left:-55px;"><h3 id="followers">{{ownfollowers}}</h3><p>我的关注</p></div>
-          <div class="owninfro"><h3 id="fans" style="margin-left: 176px;">{{ownfans}}</h3><p style="margin-left: 168px;">我的粉丝</p></div>
+          <div class="owninfro" style="margin-left:-55px;" @click="goFollowlist"> <h3 id="followers">{{ownfollowers}}</h3><p>我的关注</p></div>
+          <div class="owninfro"><h3 id="fans" style="margin-left: 176px;" @click="goFanlist">{{ownfans}}</h3><p style="margin-left: 168px;">我的粉丝</p></div>
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@
 }
 #centernavigationbar{
   margin-top:35px;
-  margin-left: 13%;
+  margin-left: 20%;
   width: 210px;
   height: 440px;
   background-color: rgb(255, 255, 255);
@@ -180,6 +180,12 @@ export default {
     })
   },
   methods: {
+      goFollowlist(){
+          this.$router.push('/FollowList')
+      },
+      goFanlist(){
+          this.$router.push('/FanList')
+      },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },

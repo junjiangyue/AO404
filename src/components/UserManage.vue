@@ -27,7 +27,6 @@
         </el-aside>
         <el-container>
             <el-header>
-                <el-input type="search" class="searchbox" placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input2"></el-input>
                 </el-header>
             <el-main class="main">
                 <h1> 用户列表</h1>
@@ -81,7 +80,6 @@
 export default({
     data() {
       return {
-        input2:'',
         user_number:'',
         new_user_number:7,
         activeIndex: '2',

@@ -96,7 +96,7 @@ export default({
 			  series: [{
 				  name: '文章数',
 				  type: 'bar',
-				  data: [1,3,5,4,0,0,0]
+				  data: [1,3,5,6,0,0,0]
 			  }]
 		  }
       };
@@ -149,7 +149,7 @@ export default({
         url: 'api/admin/weekNew',
         }).then(res=>{
             this.new_user = res.data.data.weekNew;
-            this.newarticle = res.data.data.weekNew - 13;
+            this.newarticle = res.data.data.weekNew - 15;
             this.option.series[0].data[4]= this.newarticle;
             console.log( this.option.series[0].data[4]);
             console.log("新增文章数:",res.data.data.weekNew);
