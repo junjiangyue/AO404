@@ -175,12 +175,12 @@ export default {
         this.$router.push({path:'/PersonalPage'});
       } else {
         console.log('别人的id');
-        this.$router.push({path:'/OtherUserPage',query:{userID:id}});
+        this.$router.push({name:'OtherUserPage',query:{userID:id}});
       }
     },
     joinTag(){
       console.log('tagName',this.tagName);
-      this.$router.push({name:'Postword',params:{tagName:this.tagName}});
+      this.$router.push({name:'Postword',query:{tagName:this.tagName}});
     }
   },
   data() {

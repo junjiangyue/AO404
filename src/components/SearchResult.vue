@@ -136,7 +136,7 @@ export default {
         // tag(index, row) {
         // console.log('index:',index);
         // console.log('tagID:',this.tableData[index].tagId);
-        this.$router.push({name:'Tag',params:{tagID:this.currentRow.tagId}});
+        this.$router.push({name:'Tag',query:{tagID:this.currentRow.tagId}});
     //   },
       },
         // this.searchContent = this.$route.params.searchcontent
@@ -165,7 +165,7 @@ export default {
                 this.$router.push({path:'/PersonalPage'});
             } else {
                 console.log('别人的id');
-                this.$router.push({name:'OtherUserPage',params:{userID:id}});
+                this.$router.push({name:'OtherUserPage',query:{userID:id}});
             }
         }
     },
@@ -173,7 +173,7 @@ export default {
         // this.parentEvent($event);
         // console.log(data)
         // this.parentEvent(data);
-        this.searchContent1 = this.$route.params.searchcontent;
+        this.searchContent1 = this.$route.query.searchcontent;
         console.log(this.searchContent1);
         this.$axios({
             method:"post",

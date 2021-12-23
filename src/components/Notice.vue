@@ -7,8 +7,9 @@
     <el-card class="box-card">
         <div v-for="(item) in tabledata" :key="item.id" class="text-item">
             <div class="noticeblock">
-                <h3>{{item.noticeTitle }}</h3>
-                <p>{{item.noticeContent}}</p>
+                <h3>通知</h3>
+                <p>{{item.feedbackContent}}</p>
+                <p>{{item.feedbackTime}}</p>
                 <!-- <img @click="changeview" v-if="lay_type" src="@/assets/noticebottom.png" alt />
                 <img @click="changeview" v-else src="@/assets/noticeup.png" alt /> -->
             </div>
@@ -105,17 +106,18 @@ export default {
     },
     mounted:function() {
         this.$axios({
-            method:"post",
-            url:'http://47.102.194.89:8080/notice/getNotice',
+            method:"get",
+            url:'http://47.102.194.89:8080/feedback/getfeedback',
             params: {},
             headers: { token:window.sessionStorage.getItem("token")},
         }).then(res=>{
             console.log(res);
-            console.log(res.data.data.myNotice);
-            this.tabledata = res.data.data.myNotice;
+            // console.log(res.data.data.myNotice);
+            this.tabledata = res.data.data.feedbackList;
             // this.tabledata.title = res.data.data.myNotice.noticeTitle;
             // console.log(res.data.data.myNotice.array);
         })
+
     },
     methods: {
         jumppage() {

@@ -1,7 +1,7 @@
 <template>
 <div class="guidebar">
 <div class="grid-content">
-    <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" class="logo" :src="useravatar"/>
+    <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" class="logo" :src="useravatar"/>
     <img v-else style="border-radius: 50%;" class="logo" src="@/assets/mlogo.png"/>
     </div>
   <li class="grid-content">
@@ -31,7 +31,7 @@
         activeIndex: '1',
         activeIndex2: '1',
         input2:'',
-        useravatar:''
+        useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png'
       };
     },
     methods: {
@@ -60,7 +60,7 @@
         // toMenu (item) {
           if (this.$route.path !== '/SearchResult') {
           // this.$router.push({ path: '/SearchResult' })
-          this.$router.push({name:'SearchResult',params:{searchcontent:this.input2}});
+          this.$router.push({name:'SearchResult',query:{searchcontent:this.input2}});
            }
         // }
 

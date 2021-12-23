@@ -66,9 +66,6 @@
                                    <template slot-scope="scope">
                                     <el-button
                                       size="mini"
-                                      @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                                    <el-button
-                                      size="mini"
                                       type="danger"
                                      @click="deleteRow(scope.$index, scope.row)">删除</el-button>
                                   </template>
@@ -85,8 +82,8 @@ export default({
     data() {
       return {
         input2:'',
-        user_number:10000,
-        new_user_number:500,
+        user_number:'',
+        new_user_number:7,
         activeIndex: '2',
          tableData: []
       };
@@ -100,12 +97,18 @@ export default({
             console.log(res);
 		},err=>{
 			console.log(err);
-		})
-    },
-    methods: {
-      handleEdit(key, keyPath) {
-        console.log(key, keyPath);
+		}),
+      this.$axios({
+          method:"post",
+          url: 'api/admin/getUserList',
+          }).then(res=>{
+              this.user_number = res.data.data.userList.length;
+              console.log("用户总数:",res.data.data.userList.length);
+      },err=>{
+        console.log(err);
+      })
       },
+    methods: {
       deleteRow(index, row){
         console.log( row.userId);
         this.$axios({

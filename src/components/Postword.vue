@@ -4,7 +4,7 @@
         <span><img id="record" src="@/assets/recordlife.png"></span>
         <div class="postmain">
             <div class="postwordblock" id="userimg">
-                <img v-if="useravatar!='data:image/jpeg;base64,null'" style="border-radius: 50%;" id="userpic" :src="useravatar" />
+                <img v-if="useravatar!='data:image/jpeg;base64,'" style="border-radius: 50%;" id="userpic" :src="useravatar" />
                 <img v-else style="border-radius: 50%;" id="userpic" src="@/assets/mlogo.png" />
             </div>
             <div class="postwordblock" id="wordedit" v-bind:style="{ height: moveblock + 'px'}">
@@ -136,8 +136,8 @@ margin-top: 20px;
     vertical-align: top;
 }
 #userpic{
-    width:50px;
-    height:50px;
+    width:55px;
+    height:55px;
     margin-left: 250px;
     margin-top: 30px;
 }
@@ -199,24 +199,11 @@ export default {
             },
             fileList:[],
             tagnamelist: [],
-            useravatar: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png'
+            useravatar: 'https://s2.loli.net/2021/12/23/RoJmvVPN57ecbLk.png'
             // fileList: []
         }
     },
     methods: {
-
-        // tirggerFile(event) {
-        //         var file = event.target.files;
-        //           var reader = new FileReader();//读取文件
-        //           console.log(reader);
-        //         reader.readAsDataURL(file[0]);
-        //         console.log(file[0]);
-        //            reader.onload = function() {
-        //          document.getElementById("img1").src = reader.result;
-        //     };
-        //     this.fileimg = file[0];
-        //     console.log(this.fileimg)
-        // },
         postcontent() {
             if(this.textarea&&this.tags[0].name&&this.input != '') {
 
@@ -249,36 +236,7 @@ export default {
           message: '发布成功，感谢您的使用！',
           type: 'success'
         });
-                // this.articleId = res.data.articleId;
                 this.uploadData.articleId = parseInt(res.data.articleId);
-                // console.log(this.articleId);
-
-                // this.$axios({
-                //     method:"post",
-                //     url: 'http://47.102.194.89:8080/picture/uploadFile',
-                //     params: {
-                //         articleId: this.articleId,
-                //     },
-                //     data: {
-                //         file: this.fileimg,
-                //     },
-                //     headers: { token:window.sessionStorage.getItem("token")},
-                // }).then(res=>{
-                //     console.log(res)
-                // })
-                // let data = new FormData();
-                // data.append("articleId",this.articleId);
-                // data.append("file",this.fileimg);
-                // console.log(data);
-                // let config = {headers: { token:window.sessionStorage.getItem("token")}}
-                // axios.post("http://47.102.194.89:8080/picture/uploadFile",data,config)
-                // .then(res=>{
-                //     console.log(res)
-                // })
-
-
-
-
                 this.$refs.upload.submit();
                 this.$router.push('/PersonalPage');
           }
@@ -297,20 +255,6 @@ export default {
       },
        handleRemove(file) {
         console.log(file);
-
-        // this.$axios({
-        //     method:"post",
-        //     url:'http://47.102.194.89:8080/picture/uploadFile',
-        //     params: {
-        //         articleId: 12,
-        //         file: file,
-        //     },
-        //     headers: { token:window.sessionStorage.getItem("token")},
-        // }).then(res=>{
-        //     console.log(res);
-        //     console.log("成功！")
-        // })
-
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;
@@ -362,31 +306,12 @@ export default {
         binary += String.fromCharCode( bytes[ i ] );
     }
     return window.btoa( binary );
-            //   var binary = ''
-            //   var bytes = new Uint8Array(buffer)
-            //   var len = bytes.byteLength
-            //   for(var i = 0; i < len; i++) {
-            //       binary += String.fromCharCode(bytes[i])
-            //   }
-            //   return window.btoa(binary)
           }
     },
     mounted:function() {
         console.log("kaishi");
-        this.gettagName = this.$route.params.tagName;//获得传过来的tagName
+        this.gettagName = this.$route.query.tagName;//获得传过来的tagName
         console.log('gettagName',this.gettagName);
-        // this.$axios({
-        //     method:"post",
-        //     url:'http://47.102.194.89:8080/picture/getAvatar',
-        //     responseType: 'arraybuffer',
-        //     headers: { token:window.sessionStorage.getItem("token")},
-        // }).then(res=>{
-        //     console.log("头像"),
-        //     console.log(res),
-        //     this.circleUrl = 'data:image/jpeg;base64,' + this.arrayBufferToBase64(res.data)
-        //     console.log(this.circleUrl)
-        //     // this.useravatar = this.circleUrl
-        // })
         this.$axios({
             method:"post",
             url:'http://47.102.194.89:8080/picture/getAvatar',
