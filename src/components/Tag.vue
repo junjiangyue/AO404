@@ -303,7 +303,7 @@ export default {
     font-size: 20px;
   }
   .content{
-    height: 300px;
+    height: 250px;
   }
   .article_content{
     margin-top: 20px;
