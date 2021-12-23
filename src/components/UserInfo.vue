@@ -87,7 +87,7 @@
                   </div>
                   <span slot="footer" class="dialog-footer">
                     <el-button @click="infoDialogVisible = false">取消修改</el-button>
-                    <el-button type="primary" @click="confirmDialogVisible = true">提交修改</el-button>
+                    <el-button type="primary" @click="commitchange()">提交修改</el-button>
                     <el-dialog title="提示" :visible.sync="confirmDialogVisible" width="25%" center append-to-body>
                       <span>确认提交修改？</span>
                       <span slot="footer" class="dialog-footer">
@@ -168,6 +168,16 @@ export default {
     },
     accountsecurity() {
       this.$router.push({path: '/AccountSecurity'});
+    },
+    commitchange() {
+      if(this.input_name=='') {
+        this.$message({
+          message: '输入不能为空！',
+          type: 'warning'
+        });
+      } else {
+        this.confirmDialogVisible = true
+      }
     },
     changeInfo() {
       this.$axios({

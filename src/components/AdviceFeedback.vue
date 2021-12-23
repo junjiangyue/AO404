@@ -80,9 +80,9 @@
 .feedbackbox .contectbord #contectinput{
     border: 1px solid rgba(187, 187, 187, 100);
     border-radius: 10px;
-    width: 40%;
+    width: 90%;
     margin-left: 30px;
-    height: 30px;
+    height: 50px;
 }
 .feedbackbox .el-button{
   margin-left: 45%;
@@ -103,7 +103,7 @@
   margin-left: 20px;
 }
 #advicenavigationbar{
-  margin-left: 13%;
+  margin-left: 20%;
   margin-top:35px;
   width: 210px;
   height: 440px;

@@ -80,15 +80,8 @@ export default({
         user_number: '',
         article_number:'',
         new_user:'',
-      };
-    },
-    methods: {
-      myEcharts(){
-		  // 基于准备好的dom，初始化echarts实例
-		  var myChart = this.$echarts.init(document.getElementById('main'));
-
-		  // 指定图表的配置项和数据
-		  var option = {
+        newarticle:'',
+        option: {
 			  title: {
 				  text: '一周文章数分析'
 			  },
@@ -103,12 +96,16 @@ export default({
 			  series: [{
 				  name: '文章数',
 				  type: 'bar',
-				  data: [1, 3, 5, 0, 0, 0,0]
+				  data: [1,3,5,6,0,0,0]
 			  }]
-		  };
-
-		  // 使用刚指定的配置项和数据显示图表。
-		  myChart.setOption(option);
+		  }
+      };
+    },
+    methods: {
+      myEcharts(){
+		  // 基于准备好的dom，初始化echarts实例
+		  var myChart = this.$echarts.init(document.getElementById('main'));
+		  myChart.setOption(this.option);
 		  },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -128,7 +125,7 @@ export default({
 
     },
     mounted() {
-  	this.myEcharts(),
+  	
     this.$axios({
         method:"post",
         url: 'api/admin/getUserList',
@@ -152,10 +149,15 @@ export default({
         url: 'api/admin/weekNew',
         }).then(res=>{
             this.new_user = res.data.data.weekNew;
+            this.newarticle = res.data.data.weekNew - 15;
+            this.option.series[0].data[4]= this.newarticle;
+            console.log( this.option.series[0].data[4]);
             console.log("新增文章数:",res.data.data.weekNew);
+            this.myEcharts();
 		},err=>{
 			console.log(err);
 		})
+    
   }
 })
 </script>

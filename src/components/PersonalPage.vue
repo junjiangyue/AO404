@@ -79,7 +79,7 @@
                     <img @click="like(item.articleId,index)" id="icon-like" v-else src="@/assets/like.png"/>
                     <!--<i class="alignment" id="icon-like"></i>-->
                     <span class="alignment" id="likenum">{{item.articleLikes}}</span>
-                    <i class="alignment" id="icon-command"></i>
+                    <i class="alignment" id="icon-command" @click="comment(item.articleId)"></i>
                     <span class="alignment" id="commandnum">{{item.articleComments}}</span>
                   </div>
                 </div>
@@ -115,6 +115,9 @@ export default {
     // })
   },
   methods: {
+    comment(articleId){
+      this.$router.push({name:'ArticleInfo', query:{articleId:articleId}});
+    },
     gotoArticleInfo(articleId){
       console.log(articleId),
       this.$router.push({name:'ArticleInfo',query:{articleId:articleId}});
