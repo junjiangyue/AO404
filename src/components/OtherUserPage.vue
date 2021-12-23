@@ -206,11 +206,11 @@ export default {
     //       },
     openTag(id) {
       console.log('openTagId',id);
-      this.$router.push({name:'Tag',query:{tagID:id}});
+      this.$router.push({path:'/Tag',query:{tagID:id}});
     },
     gotoArticleInfo(articleId){
       console.log(articleId),
-      this.$router.push({name:'ArticleInfo',query:{articleId:articleId}});
+      this.$router.push({path:'/ArticleInfo',query:{articleId:articleId}});
     },
     like(articleId,index){
       console.log(index);

@@ -52,7 +52,7 @@
                 <p>昵&emsp;&emsp;称：{{user_name}}</p>
                 <p>密&emsp;&emsp;码：*</p>
                 <el-button id="changeinfo" @click="pswDialogVisible = true">修改密码</el-button>
-                <el-dialog title="修改资料" :visible.sync="pswDialogVisible" width="40%" center>
+                <el-dialog title="修改密码" :visible.sync="pswDialogVisible" width="40%" center>
                   <div id="input-psw">
                     <p>请输入原密码&emsp;：<el-input placeholder="请输入原密码" v-model="inputOldpsw" show-password style="width: 300px"></el-input></p>
                     <p>请输入新密码&emsp;：<el-input placeholder="请输入新密码" v-model="inputNewpsw" show-password style="width: 300px"></el-input></p>
