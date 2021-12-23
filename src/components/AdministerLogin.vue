@@ -9,7 +9,7 @@
     <el-col :span="8">
         <div class="log_block">
             <div class="login">
-                <h1>Adminnistrater Log In</h1>
+                <h1>Administrator Log In</h1>
                 <div class="editview">
                     <li><el-input v-model="userid" placeholder="请输入ID" style="width: 400px;"></el-input></li>
                     <li><el-input placeholder="请输入密码" v-model="password" show-password style="width: 400px;"></el-input></li>

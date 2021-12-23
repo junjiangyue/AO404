@@ -88,7 +88,7 @@ export default {
             tagList:'AO404',
             articleLikes:'0',
             articleComments:'0',
-            picture:require('../../src/assets/discover_pic1.png'),
+            picture:'',
             articleId:'',
             isLiked:false,
             like_src:'',
